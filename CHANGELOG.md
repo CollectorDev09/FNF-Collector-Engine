@@ -1,4 +1,4 @@
-# FNF - Collector Engine
-The FNF Collector Engine was originally gonna be a complete remake of FNF from the ground up, but I decided to just fork FNF because that's the typical route and it's just easier. I'ma yap about the changes I made in here ok? Ok.
+# Collector Engine Changelog
 
-## [0.1.0]
+## Initial Commit (4/2/2026)
+Added pretty much everything. It's basically just the april fools update for Vs. Collector, but I promise I'll be making changes rapidly!

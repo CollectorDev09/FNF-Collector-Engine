@@ -4,11 +4,12 @@ import flixel.FlxGame;
 import flixel.FlxG;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import funkin.menus.TitleState;
 
 class Main extends Sprite
 {
 	public static var fnfVer:String = "0.2.7";
-	public static var cdevVer:String = "0.4.1";
+	public static var cdevVer:String = "0.0.1";
 
 	public function new()
 	{
