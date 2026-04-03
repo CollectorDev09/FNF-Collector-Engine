@@ -43,6 +43,7 @@ class Alphabet extends FlxSpriteGroup
 
 	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false)
 	{
+		// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET()
 		super(x, y);
 
 		_finalText = text;

@@ -7,40 +7,30 @@ import funkin.menus.TitleState;
 import funkin.menus.FreeplayState;
 import funkin.play.Note;
 import funkin.editors.ChartingState;
-import lime.utils.Assets;
-import openfl.display.Stage;
+import funkin.editors.AnimationState;
+import utils.Paths;
+import utils.CoolUtil;
 import Section.SwagSection;
 import Song.SwagSong;
-import WiggleEffect.WiggleEffectType;
-import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxGame;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.FlxSubState;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.FlxTrailArea;
-import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
 import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
 import flixel.FlxG.stage;
@@ -48,10 +38,6 @@ import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 import openfl.events.EventType;
 import lime.utils.Assets;
-import openfl.display.BlendMode;
-import openfl.display.StageQuality;
-import haxe.format.JsonParser;
-import openfl.filters.ShaderFilter;
 
 using StringTools;
 
@@ -182,11 +168,11 @@ class PlayState extends MusicBeatState
 					"Only then I will even CONSIDER letting you\ndate my daughter!"
 				];
 			case 'senpai':
-				dialogue = CoolUtil.coolTextFile('assets/data/songs/senpai/senpaiDialogue.txt');
+				dialogue = CoolUtil.getList('assets/data/songs/senpai/senpaiDialogue.txt');
 			case 'roses':
-				dialogue = CoolUtil.coolTextFile('assets/data/songs/roses/rosesDialogue.txt');
+				dialogue = CoolUtil.getList('assets/data/songs/roses/rosesDialogue.txt');
 			case 'thorns':
-				dialogue = CoolUtil.coolTextFile('assets/data/songs/thorns/thornsDialogue.txt');
+				dialogue = CoolUtil.getList('assets/data/songs/thorns/thornsDialogue.txt');
 		}
 
 		if (SONG.song.toLowerCase() == 'spookeez' || SONG.song.toLowerCase() == 'monster' || SONG.song.toLowerCase() == 'south')
@@ -932,7 +918,7 @@ class PlayState extends MusicBeatState
 							go.destroy();
 						}
 					});
-					FlxG.sound.play('assets/sounds/introGo' + altSuffix + TitleState.soundExt, 0.6);
+					FlxG.sound.play(Paths.sound('introGo' + altSuffix), 0.6);
 				case 4:
 			}
 
@@ -953,7 +939,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic("assets/songs/" + SONG.song.toLowerCase() + "/Inst" + TitleState.soundExt, 1, false);
+			FlxG.sound.playMusic(Paths.getInst(SONG.song.toLowerCase()), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -969,7 +955,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded("assets/songs/" + curSong.toLowerCase() + "/Voices" + TitleState.soundExt);
+			vocals = new FlxSound().loadEmbedded(Paths.getVoices(SONG.song.toLowerCase()));
 		else
 			vocals = new FlxSound();
 
@@ -1330,7 +1316,7 @@ class PlayState extends MusicBeatState
 
 		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new AnimationDebug(SONG.player2));
+			FlxG.switchState(new AnimationState());
 		#end
 
 		if (startingSong)
@@ -1674,7 +1660,7 @@ class PlayState extends MusicBeatState
 
 	private function popUpScore(strumtime:Float):Void
 	{
-		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
+		var noteDiff:Float = strumtime - Conductor.songPosition;
 		trace("Off by: " + Std.int(noteDiff) + "ms");
 		// boyfriend.playAnim('hey');
 		vocals.volume = 1;
@@ -1695,11 +1681,13 @@ class PlayState extends MusicBeatState
 		{
 			daRating = 'shit';
 			score = 50;
+			combo = 0;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
 			score = 100;
+			combo = 0;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
@@ -1904,28 +1892,6 @@ class PlayState extends MusicBeatState
 				{
 					noteCheck(controlArray[daNote.noteData], daNote);
 				}
-				/* 
-					if (controlArray[daNote.noteData])
-						goodNoteHit(daNote);
-				 */
-				// trace(daNote.noteData);
-				/* 
-					switch (daNote.noteData)
-					{
-						case 2: // NOTES YOU JUST PRESSED
-							if (upP || rightP || downP || leftP)
-								noteCheck(upP, daNote);
-						case 3:
-							if (upP || rightP || downP || leftP)
-								noteCheck(rightP, daNote);
-						case 1:
-							if (upP || rightP || downP || leftP)
-								noteCheck(downP, daNote);
-						case 0:
-							if (upP || rightP || downP || leftP)
-								noteCheck(leftP, daNote);
-					}
-				 */
 				if (daNote.wasGoodHit)
 				{
 					daNote.kill();

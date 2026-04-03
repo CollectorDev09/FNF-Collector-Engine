@@ -11,7 +11,7 @@ typedef SwagSong =
 {
 	var song:String;
 	var notes:Array<SwagSection>;
-	var bpm:Int;
+	var bpm:Float;
 	var sections:Int;
 	var sectionLengths:Array<Dynamic>;
 	var needsVoices:Bool;
@@ -26,7 +26,7 @@ class Song
 {
 	public var song:String;
 	public var notes:Array<SwagSection>;
-	public var bpm:Int;
+	public var bpm:Float;
 	public var sections:Int;
 	public var sectionLengths:Array<Dynamic> = [];
 	public var needsVoices:Bool = true;

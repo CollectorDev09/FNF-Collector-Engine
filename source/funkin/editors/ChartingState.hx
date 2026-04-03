@@ -37,6 +37,7 @@ import funkin.play.Note;
 import funkin.play.PlayState;
 import funkin.music.Conductor;
 import funkin.menus.TitleState;
+import utils.CoolUtil;
 
 using StringTools;
 
@@ -80,7 +81,7 @@ class ChartingState extends MusicBeatState
 	**/
 	var curSelectedNote:Array<Dynamic>;
 
-	var tempBpm:Int = 0;
+	var tempBpm:Float = 0;
 
 	var vocals:FlxSound;
 
@@ -121,7 +122,7 @@ class ChartingState extends MusicBeatState
 			_song = {
 				song: 'Test',
 				notes: [],
-				bpm: 150,
+				bpm: 150.0,
 				sections: 0,
 				needsVoices: true,
 				player1: 'bf',
@@ -230,7 +231,7 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		var characters:Array<String> = CoolUtil.coolTextFile('assets/data/characterList.txt');
+		var characters:Array<String> = CoolUtil.getList('assets/data/characterList.txt');
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
