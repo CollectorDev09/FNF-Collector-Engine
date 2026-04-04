@@ -4,6 +4,7 @@ package funkin.menus;
 import utils.Paths;
 import funkin.music.MusicBeatState;
 import funkin.menus.OptionsState;
+import funkin.menus.StoryMenuState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -27,14 +28,18 @@ class MainMenuState extends MusicBeatState
 	#if !switch
 	var optionShit:Array<String> = ['storymode', 'freeplay', 'options', 'credits'];
 	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
+	var optionShit:Array<String> = ['storymode', 'freeplay'];
 	#end
 
+	var bg:FlxSprite;
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
 	override function create()
 	{
+		FlxG.mouse.visible = true;
+		FlxG.mouse.load(Paths.img("cursors/cursorSelect", "png"));
+
 		if (!FlxG.sound.music.playing)
 		{
 			FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
@@ -42,29 +47,24 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuBG', 'png'));
-		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.18;
-		bg.setGraphicSize(Std.int(bg.width * 1.2));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = true;
+		bg = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuBG'));
 		add(bg);
 
-		camFollow = new FlxObject(0, 0, 0.5, 0.75);
+		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuDesat', 'png'));
-		magenta.scrollFactor.x = 0;
-		magenta.scrollFactor.y = 0.18;
-		magenta.setGraphicSize(Std.int(magenta.width * 1.2));
-		magenta.updateHitbox();
-		magenta.screenCenter();
+		magenta = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuDesat'));
 		magenta.visible = false;
-		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
+
+		for(bg in [bg, magenta]) {
+			bg.scrollFactor.set(0, 0.18);
+			bg.scale.set(1.15, 1.15);
+			bg.updateHitbox();
+			bg.screenCenter();
+			bg.antialiasing = true;
+		}
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -83,6 +83,11 @@ class MainMenuState extends MusicBeatState
 			menuItems.add(menuItem);
 			// menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
+		}
+
+		if (FlxG.mouse.overlaps(menuItems.members[0]))
+		{
+			FlxG.mouse.load(Paths.img("cursors/cursorGrab", "png"));
 		}
 
 		FlxG.camera.follow(camFollow, null, 0.06);
@@ -166,7 +171,7 @@ class MainMenuState extends MusicBeatState
 
 								switch (daChoice)
 								{
-									case 'story mode':
+									case 'storymode':
 										FlxG.switchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
@@ -176,6 +181,9 @@ class MainMenuState extends MusicBeatState
 
 									case 'options':
 										FlxG.switchState(new OptionsState());
+									
+									case 'credits':
+										FlxG.switchState(new CreditsState());
 								}
 							});
 						}

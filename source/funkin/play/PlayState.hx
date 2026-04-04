@@ -12,6 +12,7 @@ import utils.Paths;
 import utils.CoolUtil;
 import funkin.song.Section.SwagSection;
 import funkin.song.Song.SwagSong;
+import funkin.song.Song.SongMeta;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;

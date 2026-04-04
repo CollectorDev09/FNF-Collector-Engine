@@ -1,7 +1,9 @@
 package funkin.editors;
 
-import Section.SwagSection;
-import Song.SwagSong;
+import funkin.song.Section.SwagSection;
+import funkin.song.Song.SwagSong;
+import funkin.song.Song;
+import funkin.song.Section;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;

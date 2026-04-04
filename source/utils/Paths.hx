@@ -31,8 +31,15 @@ class Paths
         return song('$key/Voices');
     }
 
-    public static function img(key:String, type:String)
+    public static function img(key:String, ?type:String)
     {
-        return 'assets/images/$key.$type';
+        if (type == null)
+        {
+            return 'assets/images/$key.png';
+        }
+        else
+        {
+            return 'assets/images/$key.$type';
+        }
     }
 }
