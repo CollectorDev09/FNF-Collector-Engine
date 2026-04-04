@@ -4,6 +4,7 @@ import funkin.music.MusicBeatState;
 import funkin.menus.StoryMenuState;
 import funkin.music.Conductor;
 import funkin.menus.MainMenuState;
+import utils.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -129,7 +130,7 @@ class TitleState extends MusicBeatState
 		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
-		add(bg);
+		// add(bg);
 
 		logoBl = new FlxSprite(-150, -100);
 		logoBl.frames = FlxAtlasFrames.fromSparrow(Paths.img('titlescreen/logoBumpin', 'png'), Paths.img('titlescreen/logoBumpin', 'xml'));

@@ -1,6 +1,6 @@
-package;
+package funkin.song;
 
-import Section.SwagSection;
+import funkin.song.Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
@@ -20,6 +20,14 @@ typedef SwagSong =
 	var player1:String;
 	var player2:String;
 	var validScore:Bool;
+}
+
+typedef SongMeta = 
+{
+	var name:String;
+	var stage:String;
+	var ratings:Array<Int>;
+	var difficulties:Array<String>;
 }
 
 class Song

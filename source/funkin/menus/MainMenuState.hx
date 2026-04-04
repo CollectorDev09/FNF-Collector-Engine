@@ -1,6 +1,7 @@
 package funkin.menus;
 
 // import js.html.CharacterData;
+import utils.Paths;
 import funkin.music.MusicBeatState;
 import funkin.menus.OptionsState;
 import flixel.FlxG;
@@ -24,7 +25,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
+	var optionShit:Array<String> = ['storymode', 'freeplay', 'options', 'credits'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -41,7 +42,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic('assets/images/menuBG.png');
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuBG', 'png'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.18;
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -53,7 +54,7 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 0.5, 0.75);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic('assets/images/menuDesat.png');
+		magenta = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuDesat', 'png'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.18;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.2));
@@ -68,34 +69,30 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
-
 		for (i in 0...optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
-			menuItem.frames = tex;
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
+			menuItem.frames = FlxAtlasFrames.fromSparrow(Paths.img('menus/mainmenu/' + optionShit[i], 'png'), Paths.img('menus/mainmenu/' + optionShit[i], 'xml'));
+			menuItem.animation.addByPrefix('idle', optionShit[i] + " idle", 24);
+			menuItem.animation.addByPrefix('selected', optionShit[i] + " selected", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
+			menuItem.scrollFactor.x = 0;
+			menuItem.scrollFactor.y = 0.32;
 			menuItems.add(menuItem);
-			menuItem.scrollFactor.set();
+			// menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
 		}
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var fnfShit:FlxText = new FlxText(5, FlxG.height - 36, 0, "Friday Night Funkin' - v" + Main.fnfVer, 12);
-		fnfShit.scrollFactor.set();
-		fnfShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		fnfShit.antialiasing = true;
-		add(fnfShit);
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Collector Engine - v" + Main.cdevVer, 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		versionShit.antialiasing = true;
-		add(versionShit);
+		var leftWatermarkText:FlxText = new FlxText(5, FlxG.height - 36, 0, "Collector Engine - v" + Main.cdevVer, 12);
+		leftWatermarkText.text += "\nFriday Night Funkin' - v" + Main.fnfVer;
+		leftWatermarkText.scrollFactor.set();
+		leftWatermarkText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		leftWatermarkText.antialiasing = true;
+		add(leftWatermarkText);
 
 		// NG.core.calls.event.logEvent('swag').send();
 
