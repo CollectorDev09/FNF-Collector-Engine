@@ -48,7 +48,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		// Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		FlxG.mouse.visible = true;
+		FlxG.mouse.load(Paths.img("cursors/cursorSelect", "png"));
 
 		#if (!web)
 		TitleState.soundExt = '.ogg';
@@ -133,14 +134,14 @@ class TitleState extends MusicBeatState
 		// add(bg);
 
 		logoBl = new FlxSprite(-150, -100);
-		logoBl.frames = FlxAtlasFrames.fromSparrow(Paths.img('titlescreen/logoBumpin', 'png'), Paths.img('titlescreen/logoBumpin', 'xml'));
+		logoBl.frames = FlxAtlasFrames.fromSparrow(Paths.img('menus/titlescreen/logoBumpin'), Paths.img('menus/titlescreen/logoBumpin', 'xml'));
 		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = FlxAtlasFrames.fromSparrow(Paths.img('titlescreen/gfDanceTitle', 'png'), Paths.img('titlescreen/gfDanceTitle', 'xml'));
+		gfDance.frames = FlxAtlasFrames.fromSparrow(Paths.img('menus/titlescreen/gfDanceTitle'), Paths.img('menus/titlescreen/gfDanceTitle', 'xml'));
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
@@ -148,7 +149,7 @@ class TitleState extends MusicBeatState
 		add(logoBl);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
-		titleText.frames = FlxAtlasFrames.fromSparrow(Paths.img('titlescreen/titleEnter', 'png'), Paths.img('titlescreen/titleEnter', 'xml'));
+		titleText.frames = FlxAtlasFrames.fromSparrow(Paths.img('menus/titlescreen/titleEnter'), Paths.img('menus/titlescreen/titleEnter', 'xml'));
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		titleText.antialiasing = true;
@@ -171,7 +172,7 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic('assets/images/newgrounds_logo.png');
+		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.img('menus/titlescreen/newgrounds_logo'));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -181,7 +182,7 @@ class TitleState extends MusicBeatState
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		FlxG.mouse.visible = false;
+		// FlxG.mouse.visible = false;
 
 		if (initialized)
 			skipIntro();

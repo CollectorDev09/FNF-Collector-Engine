@@ -1,10 +1,15 @@
 package funkin.menus;
 
 // import js.html.CharacterData;
+import flixel.addons.transition.TransitionData;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.graphics.FlxGraphic;
+import flixel.addons.transition.FlxTransitionableState;
 import utils.Paths;
 import funkin.music.MusicBeatState;
 import funkin.menus.OptionsState;
 import funkin.menus.StoryMenuState;
+import assets.data.Script;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -14,6 +19,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import lime.app.Application;
 
@@ -37,8 +44,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		FlxG.mouse.visible = true;
-		FlxG.mouse.load(Paths.img("cursors/cursorSelect", "png"));
 
 		if (!FlxG.sound.music.playing)
 		{
@@ -85,11 +90,6 @@ class MainMenuState extends MusicBeatState
 			menuItem.antialiasing = true;
 		}
 
-		if (FlxG.mouse.overlaps(menuItems.members[0]))
-		{
-			FlxG.mouse.load(Paths.img("cursors/cursorGrab", "png"));
-		}
-
 		FlxG.camera.follow(camFollow, null, 0.06);
 
 		var leftWatermarkText:FlxText = new FlxText(5, FlxG.height - 36, 0, "Collector Engine - v" + Main.cdevVer, 12);
@@ -110,6 +110,18 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var script = new Script();
+
+		if (FlxG.mouse.overlaps(menuItems))
+		{
+			FlxG.mouse.load(Paths.img("cursors/cursorGrab", "png"));
+		}
+		else
+		{
+			FlxG.mouse.load(Paths.img("cursors/cursorSelect", "png"));
+		}
+
+		script.update(elapsed);
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

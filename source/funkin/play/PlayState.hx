@@ -13,6 +13,7 @@ import utils.CoolUtil;
 import funkin.song.Section.SwagSection;
 import funkin.song.Song.SwagSong;
 import funkin.song.Song.SongMeta;
+import assets.data.Script;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -651,7 +652,8 @@ class PlayState extends MusicBeatState
 
 	private function generateSong(dataPath:String):Void
 	{
-
+		Script.act();
+		//songJson = Paths.json('songs/');
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
 
@@ -667,6 +669,8 @@ class PlayState extends MusicBeatState
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
+		trace(notes);
+
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
@@ -674,66 +678,66 @@ class PlayState extends MusicBeatState
 
 		var playerCounter:Int = 0;
 
-		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
-		for (section in noteData)
-		{
-			var coolSection:Int = Std.int(section.lengthInSteps / 4);
+		// var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
+		// for (notes in noteData)
+		// {
+		// 	var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
-			for (songNotes in section.sectionNotes)
-			{
-				var daStrumTime:Float = songNotes[0];
-				var daNoteData:Int = Std.int(songNotes[1] % 4);
+		// 	for (songNotes in section.sectionNotes)
+		// 	{
+		// 		var daStrumTime:Float = songNotes[0];
+		// 		var daNoteData:Int = Std.int(songNotes[1] % 4);
 
-				var gottaHitNote:Bool = section.mustHitSection;
+		// 		var gottaHitNote:Bool = section.mustHitSection;
 
-				if (songNotes[1] > 3)
-				{
-					gottaHitNote = !section.mustHitSection;
-				}
+		// 		if (songNotes[1] > 3)
+		// 		{
+		// 			gottaHitNote = !section.mustHitSection;
+		// 		}
 
-				var oldNote:Note;
-				if (unspawnNotes.length > 0)
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-				else
-					oldNote = null;
+		// 		var oldNote:Note;
+		// 		if (unspawnNotes.length > 0)
+		// 			oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+		// 		else
+		// 			oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
-				swagNote.sustainLength = songNotes[2];
-				swagNote.scrollFactor.set(0, 0);
+		// 		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+		// 		swagNote.sustainLength = songNotes[2];
+		// 		swagNote.scrollFactor.set(0, 0);
 
-				var susLength:Float = swagNote.sustainLength;
+		// 		var susLength:Float = swagNote.sustainLength;
 
-				susLength = susLength / Conductor.stepCrochet;
-				unspawnNotes.push(swagNote);
+		// 		susLength = susLength / Conductor.stepCrochet;
+		// 		unspawnNotes.push(swagNote);
 
-				for (susNote in 0...Math.floor(susLength))
-				{
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+		// 		for (susNote in 0...Math.floor(susLength))
+		// 		{
+		// 			oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
-					sustainNote.scrollFactor.set();
-					unspawnNotes.push(sustainNote);
+		// 			var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
+		// 			sustainNote.scrollFactor.set();
+		// 			unspawnNotes.push(sustainNote);
 
-					sustainNote.mustPress = gottaHitNote;
+		// 			sustainNote.mustPress = gottaHitNote;
 
-					if (sustainNote.mustPress)
-					{
-						sustainNote.x += FlxG.width / 2; // general offset
-					}
-				}
+		// 			if (sustainNote.mustPress)
+		// 			{
+		// 				sustainNote.x += FlxG.width / 2; // general offset
+		// 			}
+		// 		}
 
-				swagNote.mustPress = gottaHitNote;
+		// 		swagNote.mustPress = gottaHitNote;
 
-				if (swagNote.mustPress)
-				{
-					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else
-				{
-				}
-			}
-			daBeats += 1;
-		}
+		// 		if (swagNote.mustPress)
+		// 		{
+		// 			swagNote.x += FlxG.width / 2; // general offset
+		// 		}
+		// 		else
+		// 		{
+		// 		}
+		// 	}
+		// 	daBeats += 1;
+		// }
 
 		// trace(unspawnNotes.length);
 		// playerCounter += 1;
@@ -1004,15 +1008,15 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
+		// if (healthBar.percent < 20)
+		// 	iconP1.animation.curAnim.curFrame = 1;
+		// else
+		// 	iconP1.animation.curAnim.curFrame = 0;
 
-		if (healthBar.percent > 80)
-			iconP2.animation.curAnim.curFrame = 1;
-		else
-			iconP2.animation.curAnim.curFrame = 0;
+		// if (healthBar.percent > 80)
+		// 	iconP2.animation.curAnim.curFrame = 1;
+		// else
+		// 	iconP2.animation.curAnim.curFrame = 0;
 
 		/* if (FlxG.keys.justPressed.NINE)
 			FlxG.switchState(new Charting()); */
@@ -1644,38 +1648,38 @@ class PlayState extends MusicBeatState
 
 		playerStrums.forEach(function(spr:FlxSprite)
 		{
-			switch (spr.ID)
-			{
-				case 2:
-					if (upP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (upR)
-						spr.animation.play('static');
-				case 3:
-					if (rightP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (rightR)
-						spr.animation.play('static');
-				case 1:
-					if (downP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (downR)
-						spr.animation.play('static');
-				case 0:
-					if (leftP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (leftR)
-						spr.animation.play('static');
-			}
+			// switch (spr.ID)
+			// {
+			// 	case 2:
+			// 		if (upP && spr.animation.curAnim.name != 'confirm')
+			// 			spr.animation.play('pressed');
+			// 		if (upR)
+			// 			spr.animation.play('static');
+			// 	case 3:
+			// 		if (rightP && spr.animation.curAnim.name != 'confirm')
+			// 			spr.animation.play('pressed');
+			// 		if (rightR)
+			// 			spr.animation.play('static');
+			// 	case 1:
+			// 		if (downP && spr.animation.curAnim.name != 'confirm')
+			// 			spr.animation.play('pressed');
+			// 		if (downR)
+			// 			spr.animation.play('static');
+			// 	case 0:
+			// 		if (leftP && spr.animation.curAnim.name != 'confirm')
+			// 			spr.animation.play('pressed');
+			// 		if (leftR)
+			// 			spr.animation.play('static');
+			// }
 
-			if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
-			{
-				spr.centerOffsets();
-				spr.offset.x -= 13;
-				spr.offset.y -= 13;
-			}
-			else
-				spr.centerOffsets();
+			// if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
+			// {
+			// 	spr.centerOffsets();
+			// 	spr.offset.x -= 13;
+			// 	spr.offset.y -= 13;
+			// }
+			// else
+			// 	spr.centerOffsets();
 		});
 	}
 
