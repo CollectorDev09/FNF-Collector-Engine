@@ -1,13 +1,5 @@
 package funkin.menus;
 
-import utils.Paths;
-import flixel.FlxSprite;
-import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
-import funkin.music.MusicBeatState;
-
 using StringTools;
 
 class CreditsState extends MusicBeatState
@@ -15,17 +7,19 @@ class CreditsState extends MusicBeatState
     var credits:Array<String>;
     var curSelected:Int = 0;
     var creditGroup:FlxTypedGroup<Alphabet>;
+    var text:FlxText;
+    var roles:Array<String>;
 
     override function create()
     {
         credits = ["#Funkin Crew Inc", "Ninjamuffin99", "PhantomArcade", "KawaiSprite", "Evilsker", "#Collector Engine", "CollectorDev"];
+        roles = ["", "Programmer", "Sprite Artist", "Composer", "Artist", "", "Programmer"];
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.img('menus/menuBGBlue'));
 		add(bg);
-        var text = new FlxText(0, FlxG.height - 18, 0, "This is a work in progress...");
+        text = new FlxText(0, FlxG.height - 18, 0, "This is a work in progress...");
         text.scrollFactor.set();
         text.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         text.antialiasing = true;
-        add(text);
 
         var bold:Bool;
 
@@ -48,7 +42,8 @@ class CreditsState extends MusicBeatState
             credit.screenCenter(X);
             creditGroup.add(credit);
         }
-
+        text.text = roles[curSelected];
+        add(text);
         super.create();
     }
 
@@ -62,6 +57,13 @@ class CreditsState extends MusicBeatState
 			curSelected = credits.length - 1;
 		if (curSelected >= credits.length)
 			curSelected = 0;
+
+        if (roles[curSelected] != null && credits[curSelected].charAt(0) != "#")
+            text.text = credits[curSelected] + ' - ' + roles[curSelected];
+        else
+            text.text = "";
+
+        trace(curSelected);
 
         var bullShit:Int = 0;
 

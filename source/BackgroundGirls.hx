@@ -1,9 +1,5 @@
 package;
 
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import utils.CoolUtil;
-
 class BackgroundGirls extends FlxSprite
 {
 	public function new(x:Float, y:Float)

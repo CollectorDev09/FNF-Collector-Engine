@@ -12,7 +12,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import funkin.music.MusicBeatState;
-import utils.CoolUtil;
 
 class OptionsState extends MusicBeatState
 {

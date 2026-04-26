@@ -1,4 +1,4 @@
-package utils;
+package funkin.utils;
 
 import lime.utils.Assets;
 

@@ -1,28 +1,8 @@
 package funkin.menus;
 
 // import js.html.CharacterData;
-import flixel.addons.transition.TransitionData;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.graphics.FlxGraphic;
-import flixel.addons.transition.FlxTransitionableState;
-import utils.Paths;
-import funkin.music.MusicBeatState;
-import funkin.menus.OptionsState;
-import funkin.menus.StoryMenuState;
 import assets.data.Script;
-import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.util.FlxColor;
-import lime.app.Application;
 
 using StringTools;
 

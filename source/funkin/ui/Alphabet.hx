@@ -1,12 +1,4 @@
-package;
-
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxSpriteGroup;
-import flixel.math.FlxMath;
-import flixel.util.FlxTimer;
-import funkin.menus.TitleState;
+package funkin.ui;
 
 using StringTools;
 

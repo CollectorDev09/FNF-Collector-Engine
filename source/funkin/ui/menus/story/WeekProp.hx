@@ -1,9 +1,6 @@
-package;
+package funkin.ui.menus.story;
 
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-
-class MenuCharacter extends FlxSprite
+class WeekProp extends FlxSprite
 {
 	public var character:String;
 

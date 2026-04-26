@@ -1,7 +1,4 @@
-package;
-
-import flixel.FlxSprite;
-import utils.Paths;
+package funkin.ui.game;
 
 class HealthIcon extends FlxSprite
 {

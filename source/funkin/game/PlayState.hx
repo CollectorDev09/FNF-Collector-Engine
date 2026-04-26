@@ -1,47 +1,24 @@
-package funkin.play;
+package funkin.game;
 
-import funkin.menus.StoryMenuState;
-import funkin.music.MusicBeatState;
-import funkin.music.Conductor;
-import funkin.menus.TitleState;
-import funkin.menus.FreeplayState;
-import funkin.play.Note;
 import funkin.editors.ChartingState;
 import funkin.editors.AnimationState;
-import utils.Paths;
-import utils.CoolUtil;
 import funkin.song.Section.SwagSection;
 import funkin.song.Song.SwagSong;
 import funkin.song.Song.SongMeta;
 import assets.data.Script;
-import flixel.FlxCamera;
-import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import flixel.util.FlxColor;
 import flixel.util.FlxSort;
-import flixel.util.FlxTimer;
-import haxe.Json;
-import flixel.FlxG.stage;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 import openfl.events.EventType;
 import lime.utils.Assets;
-
-using StringTools;
+import funkin.ui.game.HealthIcon;
 
 class PlayState extends MusicBeatState
 {
@@ -125,7 +102,7 @@ class PlayState extends MusicBeatState
 	var defaultCamZoom:Float = 1.05;
 
 	// how big to stretch the pixel art assets
-	public static var daPixelZoom:Float = 6;
+	public static var daPixelZoom:Float;
 
 	var inCutscene:Bool = false;
 
@@ -137,6 +114,8 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+
+		daPixelZoom = 6;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camGame);
@@ -388,8 +367,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		// stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		// stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		super.create();
 	}
 
@@ -654,10 +633,14 @@ class PlayState extends MusicBeatState
 	{
 		Script.act();
 		//songJson = Paths.json('songs/');
-		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
+		var songChart = Paths.json('songs/bopeebo/bopeebo-chart');
+		var songMeta:Dynamic = Paths.json('songs/bopeebo/bopeebo-metadata');
+		Conductor.changeBPM(songMeta.timeChanges[0].bpm);
 
-		curSong = songData.song;
+		curSong = songMeta.songName;
+		var songArtist = songMeta.artist;
+
+		trace('\nLoaded Song: $curSong\nMade By: $songArtist');
 
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.getVoices(SONG.song.toLowerCase()));
@@ -674,7 +657,7 @@ class PlayState extends MusicBeatState
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
-		noteData = songData.notes;
+		// noteData = songData.notes;
 
 		var playerCounter:Int = 0;
 

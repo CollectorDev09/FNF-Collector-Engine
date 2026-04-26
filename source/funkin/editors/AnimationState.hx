@@ -1,8 +1,6 @@
 package funkin.editors;
 
-import funkin.play.Character;
-import flixel.FlxState;
-import flixel.FlxG;
+import funkin.game.Character;
 
 class AnimationState extends FlxState
 {

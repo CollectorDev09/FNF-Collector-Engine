@@ -1,11 +1,6 @@
-package;
+package funkin.ui.menus.story;
 
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxSpriteGroup;
-import flixel.math.FlxMath;
-
-class MenuItem extends FlxSpriteGroup
+class WeekTitle extends FlxSpriteGroup
 {
 	public var targetY:Float = 0;
 	public var week:FlxSprite;

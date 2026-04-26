@@ -3,7 +3,6 @@ package;
 // import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
-import flixel.FlxSprite;
 
 class Stage extends FlxSprite
 {

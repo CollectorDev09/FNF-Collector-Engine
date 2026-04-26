@@ -1,4 +1,4 @@
-package funkin.play;
+package funkin.game;
 
 import openfl.Assets;
 import flixel.FlxSprite;

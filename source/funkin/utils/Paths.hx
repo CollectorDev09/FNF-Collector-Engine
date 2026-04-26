@@ -1,8 +1,8 @@
-package utils;
+package funkin.utils;
 
 import lime.utils.Assets;
-import funkin.menus.TitleState;
 import haxe.Json;
+import sys.io.File.*;
 
 class Paths
 {
@@ -18,7 +18,8 @@ class Paths
 
     public static function json(key:String)
     {
-        return Json.parse(Assets.getText('assets/data/$key.json'));
+
+        return Json.parse(getContent('assets/data/$key.json'));
     }
 
     public static function getInst(key:String)
