@@ -30,6 +30,6 @@ class PlayState extends MusicBeatState
 		// Strum = new Strumline();
 		// add(Strum);
 		super.create();
-		trace("Hello World!");
+		trace("Hello World! This is a playstate.");
 	}
 }
