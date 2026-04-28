@@ -1,7 +1,6 @@
 package funkin.menus;
 
 // import js.html.CharacterData;
-import assets.data.Script;
 import flixel.effects.FlxFlicker;
 
 using StringTools;
@@ -90,8 +89,6 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		var script = new Script();
-
 		if (FlxG.mouse.overlaps(menuItems))
 		{
 			FlxG.mouse.load(Paths.img("cursors/cursorGrab", "png"));
@@ -100,8 +97,6 @@ class MainMenuState extends MusicBeatState
 		{
 			FlxG.mouse.load(Paths.img("cursors/cursorSelect", "png"));
 		}
-
-		script.update(elapsed);
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

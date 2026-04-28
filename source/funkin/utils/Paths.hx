@@ -43,4 +43,16 @@ class Paths
             return 'assets/images/$key.$type';
         }
     }
+
+    public static function images(key:String, ?type:String)
+    {
+        if (type == null)
+        {
+            return Paths.img(key);
+        }
+        else
+        {
+            return Paths.img(key, type);
+        }
+    }
 }

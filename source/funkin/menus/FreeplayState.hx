@@ -129,11 +129,11 @@ class FreeplayState extends MusicBeatState
 		{
 			var poop:String = Highscore.formatSong(songs[curSelected].toLowerCase(), curDifficulty);
 
-			trace(poop);
+			// trace(poop);
 
-			PlayState.SONG = Paths.json('songs/' + songs[curSelected] + '/' + songs[curSelected].toLowerCase() + '-chart');
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
+			// PlayState.SONG = Paths.json('songs/' + songs[curSelected] + '/' + songs[curSelected].toLowerCase() + '-chart');
+			// PlayState.isStoryMode = false;
+			// PlayState.storyDifficulty = curDifficulty;
 			FlxG.switchState(new PlayState());
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();

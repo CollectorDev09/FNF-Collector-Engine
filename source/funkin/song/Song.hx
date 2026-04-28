@@ -1,16 +1,16 @@
 package funkin.song;
 
 import funkin.song.Section.SwagSection;
-import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
+import haxe.Json;
 
 using StringTools;
 
 typedef SwagSong =
 {
 	var song:String;
-	var notes:Array<SwagSection>;
+	// var notes:Array<Json>;
 	var bpm:Float;
 	var sections:Int;
 	var sectionLengths:Array<Dynamic>;

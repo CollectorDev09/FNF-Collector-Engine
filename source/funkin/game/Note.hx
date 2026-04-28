@@ -81,38 +81,29 @@ class Note extends FlxSprite
 				{
 					loadGraphic('assets/images/weeb/pixelUI/arrowEnds.png', true, 7, 6);
 
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
+					var pixelArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
 
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
+					for (key => value in pixelArray)
+					{
+						animation.add('${key}hold', [value]);
+						animation.add('${key}holdend', [value + 4]);
+					}
 				}
 
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
 
 			default:
-				frames = FlxAtlasFrames.fromSparrow('assets/images/NOTE_assets.png', 'assets/images/NOTE_assets.xml');
+				frames = FlxAtlasFrames.fromSparrow(Paths.images('game/notes/default'), Paths.images('game/notes/default', 'xml'));
 
-				animation.addByPrefix('greenScroll', 'green0');
-				animation.addByPrefix('redScroll', 'red0');
-				animation.addByPrefix('blueScroll', 'blue0');
-				animation.addByPrefix('purpleScroll', 'purple0');
+				var noteArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
 
-				animation.addByPrefix('purpleholdend', 'pruple end hold');
-				animation.addByPrefix('greenholdend', 'green hold end');
-				animation.addByPrefix('redholdend', 'red hold end');
-				animation.addByPrefix('blueholdend', 'blue hold end');
-
-				animation.addByPrefix('purplehold', 'purple hold piece');
-				animation.addByPrefix('greenhold', 'green hold piece');
-				animation.addByPrefix('redhold', 'red hold piece');
-				animation.addByPrefix('bluehold', 'blue hold piece');
-
+				for (key => value in noteArray)
+				{
+					animation.addByPrefix('${key}Scroll', '${key}0');
+					animation.addByPrefix('${key}hold', '${key} hold piece');
+					animation.addByPrefix('${key}holdend', '${key} end hold');
+				}
 				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
 				antialiasing = true;
