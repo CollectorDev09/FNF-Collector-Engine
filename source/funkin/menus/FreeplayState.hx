@@ -122,7 +122,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(()->new MainMenuState());
 		}
 
 		if (accepted)
@@ -134,7 +134,7 @@ class FreeplayState extends MusicBeatState
 			// PlayState.SONG = Paths.json('songs/' + songs[curSelected] + '/' + songs[curSelected].toLowerCase() + '-chart');
 			// PlayState.isStoryMode = false;
 			// PlayState.storyDifficulty = curDifficulty;
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(()->new PlayState());
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 		}

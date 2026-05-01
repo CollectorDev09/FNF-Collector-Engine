@@ -1,4 +1,4 @@
-package;
+package funkin.config;
 
 import flixel.FlxG;
 import flixel.input.FlxInput;
@@ -111,6 +111,8 @@ class Controls extends FlxActionSet
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
 	var _cheat = new FlxActionDigital(Action.CHEAT);
+
+	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
 
 	#if (haxe >= "4.0.0")
 	var byName:Map<String, FlxActionDigital> = [];

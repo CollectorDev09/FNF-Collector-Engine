@@ -220,7 +220,7 @@ class TitleState extends MusicBeatState
 				// Check if version is outdated
 
 				var version:String = "v" + Application.current.meta.get('version');
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(()->new MainMenuState());
 				// if (version.trim() != NGio.GAME_VER.trim() && !OutdatedSubState.leftState)
 				// FlxG.switchState(new OutdatedSubState());
 			});

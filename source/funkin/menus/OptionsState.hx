@@ -1,6 +1,5 @@
 package funkin.menus;
 
-import Controls.Control;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -65,7 +64,7 @@ class OptionsState extends MusicBeatState
 		else
 		{
 			if (controls.BACK)
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(()->new MainMenuState());
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)
@@ -77,7 +76,7 @@ class OptionsState extends MusicBeatState
 	{
 		if (FlxG.keys.getIsDown().length > 0)
 		{
-			PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+			// PlayerSettings.player1.controls.replaceBinding(Controls.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 		}
 		// PlayerSettings.player1.controls.replaceBinding(Control)
 	}

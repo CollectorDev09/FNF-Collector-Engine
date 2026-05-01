@@ -4,6 +4,7 @@ import funkin.game.*;
 import funkin.utils.*;
 import funkin.ui.*;
 import funkin.ui.game.*;
+import funkin.config.*;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup.FlxTypedGroup;
