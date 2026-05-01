@@ -2,9 +2,10 @@ package funkin.game;
 
 class Strumline extends FlxSprite
 {
+    public static var Y:Float = 50;
     public function new()
     {
-        makeGraphic(600, 40);
         super(x, y);
+        makeGraphic(FlxG.width, 20);
     }
 }

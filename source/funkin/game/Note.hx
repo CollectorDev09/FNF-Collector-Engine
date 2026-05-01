@@ -14,6 +14,10 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
+	var scrollSpeed = 2.5;
+
+	var speed:Float;
+
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
@@ -25,6 +29,8 @@ class Note extends FlxSprite
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
 		super();
+
+		speed = 0.45 * FlxMath.roundDecimal(scrollSpeed, 2);
 
 		if (prevNote == null)
 			prevNote = this;
@@ -39,75 +45,19 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		var daStage:String = PlayState.curStage;
+		frames = FlxAtlasFrames.fromSparrow(Paths.images('game/notes/default'), Paths.images('game/notes/default', 'xml'));
 
-		switch (daStage)
+		var noteArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
+
+		for (key => value in noteArray)
 		{
-			case 'school':
-				loadGraphic('assets/images/weeb/pixelUI/arrows-pixels.png', true, 17, 17);
-
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
-
-				if (isSustainNote)
-				{
-					loadGraphic('assets/images/weeb/pixelUI/arrowEnds.png', true, 7, 6);
-
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
-
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
-				}
-
-				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-				updateHitbox();
-
-			case 'schoolEvil': // COPY PASTED CUZ I AM LAZY
-				loadGraphic('assets/images/weeb/pixelUI/arrows-pixels.png', true, 17, 17);
-
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
-
-				if (isSustainNote)
-				{
-					loadGraphic('assets/images/weeb/pixelUI/arrowEnds.png', true, 7, 6);
-
-					var pixelArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
-
-					for (key => value in pixelArray)
-					{
-						animation.add('${key}hold', [value]);
-						animation.add('${key}holdend', [value + 4]);
-					}
-				}
-
-				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-				updateHitbox();
-
-			default:
-				frames = FlxAtlasFrames.fromSparrow(Paths.images('game/notes/default'), Paths.images('game/notes/default', 'xml'));
-
-				var noteArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
-
-				for (key => value in noteArray)
-				{
-					animation.addByPrefix('${key}Scroll', '${key}0');
-					animation.addByPrefix('${key}hold', '${key} hold piece');
-					animation.addByPrefix('${key}holdend', '${key} end hold');
-				}
-				setGraphicSize(Std.int(width * 0.7));
-				updateHitbox();
-				antialiasing = true;
+			animation.addByPrefix('${key}Scroll', '${key}0');
+			animation.addByPrefix('${key}hold', '${key} hold piece');
+			animation.addByPrefix('${key}holdend', '${key} hold end');
 		}
+		setGraphicSize(Std.int(width * 0.7));
+		updateHitbox();
+		antialiasing = true;
 
 		switch (noteData)
 		{
@@ -150,8 +100,8 @@ class Note extends FlxSprite
 
 			x -= width / 2;
 
-			if (PlayState.curStage.startsWith('school'))
-				x += 30;
+			// if (PlayState.curStage.startsWith('school'))
+			// 	x += 30;
 
 			if (prevNote.isSustainNote)
 			{
@@ -168,7 +118,7 @@ class Note extends FlxSprite
 				}
 
 				prevNote.offset.y = -19;
-				prevNote.scale.y *= (2.25 * FlxMath.roundDecimal(PlayState.SONG.speed, 1));
+				prevNote.scale.y *= (2.25 * FlxMath.roundDecimal(2.5, 1));
 				// prevNote.setGraphicSize();
 			}
 		}
@@ -177,6 +127,8 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		this.y = 50 - (speed * (Conductor.songPosition - strumTime)); 
 
 		if (mustPress)
 		{

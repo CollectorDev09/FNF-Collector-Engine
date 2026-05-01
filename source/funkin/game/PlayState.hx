@@ -29,6 +29,7 @@ class PlayState extends MusicBeatState
 	var justPressed:Bool;
 	var TextMS:FlxText = new FlxText();
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
+	var strumline:FlxSprite;
 
 	override public function create()
 	{
@@ -39,6 +40,21 @@ class PlayState extends MusicBeatState
 		TextMS.antialiasing = true;
 		TextMS.y = FlxG.height - 18;
 		add(TextMS);
+
+		strumline = new FlxSprite();
+		strumline.makeGraphic(FlxG.width, 20);
+		strumline.y = 50;
+		add(strumline);
+
+		var noteData = Paths.json('songs/gabz/gabz-chart');
+
+		for (n in 0...(noteData.notes.hard.length:Int))
+		{
+			var note = new Note(noteData.notes.hard[n].t, noteData.notes.hard[n].d);
+			add(note);
+		}
+
+
 		super.create();
 		trace("Hello World! This is a playstate.");
 		Conductor.songPosition = 0;
