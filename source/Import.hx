@@ -37,5 +37,7 @@ import flixel.tweens.FlxEase;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.FlxCamera;
 import flixel.addons.text.FlxTypeText;
+import Std.*;
+import funkin.menus.TitleState;
 
 using StringTools;

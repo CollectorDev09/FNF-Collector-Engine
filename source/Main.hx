@@ -4,7 +4,6 @@ import flixel.FlxGame;
 import flixel.FlxG;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-import funkin.menus.TitleState;
 import lime.app.Application;
 
 class Main extends Sprite
