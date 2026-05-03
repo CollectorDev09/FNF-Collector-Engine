@@ -9,6 +9,9 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
+		ModHandler.getMetadata('introMod');
+
 		addChild(new FlxGame(0, 0, TitleState, 120, 120, false));
 
 		#if !mobile

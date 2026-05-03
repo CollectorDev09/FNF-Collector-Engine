@@ -9,10 +9,11 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import sys.io.File.*;
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<String> = ["Bopeebo", "Dadbattle", "Fresh", "Tutorial"];
+	var songs:Array<String> = ["Tutorial", "Bopeebo", "Fresh", "Dadbattle"];
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -70,9 +71,8 @@ class FreeplayState extends MusicBeatState
 		}
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
 		scoreText.setFormat("assets/fonts/vcr.ttf", 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
+		scoreText.antialiasing = true;
 
 		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
@@ -80,6 +80,7 @@ class FreeplayState extends MusicBeatState
 
 		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
+		diffText.antialiasing = true;
 		add(diffText);
 
 		add(scoreText);
@@ -90,6 +91,8 @@ class FreeplayState extends MusicBeatState
 		// FlxG.sound.playMusic('assets/music/title' + TitleState.soundExt, 0);
 		// FlxG.sound.music.fadeIn(2, 0, 0.8);
 		selector = new FlxText();
+
+		selector.antialiasing = true;
 
 		selector.size = 40;
 		selector.text = ">";

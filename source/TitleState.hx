@@ -23,6 +23,7 @@ import flixel.util.FlxTimer;
 import lime.utils.Assets;
 import sys.FileSystem;
 import haxe.io.Path;
+import sys.io.File.*;
 
 class TitleState extends MusicBeatState
 {
@@ -38,6 +39,10 @@ class TitleState extends MusicBeatState
 	var curWacky:Array<String> = [];
 
 	var wackyImage:FlxSprite;
+
+	var modDirectories:Array<String>;
+
+	var mods:Array<String> = [];
 
 	override public function create():Void
 	{
@@ -70,19 +75,6 @@ class TitleState extends MusicBeatState
 		#else
 		startIntro();
 		#end
-
-		var modsPath = 'mods';
-		var entries = FileSystem.readDirectory(modsPath);
-
-        var directories = entries.filter(function(name) 
-		{
-            var modPath = Path.join([modsPath, name]);
-            return FileSystem.isDirectory(modPath);
-        });
-
-        for (dir in directories) {
-            trace("Found mod folder: " + dir);
-        }
 	}
 
 	var logoBl:FlxSprite;
@@ -109,10 +101,6 @@ class TitleState extends MusicBeatState
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
 
-			// var music:FlxSound = new FlxSound();
-			// music.loadStream('assets/music/freakyMenu' + TitleState.soundExt);
-			// FlxG.sound.list.add(music);
-			// music.play();
 			FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt, 0);
 
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
@@ -122,9 +110,6 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		// bg.antialiasing = true;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
 		add(bg);
 
 		logoBl = new FlxSprite(-150, -100);
@@ -133,8 +118,6 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = FlxAtlasFrames.fromSparrow(AssetPaths.gfDanceTitle__png, AssetPaths.gfDanceTitle__xml);
@@ -151,16 +134,11 @@ class TitleState extends MusicBeatState
 		titleText.antialiasing = true;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
-		// titleText.screenCenter(X);
 		add(titleText);
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.logo__png);
 		logo.screenCenter();
 		logo.antialiasing = true;
-		// add(logo);
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -171,8 +149,6 @@ class TitleState extends MusicBeatState
 
 		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
 		credTextShit.screenCenter();
-
-		// credTextShit.alignment = CENTER;
 
 		credTextShit.visible = false;
 
@@ -192,15 +168,18 @@ class TitleState extends MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
-
-		// credGroup.add(credTextShit);
 	}
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = Assets.getText('assets/data/introText.txt');
-
+		var fullText:String = getContent('assets/data/introText.txt');
+		var modText:Array<String> = ModHandler.getModContent('_append/data/introText.txt');
 		var firstArray:Array<String> = fullText.split('\n');
+		for (text in modText)
+		{
+			firstArray.push(text);
+		}
+		
 		var swagGoodArray:Array<Array<String>> = [];
 
 		for (i in firstArray)
@@ -216,7 +195,6 @@ class TitleState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F)
 		{
@@ -251,7 +229,6 @@ class TitleState extends MusicBeatState
 			{
 				FlxG.switchState(new MainMenuState());
 			});
-			// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
 		}
 
 		if (pressedEnter && !skippedIntro)
@@ -310,48 +287,30 @@ class TitleState extends MusicBeatState
 		{
 			case 1:
 				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
-			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');
-			// credTextShit.text += '\npresent...';
-			// credTextShit.addText();
 			case 4:
 				deleteCoolText();
-			// credTextShit.visible = false;
-			// credTextShit.text = 'In association \nwith';
-			// credTextShit.screenCenter();
 			case 5:
 				createCoolText(['In association', 'with']);
 			case 7:
 				addMoreText('newgrounds');
 				ngSpr.visible = true;
-			// credTextShit.text += '\nNewgrounds';
 			case 8:
 				deleteCoolText();
 				ngSpr.visible = false;
-			// credTextShit.visible = false;
-
-			// credTextShit.text = 'Shoutouts Tom Fulp';
-			// credTextShit.screenCenter();
 			case 9:
 				createCoolText([curWacky[0]]);
-			// credTextShit.visible = true;
 			case 11:
 				addMoreText(curWacky[1]);
-			// credTextShit.text += '\nlmao';
 			case 12:
 				deleteCoolText();
-			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
-			// credTextShit.screenCenter();
 			case 13:
 				addMoreText('Friday');
-			// credTextShit.visible = true;
 			case 14:
 				addMoreText('Night');
-			// credTextShit.text += '\nNight';
 			case 15:
-				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+				addMoreText('Funkin');
 
 			case 16:
 				skipIntro();

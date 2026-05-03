@@ -1,2 +1,2 @@
 ## DISCLAIMER
-Modding is not supported just yet, but we're getting there! Once I get modding to work, I'll let you know!
+Modding is VERY primitive, but I'll make sure to improve it in the future!
