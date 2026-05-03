@@ -4,12 +4,7 @@ import flixel.FlxG;
 
 class Highscore
 {
-	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
-	#else
-	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	#end
-
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{
@@ -26,7 +21,6 @@ class Highscore
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
 	{
-
 		var daWeek:String = formatSong('week' + week, diff);
 
 		if (songScores.exists(daWeek))

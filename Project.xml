@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="FNF: Collector Engine" file="CollectorEngine" packageName="com.collectordev.collectorengine" main="Main" version="0.0.1" company="CollectorDev Productions" />
+	<app title="FNF: Collector Engine" file="CollectorEngine" packageName="com.collectordev.collectorengine" main="Main" version="0.1.0" company="CollectorDev Productions" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -51,8 +51,8 @@
 	<assets path="assets/music" include="*.ogg" unless="web"/>
 	<assets path="assets/sounds" include="*.mp3" if="web" />
 	<assets path="assets/sounds" include="*.ogg" unless="web" />
-	<assets path="assets/songs" include="*.mp3" if="web"/>
-	<assets path="assets/songs" include="*.ogg" unless="web"/>\
+	<!-- <assets path="assets/songs" include="*.mp3" if="web"/>
+	<assets path="assets/songs" include="*.ogg" unless="web"/> -->
 	<assets path="CHANGELOG.md"/>
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 

@@ -8,10 +8,6 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSound;
 import flixel.util.FlxColor;
-import funkin.music.Conductor;
-import funkin.music.MusicBeatSubstate;
-import funkin.menus.TitleState;
-import funkin.menus.MainMenuState;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -50,7 +46,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		cameras = [FlxG.cameras.list[1]];
 	}
 
 	override function update(elapsed:Float)
