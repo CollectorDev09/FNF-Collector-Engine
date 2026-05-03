@@ -24,6 +24,8 @@ import lime.utils.Assets;
 import sys.FileSystem;
 import haxe.io.Path;
 import sys.io.File.*;
+import haxe.Http;
+import lime.app.Application;
 
 class TitleState extends MusicBeatState
 {
@@ -173,12 +175,17 @@ class TitleState extends MusicBeatState
 	function getIntroTextShit():Array<Array<String>>
 	{
 		var fullText:String = getContent('assets/data/introText.txt');
+		#if !html5
 		var modText:Array<String> = ModHandler.getModContent('_append/data/introText.txt');
+		#end
 		var firstArray:Array<String> = fullText.split('\n');
+
+		#if !html5
 		for (text in modText)
 		{
 			firstArray.push(text);
 		}
+		#end
 		
 		var swagGoodArray:Array<Array<String>> = [];
 
@@ -227,7 +234,22 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				FlxG.switchState(new MainMenuState());
+				var latestVersion:String = checkForUpdate();
+
+				var thisVersion:String = Application.current.meta.get('version');
+
+				trace(latestVersion);
+
+				if (thisVersion != latestVersion)
+				{
+					OutdatedSubState.thisVer = thisVersion;
+					OutdatedSubState.latestVer = latestVersion;
+					FlxG.switchState(new OutdatedSubState());
+				}
+				else
+				{
+					FlxG.switchState(new MainMenuState());
+				}
 			});
 		}
 
@@ -237,6 +259,21 @@ class TitleState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+	}
+
+	function checkForUpdate()
+	{
+		var http = new Http("https://raw.githubusercontent.com/CollectorDev09/FNF-Collector-Engine-Update-Checker/refs/heads/main/latest");
+		var string:String;
+		http.onData = function(data:String) {
+			string = data;
+		}
+		http.onError = function(error:String) {
+			trace("Error checking version: " + error);
+			string = error;
+		}
+		http.request();
+		return string;
 	}
 
 	function createCoolText(textArray:Array<String>)

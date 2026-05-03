@@ -10,7 +10,9 @@ class Main extends Sprite
 	{
 		super();
 
+		#if !html5
 		ModHandler.getMetadata('introMod');
+		#end
 
 		addChild(new FlxGame(0, 0, TitleState, 120, 120, false));
 
