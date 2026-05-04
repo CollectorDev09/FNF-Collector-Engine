@@ -16,7 +16,7 @@ class Main extends Sprite
 	{
 		cdevVer = Application.current.meta.get('version');
 		super();
-		addChild(new FlxGame(0, 0, TitleState, 120, 120));
+		addChild(new FlxGame(0, 0, PlayState, 120, 120));
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));
