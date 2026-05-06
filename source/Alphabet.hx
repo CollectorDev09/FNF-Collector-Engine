@@ -157,15 +157,11 @@ class Alphabet extends FlxSpriteGroup
 			#end
 
 			if (AlphaCharacter.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1 || isNumber || isSymbol)
-			//if (AlphaCharacter.alphabet.contains(splitWords[loopNum].toLowerCase()) || isNumber || isSymbol)
-
 			{
 				if (lastSprite != null && !xPosResetted)
 				{
 					lastSprite.updateHitbox();
 					xPos += lastSprite.width + 3;
-					// if (isBold)
-					// xPos -= 80;
 				}
 				else
 				{
@@ -177,9 +173,7 @@ class Alphabet extends FlxSpriteGroup
 					xPos += 20;
 					lastWasSpace = false;
 				}
-				// trace(_finalText.fastCodeAt(loopNum) + " " + _finalText.charAt(loopNum));
 
-				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0);
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
 				letter.row = curRow;
 				if (isBold)
@@ -207,7 +201,8 @@ class Alphabet extends FlxSpriteGroup
 				if (FlxG.random.bool(40))
 				{
 					var daSound:String = "GF_";
-					FlxG.sound.play('assets/sounds/' + daSound + FlxG.random.int(1, 4) + TitleState.soundExt, 0.4);
+					var gfSound = daSound + FlxG.random.int(1, 4);
+					FlxG.sound.play(Paths.sound('$gfSound' + Paths.soundExt), 0.4);
 				}
 
 				add(letter);
