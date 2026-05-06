@@ -4,7 +4,7 @@ Hey there! Thanks for checking out this FNF Engine! This is just a little projec
 
 Support the base game on the itch.io page: https://ninja-muffin24.itch.io/funkin
 
-Check out the Modding Documentation <a href="docs\main.md">here</a> if you wanna start making your own mod with the Collector Engine!
+Check out the Modding Documentation [here](docs/Modding.md) if you wanna start making your own mod with the Collector Engine! There's also a [discord server](https://discord.gg/kv9vJpnGj2) if you wanna check it out!
 ### Additional guides
 
 - [Command line basics](https://ninjamuffin99.newgrounds.com/news/post/1090480)

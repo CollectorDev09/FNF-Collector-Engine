@@ -320,7 +320,7 @@ class PlayState extends MusicBeatState
 				case 0:
 					FlxG.sound.play(Paths.sound('intro3'), 0.6);
 				case 1:
-					var ready:FlxSprite = new FlxSprite().loadGraphic('assets/images/ready.png');
+					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.images('ready'));
 					ready.scrollFactor.set();
 					ready.screenCenter();
 					add(ready);
@@ -333,7 +333,7 @@ class PlayState extends MusicBeatState
 					});
 					FlxG.sound.play(Paths.sound('intro2'), 0.6);
 				case 2:
-					var set:FlxSprite = new FlxSprite().loadGraphic('assets/images/set.png');
+					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.images('set'));
 					set.scrollFactor.set();
 					set.screenCenter();
 					add(set);
@@ -346,7 +346,7 @@ class PlayState extends MusicBeatState
 					});
 					FlxG.sound.play(Paths.sound('intro1'), 0.6);
 				case 3:
-					var go:FlxSprite = new FlxSprite().loadGraphic('assets/images/go.png');
+					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.images('go'));
 					go.scrollFactor.set();
 					go.screenCenter();
 					add(go);
@@ -362,7 +362,6 @@ class PlayState extends MusicBeatState
 			}
 
 			swagCounter += 1;
-			// generateSong('fresh');
 		}, 5);
 	}
 
