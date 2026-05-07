@@ -132,7 +132,7 @@ class PlayState extends MusicBeatState
 		{
 			halloweenLevel = true;
 
-			var hallowTex = FlxAtlasFrames.fromSparrow(AssetPaths.halloween_bg__png, AssetPaths.halloween_bg__xml);
+			var hallowTex = FlxAtlasFrames.fromSparrow(Paths.images('halloween_bg'), Paths.images('halloween_bg', 'xml'));
 
 			halloweenBG = new FlxSprite(-200, -100);
 			halloweenBG.frames = hallowTex;
@@ -146,7 +146,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(AssetPaths.stageback__png);
+			var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.img('stageback'));
 			// bg.setGraphicSize(Std.int(bg.width * 2.5));
 			// bg.updateHitbox();
 			bg.antialiasing = true;
@@ -154,7 +154,7 @@ class PlayState extends MusicBeatState
 			bg.active = false;
 			add(bg);
 
-			var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(AssetPaths.stagefront__png);
+			var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.img('stagefront'));
 			stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 			stageFront.updateHitbox();
 			stageFront.antialiasing = true;
@@ -162,7 +162,7 @@ class PlayState extends MusicBeatState
 			stageFront.active = false;
 			add(stageFront);
 
-			var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(AssetPaths.stagecurtains__png);
+			var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.images('stagecurtains'));
 			stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 			stageCurtains.updateHitbox();
 			stageCurtains.antialiasing = true;
@@ -241,7 +241,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(AssetPaths.healthBar__png);
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.images('healthBar'));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -259,7 +259,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		healthHeads = new FlxSprite();
-		var headTex = FlxAtlasFrames.fromSparrow(AssetPaths.healthHeads__png, AssetPaths.healthHeads__xml);
+		var headTex = FlxAtlasFrames.fromSparrow(Paths.images('healthHeads'), Paths.images('healthHeads', 'xml'));
 		healthHeads.frames = headTex;
 		healthHeads.animation.add('healthy', [0]);
 		healthHeads.animation.add('unhealthy', [1]);
@@ -488,7 +488,7 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
-			var arrTex = FlxAtlasFrames.fromSparrow(AssetPaths.NOTE_assets__png, AssetPaths.NOTE_assets__xml);
+			var arrTex = FlxAtlasFrames.fromSparrow(Paths.images('NOTE_assets'), Paths.images('NOTE_assets', 'xml'));
 			babyArrow.frames = arrTex;
 			babyArrow.animation.addByPrefix('green', 'arrowUP');
 			babyArrow.animation.addByPrefix('blue', 'arrowDOWN');
@@ -932,7 +932,7 @@ class PlayState extends MusicBeatState
 		rating.antialiasing = true;
 		rating.velocity.x -= FlxG.random.int(0, 10);
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.combo__png);
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.images('combo'));
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;

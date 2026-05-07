@@ -26,6 +26,8 @@ import haxe.io.Path;
 import sys.io.File.*;
 import haxe.Http;
 import lime.app.Application;
+import polymod.Polymod.Framework;
+import polymod.Polymod;
 
 class TitleState extends MusicBeatState
 {
@@ -47,6 +49,27 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+       	var modDir:String = 'mods'; // change this if you prefer
+        // find mods inside of the mod folder you specified above
+        var modList = Polymod.scan({
+			modRoot: modDir
+		});
+        trace('mods found: ' + modList.length);
+
+		var modIDS:Array<String> = [];
+        // get the foldername of the mods polymod found and add them to the modIDS list
+		for (mod in modList )
+			if (mod != null)
+				modIDS.push(mod.id);
+  
+       //initialize polymod with our found mods
+		Polymod.init({
+			modRoot: modDir,
+			dirs: modIDS
+		});
+
+		trace(modIDS);
+
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -164,19 +187,8 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = getContent('assets/data/introText.txt');
-		#if !html5
-		var modText:Array<String> = ModHandler.getModContent('_append/data/introText.txt');
-		#end
+		var fullText:String = Assets.getText('assets/data/introText.txt');
 		var firstArray:Array<String> = fullText.split('\n');
-
-		#if !html5
-		for (text in modText)
-		{
-			firstArray.push(text);
-		}
-		#end
-		
 		var swagGoodArray:Array<Array<String>> = [];
 
 		for (i in firstArray)
@@ -184,6 +196,8 @@ class TitleState extends MusicBeatState
 			swagGoodArray.push(i.split('--'));
 		}
 
+		trace(swagGoodArray);
+		
 		return swagGoodArray;
 	}
 

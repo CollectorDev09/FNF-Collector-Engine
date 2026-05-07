@@ -30,7 +30,7 @@ class Character extends FlxSprite
 		{
 			case 'gf':
 				// GIRLFRIEND CODE
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.GF_assets__png, AssetPaths.GF_assets__xml);
+				tex = FlxAtlasFrames.fromSparrow(Paths.images('GF_assets'), Paths.images('GF_assets', 'xml'));
 				frames = tex;
 				animation.addByPrefix('cheer', 'GF Cheer', 24, false);
 				animation.addByPrefix('singLEFT', 'GF left note', 24, false);
@@ -59,7 +59,7 @@ class Character extends FlxSprite
 
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.DADDY_DEAREST__png, AssetPaths.DADDY_DEAREST__xml);
+				tex = FlxAtlasFrames.fromSparrow(Paths.images('DADDY_DEAREST'), Paths.images('DADDY_DEAREST', 'xml'));
 				frames = tex;
 				animation.addByPrefix('idle', 'Dad idle dance', 24);
 				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24);
@@ -74,7 +74,7 @@ class Character extends FlxSprite
 				addOffset("singLEFT", -10, 10);
 				addOffset("singDOWN", 0, -30);
 			case 'spooky':
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.spooky_kids_assets__png, AssetPaths.spooky_kids_assets__xml);
+				tex = FlxAtlasFrames.fromSparrow(Paths.images('spooky_kids_assets'), Paths.images('spooky_kids_assets', 'xml'));
 				frames = tex;
 				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
 				animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
@@ -93,7 +93,7 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 			case 'monster':
-				tex = FlxAtlasFrames.fromSparrow(AssetPaths.Monster_Assets__png, AssetPaths.Monster_Assets__xml);
+				tex = FlxAtlasFrames.fromSparrow(Paths.images('Monster_Assets'), Paths.images('Monster_Assets', 'xml'));
 				frames = tex;
 				animation.addByPrefix('idle', 'monster idle', 24);
 				animation.addByPrefix('singUP', 'monster up note', 24, false);

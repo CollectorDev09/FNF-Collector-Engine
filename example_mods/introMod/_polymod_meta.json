@@ -1,6 +1,6 @@
 {
     "name": "Intro Mod",
-    "id": "introMod",
+    "description": "An Example Mod",
     "api_version": "0.1.0",
     "mod_version": "1.0.0"
 }

@@ -8,11 +8,6 @@ class Paths
 {
     static public var soundExt:String = '.ogg';
 
-    public static function mods(key:String) 
-    {
-        return 'mods/$key';
-    }
-
     public static function song(key:String)
     {
         return 'assets/songs/$key$soundExt';

@@ -15,7 +15,7 @@ class Boyfriend extends Character
 	{
 		super(x, y);
 
-		var tex = FlxAtlasFrames.fromSparrow(AssetPaths.BOYFRIEND__png, AssetPaths.BOYFRIEND__xml);
+		var tex = FlxAtlasFrames.fromSparrow(Paths.images('BOYFRIEND'), Paths.images('BOYFRIEND', 'xml'));
 		frames = tex;
 		animation.addByPrefix('idle', 'BF idle dance', 24, false);
 		animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
