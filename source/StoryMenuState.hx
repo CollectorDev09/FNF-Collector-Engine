@@ -64,6 +64,10 @@ class StoryMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		var weekList:Array<String> = Paths.txt('levels/weekList');
+
+		trace(weekList);
+
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
 

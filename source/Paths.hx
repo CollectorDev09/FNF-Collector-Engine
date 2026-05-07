@@ -2,7 +2,6 @@ package;
 
 import lime.utils.Assets;
 import haxe.Json;
-import sys.io.File.*;
 
 class Paths
 {
@@ -25,7 +24,12 @@ class Paths
 
     public static function json(key:String)
     {
-        return Json.parse(getContent('assets/data/$key.json'));
+        return Json.parse(Assets.getText('assets/data/$key.json'));
+    }
+
+    public static function txt(key:String)
+    {
+        return Assets.getText('assets/data/$key.txt');
     }
 
     public static function getInst(key:String)

@@ -194,9 +194,8 @@ class TitleState extends MusicBeatState
 		for (i in firstArray)
 		{
 			swagGoodArray.push(i.split('--'));
+			trace(i);
 		}
-
-		trace(swagGoodArray);
 		
 		return swagGoodArray;
 	}
