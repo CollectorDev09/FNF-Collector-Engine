@@ -213,7 +213,7 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
 		// lerpScore = 0;
 
-		FlxG.sound.playMusic(Paths.getInst(songs[curSelected]), 0);
+		FlxG.sound.playMusic(Paths.getInst(songs[curSelected].toLowerCase()), 0);
 
 		var bullShit:Int = 0;
 

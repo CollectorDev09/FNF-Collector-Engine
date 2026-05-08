@@ -375,7 +375,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		startingSong = false;
-		FlxG.sound.playMusic(Paths.getInst(SONG.song), 1, false);
+		FlxG.sound.playMusic(Paths.getInst(SONG.song.toLowerCase()), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -392,7 +392,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.getVoices(curSong));
+			vocals = new FlxSound().loadEmbedded(Paths.getVoices(curSong.toLowerCase()));
 		else
 			vocals = new FlxSound();
 
@@ -1275,7 +1275,7 @@ class PlayState extends MusicBeatState
 
 	function lightningStrikeShit():Void
 	{
-		FlxG.sound.play(Paths.sound('thunder_' + FlxG.random.int(1, 2) + Paths.soundExt));
+		FlxG.sound.play(Paths.sound('thunder_' + FlxG.random.int(1, 2)));
 		halloweenBG.animation.play('lightning');
 
 		lightningStrikeBeat = curBeat;

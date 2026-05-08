@@ -28,7 +28,8 @@ class StoryMenuState extends MusicBeatState
 		'South' => 'Week2'
 	];
 
-	var weeks:Array<String> = [];
+	var weekList:Array<String> = [];
+	var weeks:String;
 	
 	var curDifficulty:Int = 1;
 
@@ -64,9 +65,11 @@ class StoryMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var weekList:Array<String> = Paths.txt('levels/weekList');
+		weeks = Paths.txt('levels/weekList');
 
-		trace(weekList);
+		weekList = weeks.split('\n');
+
+		trace(weeks);
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
@@ -88,7 +91,7 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		for (i in 0...weeks.length)
+		for (i in 0...weekList.length)
 		{
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
 			weekThing.y += ((weekThing.height + 20) * i);
@@ -266,6 +269,8 @@ class StoryMenuState extends MusicBeatState
 			}
 
 			PlayState.storyDifficulty = curDifficulty;
+
+			trace(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;

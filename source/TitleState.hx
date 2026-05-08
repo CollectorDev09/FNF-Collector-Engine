@@ -54,7 +54,6 @@ class TitleState extends MusicBeatState
         var modList = Polymod.scan({
 			modRoot: modDir
 		});
-        trace('mods found: ' + modList.length);
 
 		var modIDS:Array<String> = [];
         // get the foldername of the mods polymod found and add them to the modIDS list
@@ -67,8 +66,6 @@ class TitleState extends MusicBeatState
 			modRoot: modDir,
 			dirs: modIDS
 		});
-
-		trace(modIDS);
 
 		PlayerSettings.init();
 
@@ -194,7 +191,6 @@ class TitleState extends MusicBeatState
 		for (i in firstArray)
 		{
 			swagGoodArray.push(i.split('--'));
-			trace(i);
 		}
 		
 		return swagGoodArray;
@@ -230,7 +226,7 @@ class TitleState extends MusicBeatState
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
-			FlxG.sound.play(Paths.sound('confirmMenu' + Paths.soundExt), 0.7);
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
 			// FlxG.sound.music.stop();

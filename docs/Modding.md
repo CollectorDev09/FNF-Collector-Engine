@@ -1,7 +1,7 @@
 # How to make an FNF Mod in Collector Engine
 
 ## DISCLAIMER
-Modding is VERY primitive. As of right now, only the intro texts are slightly moddable. I promise to improve it in the future!
+Modding may be primitive as I have yet to softcode some things, I'll improve this in the future though!
 
 ## Setting up the mod
 First, you'll want to open the `mods/` folder and create a new folder. This folder can be named anything! After that you'll want to create the metadata file called `meta.json`. Once you do that, it should look somewhat like this: 
