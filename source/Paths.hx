@@ -3,6 +3,8 @@ package;
 import lime.utils.Assets;
 import haxe.Json;
 
+using StringTools;
+
 class Paths
 {
     static public var soundExt:String = '.ogg';

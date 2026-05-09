@@ -18,15 +18,7 @@ class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
 
-	var weekData:Map<String, String> = 
-	[
-		'Tutorial' => 'Tutorial',
-		'Bopeebo' => 'Week1',
-		'Fresh' => 'Week1',
-		'Dadbattle' => 'Week1',
-		'Spookeez' => 'Week2',
-		'South' => 'Week2'
-	];
+	var weekData:Array<String> = [];
 
 	var weekList:Array<String> = [];
 	var weeks:String;
@@ -254,6 +246,8 @@ class StoryMenuState extends MusicBeatState
 			grpWeekText.members[curWeek].week.animation.resume();
 			grpWeekCharacters.members[1].animation.play('bfConfirm');
 
+			trace(curWeek);
+
 			// PlayState.storyPlaylist = weekData[curWeek];
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
@@ -268,19 +262,25 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-hard';
 			}
 
+			StringTools.replace(weekList[curWeek], '\n', '');
+
+			trace(weekList[curWeek]);
+
+			weekData = Paths.json('levels/' + weekList[curWeek]);
+
 			PlayState.storyDifficulty = curDifficulty;
 
 			trace(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 
-			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			// PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;
 			// PlayState.campaignScore = 0;
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
-				if (FlxG.sound.music != null)
-					FlxG.sound.music.stop();
-				FlxG.switchState(new PlayState());
-			});
+			// new FlxTimer().start(1, function(tmr:FlxTimer)
+			// {
+			// 	if (FlxG.sound.music != null)
+			// 		FlxG.sound.music.stop();
+			// 	FlxG.switchState(new PlayState());
+			// });
 		}
 	}
 
