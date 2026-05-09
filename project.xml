@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="FNF Collector Engine" package="com.collectordev.collectorengine" version="0.0.1" company="CollectorDev Productions" />
+	<app main="Main" path="Export" file="CollectorEngine" />
+
+	<window width="1280" />
+	<window height="720" />
+
+	<icon path="icons/icon16.png" size="16" />
+	<icon path="icons/icon32.png" size="32" />
+	<icon path="icons/icon64.png" size="64" />
+	<icon path="icons/iconOG.png" />
+	
+	<source path="source" />
+	
+	<haxelib name="lime" />
+
+	<haxelib name="openfl" />
+	
+	<assets path="assets"/>
+	
+</project>

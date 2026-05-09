@@ -1,0 +1,28 @@
+-main ApplicationMain 
+--macro lime._internal.macros.DefineMacro.run()
+--macro haxe.macro.Compiler.addMetadata("@:autoBuild(lime._internal.macros.AssetsMacro.embedBytes())", "haxe.io.Bytes")
+-cp C:/GameDev/HaxeToolkit/haxe/lib/lime/8,3,0/src
+-D lime=8.3.0
+-cp source
+-cp assets
+-D lime-openal
+-D native
+-D lime-openalsoft
+-D lime-curl
+-D lime-harfbuzz
+-D lime-threads
+-D tools=8.3.0
+-D lime-cairo
+-D lime-threads-deque
+-D lime-opengl
+-D no-compilation
+-D disable_preloader_assets=1
+-D lime-native
+-D lime-vorbis
+-D lime-cffi
+-D windows
+-D desktop
+-cpp bin/windows/obj
+-cp bin/windows/haxe
+--macro keep("Main")
+-debug
