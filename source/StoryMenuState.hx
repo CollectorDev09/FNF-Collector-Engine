@@ -85,6 +85,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...weekList.length)
 		{
+			weekList[i] = StringTools.trim(weekList[i]).trim();
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
@@ -262,8 +263,6 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-hard';
 			}
 
-			StringTools.replace(weekList[curWeek], '\n', '');
-
 			trace(weekList[curWeek]);
 
 			weekData = Paths.json('levels/' + weekList[curWeek]);
@@ -274,13 +273,13 @@ class StoryMenuState extends MusicBeatState
 
 			// PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;
-			// PlayState.campaignScore = 0;
-			// new FlxTimer().start(1, function(tmr:FlxTimer)
-			// {
-			// 	if (FlxG.sound.music != null)
-			// 		FlxG.sound.music.stop();
-			// 	FlxG.switchState(new PlayState());
-			// });
+			PlayState.campaignScore = 0;
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
+				FlxG.switchState(new PlayState());
+			});
 		}
 	}
 
