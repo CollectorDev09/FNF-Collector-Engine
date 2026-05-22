@@ -10,7 +10,7 @@ class Main extends Sprite
 	{
 		super();
 
-		addChild(new FlxGame(0, 0, TitleState, 120, 120, false));
+		addChild(new FlxGame(0, 0, TitleState, 120, 120, true));
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));
