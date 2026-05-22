@@ -29,6 +29,8 @@ import lime.app.Application;
 import polymod.Polymod.Framework;
 import polymod.Polymod;
 
+using StringTools;
+
 class TitleState extends MusicBeatState
 {
 	static var initialized:Bool = false;
@@ -235,9 +237,12 @@ class TitleState extends MusicBeatState
 			{
 				var latestVersion:String = checkForUpdate();
 
-				var thisVersion:String = Application.current.meta.get('version');
+				StringTools.replace('\n', latestVersion, '');
+
+				var thisVersion:String = Application.current.meta.get('version') + '\n';
 
 				trace(latestVersion);
+				trace(thisVersion);
 
 				if (thisVersion != latestVersion)
 				{
@@ -272,6 +277,9 @@ class TitleState extends MusicBeatState
 			string = error;
 		}
 		http.request();
+
+		StringTools.trim(string).trim();
+
 		return string;
 	}
 

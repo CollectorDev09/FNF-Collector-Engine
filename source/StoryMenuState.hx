@@ -134,29 +134,29 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors = new FlxGroup();
 		add(difficultySelectors);
 
-		// leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
-		// leftArrow.frames = ui_tex;
-		// leftArrow.animation.addByPrefix('idle', "arrow left");
-		// leftArrow.animation.addByPrefix('press', "arrow push left");
-		// leftArrow.animation.play('idle');
-		// difficultySelectors.add(leftArrow);
+		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
+		leftArrow.frames = ui_tex;
+		leftArrow.animation.addByPrefix('idle', "arrow left");
+		leftArrow.animation.addByPrefix('press', "arrow push left");
+		leftArrow.animation.play('idle');
+		difficultySelectors.add(leftArrow);
 
-		// sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y);
-		// sprDifficulty.frames = ui_tex;
-		// sprDifficulty.animation.addByPrefix('easy', 'EASY');
-		// sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
-		// sprDifficulty.animation.addByPrefix('hard', 'HARD');
-		// sprDifficulty.animation.play('easy');
-		// changeDifficulty();
+		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y);
+		sprDifficulty.frames = ui_tex;
+		sprDifficulty.animation.addByPrefix('easy', 'EASY');
+		sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
+		sprDifficulty.animation.addByPrefix('hard', 'HARD');
+		sprDifficulty.animation.play('easy');
+		changeDifficulty();
 
-		// difficultySelectors.add(sprDifficulty);
+		difficultySelectors.add(sprDifficulty);
 
-		// rightArrow = new FlxSprite(sprDifficulty.x + sprDifficulty.width + 50, leftArrow.y);
-		// rightArrow.frames = ui_tex;
-		// rightArrow.animation.addByPrefix('idle', 'arrow right');
-		// rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
-		// rightArrow.animation.play('idle');
-		// difficultySelectors.add(rightArrow);
+		rightArrow = new FlxSprite(sprDifficulty.x + sprDifficulty.width + 50, leftArrow.y);
+		rightArrow.frames = ui_tex;
+		rightArrow.animation.addByPrefix('idle', 'arrow right');
+		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
+		rightArrow.animation.play('idle');
+		difficultySelectors.add(rightArrow);
 
 		add(yellowBG);
 		add(grpWeekCharacters);

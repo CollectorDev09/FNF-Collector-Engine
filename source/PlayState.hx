@@ -103,6 +103,7 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
+			trace(curLevel);
 			SONG = Song.loadFromJson(curLevel);
 
 		Conductor.changeBPM(SONG.bpm);
