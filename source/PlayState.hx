@@ -29,6 +29,7 @@ import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
 import lime.utils.Assets;
+import lime.app.Application;
 
 using StringTools;
 
@@ -255,7 +256,8 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, RIGHT);
+		scoreTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.antialiasing = true;
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
 
@@ -269,11 +271,15 @@ class PlayState extends MusicBeatState
 		healthHeads.antialiasing = true;
 		add(healthHeads);
 
+		var watermark:FlxText = new FlxText(5, FlxG.height - 36, 0, "Collector Engine - v" + Application.current.meta.get('version') + "\n" + SONG.song);
+		watermark.scrollFactor.set();
+		watermark.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		watermark.antialiasing = true;
+		add(watermark);
+
 		// healthBar.visible = healthHeads.visible = healthBarBG.visible = false;
 		if (isStoryMode)
 		{
-			// TEMP for now, later get rid of startCountdown()
-			// add(doof);
 			startCountdown();
 		}
 		else
@@ -286,10 +292,6 @@ class PlayState extends MusicBeatState
 		healthHeads.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-
-		// if (SONG.song == 'South')
-		// FlxG.camera.alpha = 0.7;
-		// UI_camera.zoom = 1;
 
 		// cameras = [FlxG.cameras.list[1]];
 
@@ -594,7 +596,7 @@ class PlayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		scoreTxt.text = 'Score: $songScore';
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
