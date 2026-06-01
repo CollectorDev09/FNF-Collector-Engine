@@ -146,5 +146,11 @@ class PlayState extends MusicBeatState
 			playerNotes.remove(playerNotes.members[0], true);
 			trace('Note Removed');
 		}
+
+		if (opponentNotes.members[0] != null && opponentNotes.members[0].strumTime <= Conductor.songPosition)
+		{
+			opponentNotes.remove(opponentNotes.members[0], true);
+			trace('Note Removed');
+		}
 	}
 }
