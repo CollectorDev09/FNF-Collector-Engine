@@ -1,12 +1,7 @@
 package;
 
 import haxe.Json;
-// import funkin.editors.ChartingState;
-// import funkin.editors.AnimationState;
 import flixel.FlxG.stage;
-// import funkin.song.Section.SwagSection;
-// import funkin.song.Song.Song;
-// import funkin.song.Song.SongMeta;
 import flixel.FlxObject;
 import flixel.FlxSubState;
 import flixel.addons.effects.FlxTrail;
@@ -28,10 +23,14 @@ class PlayState extends MusicBeatState
 {
 	var justPressed:Bool;
 	var TextMS:FlxText = new FlxText();
+	var lastOffsetText:FlxText = new FlxText();
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
 	var strumline:FlxSprite;
 
-	var currentSong:String = 'Gabz';
+	var currentSong:String = 'Fresh';
+
+	var opponentNotes:FlxTypedGroup<Note>;
+	var playerNotes:FlxTypedGroup<Note>;
 
 	private var inst:FlxSound;
 	private var vocals:FlxSound;
@@ -45,6 +44,11 @@ class PlayState extends MusicBeatState
 		TextMS.antialiasing = true;
 		TextMS.y = FlxG.height - 18;
 		add(TextMS);
+
+		lastOffsetText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		lastOffsetText.antialiasing = true;
+		lastOffsetText.y = FlxG.height - 38;
+		lastOffsetText.text = 'Last Offset: ';
 
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
@@ -63,11 +67,24 @@ class PlayState extends MusicBeatState
 	{
 		var noteData = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
 
+		opponentNotes = new FlxTypedGroup();
+		playerNotes = new FlxTypedGroup();
+
 		for (n in 0...(noteData.notes.hard.length:Int))
 		{
 			var note = new Note(noteData.notes.hard[n].t, noteData.notes.hard[n].d);
-			add(note);
+			if (note.noteData < 4)
+			{
+				playerNotes.add(note);
+			}
+			else
+			{
+				opponentNotes.add(note);
+			}
 		}
+
+		add(playerNotes);
+		add(opponentNotes);
 	}
 
 	public function loadSongAudio()
@@ -76,8 +93,8 @@ class PlayState extends MusicBeatState
 
 		vocals = new FlxSound().loadEmbedded(Paths.getVoices(currentSong.toLowerCase()));
 
-		inst.play();
-		vocals.play();
+		// inst.play();
+		// vocals.play();
 	}
 
     public function onKeyDown(e:KeyboardEvent):Void 
@@ -89,7 +106,15 @@ class PlayState extends MusicBeatState
         var k = e.keyCode;
         
         trace('just pressed: $id');
+
+		if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition >= -150 && playerNotes.members[0].strumTime - Conductor.songPosition <= 150 && id == playerNotes.members[0].noteData)
+		{
+			playerNotes.remove(playerNotes.members[0], true);
+			trace('Pressed a note: ${playerNotes.members[0].strumTime - Conductor.songPosition}');
+		}
     }
+
+
 
     @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
     {
@@ -113,8 +138,13 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		// trace(Conductor.songPosition);
 		Conductor.songPosition += elapsed * 1000;
 		TextMS.text = string(Conductor.songPosition);
+
+		if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
+		{
+			playerNotes.remove(playerNotes.members[0], true);
+			trace('Note Removed');
+		}
 	}
 }
