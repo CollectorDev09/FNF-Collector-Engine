@@ -32,8 +32,51 @@ class PlayState extends MusicBeatState
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
 
+	var rating:FlxSprite;
+
 	private var inst:FlxSound;
 	private var vocals:FlxSound;
+
+	/**
+	 * The threshold at which a note hit is considered perfect and always given the max score.
+	 */
+	public static final PBOT1_PERFECT_THRESHOLD:Float = 5.0; // 5ms
+
+	/**
+	 * The threshold at which a note hit is considered missed.
+	 * `160ms`
+	 */
+	public static final PBOT1_MISS_THRESHOLD:Float = 160.0;
+
+	/**
+	 * The time within which a note is considered to have been hit with the Killer judgement.
+	 * `~7.5% of the hit window, or 12.5ms`
+	 */
+	public static final PBOT1_KILLER_THRESHOLD:Float = 12.5;
+
+	/**
+	 * The time within which a note is considered to have been hit with the Sick judgement.
+	 * `~25% of the hit window, or 45ms`
+	 */
+	public static final PBOT1_SICK_THRESHOLD:Float = 45.0;
+
+	/**
+	 * The time within which a note is considered to have been hit with the Good judgement.
+	 * `~55% of the hit window, or 90ms`
+	 */
+	public static final PBOT1_GOOD_THRESHOLD:Float = 90.0;
+
+	/**
+	 * The time within which a note is considered to have been hit with the Bad judgement.
+	 * `~85% of the hit window, or 135ms`
+	 */
+	public static final PBOT1_BAD_THRESHOLD:Float = 135.0;
+
+	/**
+	 * The time within which a note is considered to have been hit with the Shit judgement.
+	 * `100% of the hit window, or 160ms`
+	 */
+	public static final PBOT1_SHIT_THRESHOLD:Float = 160.0;
 
 	override public function create()
 	{
@@ -59,7 +102,10 @@ class PlayState extends MusicBeatState
 		loadChart(currentSong);
 
 		super.create();
-		trace("Hello World! This is a playstate.");
+		rating = new FlxSprite(100, 600);
+		rating.loadGraphic(Paths.img('game/ui/popup/combo'));
+		add(rating);
+
 		Conductor.songPosition = 0;
 	}
 
@@ -107,14 +153,41 @@ class PlayState extends MusicBeatState
         
         trace('just pressed: $id');
 
-		if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition >= -150 && playerNotes.members[0].strumTime - Conductor.songPosition <= 150 && id == playerNotes.members[0].noteData)
+		if (playerNotes.members[0] == null) return;
+
+		var offset = playerNotes.members[0].strumTime - Conductor.songPosition;
+
+		var noteDirection = playerNotes.members[0].noteData;
+
+		if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD && id == noteDirection)
 		{
-			playerNotes.remove(playerNotes.members[0], true);
-			trace('Pressed a note: ${playerNotes.members[0].strumTime - Conductor.songPosition}');
+			onNoteHit(offset);
 		}
     }
 
+	public function onNoteHit(offset:Float)
+	{
+		playerNotes.remove(playerNotes.members[0], true);
+		lastOffsetText.text = 'Last Offset: ${Conductor.songPosition - playerNotes.members[0].strumTime}';
 
+		if (offset >= -PBOT1_SICK_THRESHOLD && offset <= PBOT1_SICK_THRESHOLD)
+		{
+			rating.loadGraphic(Paths.img('game/ui/popup/sick'));
+		}
+		else if (offset >= -PBOT1_GOOD_THRESHOLD && offset <= PBOT1_GOOD_THRESHOLD)
+		{
+			rating.loadGraphic(Paths.img('game/ui/popup/good'));
+		}
+		else if (offset >= -PBOT1_BAD_THRESHOLD && offset <= PBOT1_BAD_THRESHOLD)
+		{
+			rating.loadGraphic(Paths.img('game/ui/popup/bad'));
+		}
+		else if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD)
+		{
+			rating.loadGraphic(Paths.img('game/ui/popup/shit'));
+		}
+
+	}
 
     @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
     {
