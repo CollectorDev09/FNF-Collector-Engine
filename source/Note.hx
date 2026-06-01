@@ -1,9 +1,5 @@
 package;
 
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.util.FlxColor;
-
 class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
@@ -18,6 +14,10 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
+	var scrollSpeed = 2.5;
+
+	var speed:Float;
+
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
@@ -29,6 +29,8 @@ class Note extends FlxSprite
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
 		super();
+
+		speed = 0.45 * FlxMath.roundDecimal(scrollSpeed, 2);
 
 		if (prevNote == null)
 			prevNote = this;
@@ -43,41 +45,42 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		var tex = FlxAtlasFrames.fromSparrow(Paths.images('NOTE_assets'), Paths.images('NOTE_assets', 'xml'));
-		frames = tex;
-		animation.addByPrefix('greenScroll', 'green0');
-		animation.addByPrefix('redScroll', 'red0');
-		animation.addByPrefix('blueScroll', 'blue0');
-		animation.addByPrefix('purpleScroll', 'purple0');
+		frames = FlxAtlasFrames.fromSparrow(Paths.images('game/notes/default'), Paths.images('game/notes/default', 'xml'));
 
-		animation.addByPrefix('purpleholdend', 'pruple end hold');
-		animation.addByPrefix('greenholdend', 'green hold end');
-		animation.addByPrefix('redholdend', 'red hold end');
-		animation.addByPrefix('blueholdend', 'blue hold end');
+		var noteArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
 
-		animation.addByPrefix('purplehold', 'purple hold piece');
-		animation.addByPrefix('greenhold', 'green hold piece');
-		animation.addByPrefix('redhold', 'red hold piece');
-		animation.addByPrefix('bluehold', 'blue hold piece');
-
+		for (key => value in noteArray)
+		{
+			animation.addByPrefix('${key}Scroll', '${key}0');
+			animation.addByPrefix('${key}hold', '${key} hold piece');
+			animation.addByPrefix('${key}holdend', '${key} hold end');
+			if (value == noteData || value == (noteData - 4))
+			{
+				if (isSustainNote && prevNote != null)
+				{
+					animation.play('${key}holdend');
+				}
+				else if (prevNote.isSustainNote)
+				{
+					animation.play('${key}hold');
+				}
+				else
+				{
+					animation.play('${key}Scroll');
+				}
+			}
+		}
 		setGraphicSize(Std.int(width * 0.7));
 		updateHitbox();
 		antialiasing = true;
 
-		switch (noteData)
+		if (noteData < 4)
 		{
-			case 0:
-				x += swagWidth * 0;
-				animation.play('purpleScroll');
-			case 1:
-				x += swagWidth * 1;
-				animation.play('blueScroll');
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
-			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
+			x += swagWidth * noteData + 700;
+		}
+		else
+		{
+			x += swagWidth * (noteData - 3) - 45;
 		}
 
 		// trace(prevNote);
@@ -85,41 +88,21 @@ class Note extends FlxSprite
 		if (isSustainNote && prevNote != null)
 		{
 			noteScore * 0.2;
+			alpha = 0.6;
 
 			x += width / 2;
-
-			switch (noteData)
-			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}
 
 			updateHitbox();
 
 			x -= width / 2;
 
+			// if (PlayState.curStage.startsWith('school'))
+			// 	x += 30;
+
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
-				{
-					case 2:
-						prevNote.animation.play('greenhold');
-					case 3:
-						prevNote.animation.play('redhold');
-					case 1:
-						prevNote.animation.play('bluehold');
-					case 0:
-						prevNote.animation.play('purplehold');
-				}
-
 				prevNote.offset.y = -19;
-				prevNote.scale.y *= (2.25 * PlayState.SONG.speed);
+				prevNote.scale.y *= (2.25 * FlxMath.roundDecimal(2.5, 1));
 				// prevNote.setGraphicSize();
 			}
 		}
@@ -128,6 +111,8 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		this.y = 50 - (speed * (Conductor.songPosition - strumTime)); 
 
 		if (mustPress)
 		{

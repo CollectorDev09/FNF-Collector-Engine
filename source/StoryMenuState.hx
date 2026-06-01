@@ -250,7 +250,7 @@ class StoryMenuState extends MusicBeatState
 			trace(curWeek);
 
 			// PlayState.storyPlaylist = weekData[curWeek];
-			PlayState.isStoryMode = true;
+			// PlayState.isStoryMode = true;
 			selectedWeek = true;
 
 			var diffic = "";
@@ -267,13 +267,13 @@ class StoryMenuState extends MusicBeatState
 
 			weekData = Paths.json('levels/' + weekList[curWeek]);
 
-			PlayState.storyDifficulty = curDifficulty;
+			// PlayState.storyDifficulty = curDifficulty;
 
-			trace(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			// trace(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 
 			// PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
-			PlayState.storyWeek = curWeek;
-			PlayState.campaignScore = 0;
+			// PlayState.storyWeek = curWeek;
+			// PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				if (FlxG.sound.music != null)

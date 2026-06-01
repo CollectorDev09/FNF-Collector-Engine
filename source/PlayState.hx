@@ -1,8 +1,8 @@
-package funkin.game;
+package;
 
 import haxe.Json;
-import funkin.editors.ChartingState;
-import funkin.editors.AnimationState;
+// import funkin.editors.ChartingState;
+// import funkin.editors.AnimationState;
 import flixel.FlxG.stage;
 // import funkin.song.Section.SwagSection;
 // import funkin.song.Song.Song;
@@ -31,6 +31,11 @@ class PlayState extends MusicBeatState
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
 	var strumline:FlxSprite;
 
+	var currentSong:String = 'Gabz';
+
+	private var inst:FlxSound;
+	private var vocals:FlxSound;
+
 	override public function create()
 	{
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
@@ -46,18 +51,33 @@ class PlayState extends MusicBeatState
 		strumline.y = 50;
 		add(strumline);
 
-		var noteData = Paths.json('songs/gabz/gabz-chart');
+		loadSongAudio();
+		loadChart(currentSong);
+
+		super.create();
+		trace("Hello World! This is a playstate.");
+		Conductor.songPosition = 0;
+	}
+
+	public function loadChart(name:String) 
+	{
+		var noteData = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
 
 		for (n in 0...(noteData.notes.hard.length:Int))
 		{
 			var note = new Note(noteData.notes.hard[n].t, noteData.notes.hard[n].d);
 			add(note);
 		}
+	}
 
+	public function loadSongAudio()
+	{
+		inst = new FlxSound().loadEmbedded(Paths.getInst(currentSong.toLowerCase()));
 
-		super.create();
-		trace("Hello World! This is a playstate.");
-		Conductor.songPosition = 0;
+		vocals = new FlxSound().loadEmbedded(Paths.getVoices(currentSong.toLowerCase()));
+
+		inst.play();
+		vocals.play();
 	}
 
     public function onKeyDown(e:KeyboardEvent):Void 
