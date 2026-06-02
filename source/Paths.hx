@@ -67,4 +67,9 @@ class Paths
             return Paths.img(key, type);
         }
     }
+
+    public static function sparrow(key:String)
+    {
+        return FlxAtlasFrames.fromSparrow(Paths.img(key), Paths.img(key, 'xml'));
+    }
 }

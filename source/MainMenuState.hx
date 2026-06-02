@@ -18,7 +18,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'];
+	var optionShit:Array<String> = ['storymode', 'freeplay', 'credits', 'options'];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -27,10 +27,10 @@ class MainMenuState extends MusicBeatState
 	{
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.images('menuBG'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.images('menus/menuBG'));
 		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.18;
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
+		bg.scrollFactor.y = 0.17;
+		bg.setGraphicSize(Std.int(bg.width * 1.2));
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
@@ -39,10 +39,10 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.images('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(Paths.images('menus/menuDesat'));
 		magenta.scrollFactor.x = 0;
-		magenta.scrollFactor.y = 0.18;
-		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
+		magenta.scrollFactor.y = 0.17;
+		magenta.setGraphicSize(Std.int(magenta.width * 1.2));
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.visible = false;
@@ -54,19 +54,18 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = FlxAtlasFrames.fromSparrow(Paths.images('FNF_main_menu_assets'), Paths.images('FNF_main_menu_assets', 'xml'));
-
 		for (i in 0...optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
-			menuItem.frames = tex;
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
+			menuItem.frames = Paths.sparrow('menus/mainmenu/${optionShit[i]}');
+			menuItem.animation.addByPrefix('idle', '${optionShit[i]} idle', 24);
+			menuItem.animation.addByPrefix('selected', '${optionShit[i]} selected', 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
+			menuItem.scrollFactor.x = 0;
+			menuItem.scrollFactor.y = 0.32;
 			menuItems.add(menuItem);
-			menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
 		}
 
@@ -139,7 +138,7 @@ class MainMenuState extends MusicBeatState
 
 								switch (daChoice)
 								{
-									case 'story mode':
+									case 'storymode':
 										FlxG.switchState(new StoryMenuState());
 									case 'freeplay':
 										FlxG.switchState(new FreeplayState());

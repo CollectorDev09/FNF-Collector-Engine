@@ -111,14 +111,14 @@ class PlayState extends MusicBeatState
 
 	public function loadChart(name:String) 
 	{
-		var noteData = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
+		var chartData:Dynamic = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
 
 		opponentNotes = new FlxTypedGroup();
 		playerNotes = new FlxTypedGroup();
 
-		for (n in 0...(noteData.notes.hard.length:Int))
+		for (n in 0...(chartData.notes.hard.length:Int))
 		{
-			var note = new Note(noteData.notes.hard[n].t, noteData.notes.hard[n].d);
+			var note = new Note(chartData.notes.hard[n].t, chartData.notes.hard[n].d);
 			if (note.noteData < 4)
 			{
 				playerNotes.add(note);
