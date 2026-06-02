@@ -53,7 +53,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.images('menuBGBlue'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.images('menus/menuBGBlue'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -168,7 +168,7 @@ class FreeplayState extends MusicBeatState
 			// PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
 			// PlayState.isStoryMode = false;
 			// PlayState.storyDifficulty = curDifficulty;
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(()->new PlayState());
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 		}

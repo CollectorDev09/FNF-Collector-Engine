@@ -27,7 +27,7 @@ class PlayState extends MusicBeatState
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
 	var strumline:FlxSprite;
 
-	var currentSong:String = 'Fresh';
+	var currentSong:String;
 
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
@@ -80,6 +80,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		super.create();
+
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 
@@ -92,17 +94,20 @@ class PlayState extends MusicBeatState
 		lastOffsetText.antialiasing = true;
 		lastOffsetText.y = FlxG.height - 38;
 		lastOffsetText.text = 'Last Offset: ';
+		add(lastOffsetText);
 
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
 		add(strumline);
 
+		currentSong = 'Gabz';
+
 		loadSongAudio();
 		loadChart(currentSong);
 
-		super.create();
-		rating = new FlxSprite(100, 600);
+		rating = new FlxSprite(100, 400);
+		rating.setGraphicSize(Std.int(rating.width * 0.5));
 		rating.loadGraphic(Paths.img('game/ui/popup/combo'));
 		add(rating);
 
@@ -116,7 +121,7 @@ class PlayState extends MusicBeatState
 		opponentNotes = new FlxTypedGroup();
 		playerNotes = new FlxTypedGroup();
 
-		for (n in 0...(chartData.notes.hard.length:Int))
+		for (n in 0...chartData.notes.hard.length)
 		{
 			var note = new Note(chartData.notes.hard[n].t, chartData.notes.hard[n].d);
 			if (note.noteData < 4)
@@ -153,22 +158,23 @@ class PlayState extends MusicBeatState
         
         trace('just pressed: $id');
 
-		if (playerNotes.members[0] == null) return;
-
-		var offset = playerNotes.members[0].strumTime - Conductor.songPosition;
-
-		var noteDirection = playerNotes.members[0].noteData;
-
-		if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD && id == noteDirection)
+		for (i in 0...playerNotes.members.length)
 		{
-			onNoteHit(offset);
+			if (playerNotes.members[i] == null) return;
+			var offset = playerNotes.members[i].strumTime - Conductor.songPosition;
+			var noteDirection = playerNotes.members[i].noteData;
+
+			if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD && id == noteDirection)
+			{
+				onNoteHit(offset, i);
+			}
 		}
     }
 
-	public function onNoteHit(offset:Float)
+	public function onNoteHit(offset:Float, note:Int)
 	{
-		playerNotes.remove(playerNotes.members[0], true);
-		lastOffsetText.text = 'Last Offset: ${Conductor.songPosition - playerNotes.members[0].strumTime}';
+		lastOffsetText.text = 'Last Offset: ${Conductor.songPosition - playerNotes.members[note].strumTime}';
+		playerNotes.remove(playerNotes.members[note], true);
 
 		if (offset >= -PBOT1_SICK_THRESHOLD && offset <= PBOT1_SICK_THRESHOLD)
 		{
