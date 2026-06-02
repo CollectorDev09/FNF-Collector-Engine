@@ -32,6 +32,8 @@ class PlayState extends MusicBeatState
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
 
+	public var strumlineNotes = new FlxTypedGroup<FlxSprite>(8);
+
 	var rating:FlxSprite;
 
 	private var inst:FlxSound;
@@ -78,6 +80,8 @@ class PlayState extends MusicBeatState
 	 */
 	public static final PBOT1_SHIT_THRESHOLD:Float = 160.0;
 
+	static var noteDirections:Array<String>;
+
 	override public function create()
 	{
 		super.create();
@@ -99,7 +103,39 @@ class PlayState extends MusicBeatState
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
-		add(strumline);
+
+		noteDirections = ['Left', 'Down', 'Up', 'Right'];
+
+		for (n in 0...8)
+        {
+            var strumNote = new FlxSprite();
+			strumNote.y = strumline.y;
+			strumNote.x -= 25;
+			strumNote.frames = Paths.sparrow('game/notes/default');
+			strumNote.setGraphicSize(Std.int(strumNote.width * 0.7));
+			strumNote.antialiasing = true;
+
+			for (i in noteDirections)
+			{
+				strumNote.animation.addByPrefix('arrow$i', 'arrow${i.toUpperCase()}', 24, false);
+				strumNote.animation.addByPrefix('${i}Press', '${i.toLowerCase()} press', 24, false);
+			}
+
+			if (n < 4)
+			{
+				strumNote.x += Note.swagWidth * n + 700;
+				strumNote.animation.play('arrow${noteDirections[n]}');
+			}
+			else
+			{
+				strumNote.x += Note.swagWidth * (n - 3) - 45;
+				strumNote.animation.play('arrow${noteDirections[n - 4]}');
+			}
+
+			strumlineNotes.add(strumNote);
+        }
+
+		add(strumlineNotes);
 
 		currentSong = 'Gabz';
 
