@@ -25,6 +25,7 @@ class PlayState extends MusicBeatState
 	var TextMS:FlxText = new FlxText();
 	var lastOffsetText:FlxText = new FlxText();
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
+	var keys:Array<Int>;
 	var strumline:FlxSprite;
 
 	var currentSong:String;
@@ -38,6 +39,8 @@ class PlayState extends MusicBeatState
 
 	private var inst:FlxSound;
 	private var vocals:FlxSound;
+
+	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
 	/**
 	 * The threshold at which a note hit is considered perfect and always given the max score.
@@ -119,6 +122,7 @@ class PlayState extends MusicBeatState
 			{
 				strumNote.animation.addByPrefix('arrow$i', 'arrow${i.toUpperCase()}', 24, false);
 				strumNote.animation.addByPrefix('${i}Press', '${i.toLowerCase()} press', 24, false);
+				strumNote.animation.addByPrefix('${i}Hit', '${i.toLowerCase()} confirm', 24, false);
 			}
 
 			if (n < 4)
@@ -191,8 +195,14 @@ class PlayState extends MusicBeatState
         keysPressed[id] = true;
 
         var k = e.keyCode;
+
+		trace(e);
         
         trace('just pressed: $id');
+
+		if (id == -1) return;
+
+		strumlineNotes.members[id].animation.play('${noteDirections[id]}Press');
 
 		for (i in 0...playerNotes.members.length)
 		{
@@ -248,6 +258,10 @@ class PlayState extends MusicBeatState
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         keysPressed[id] = false;
         trace('released: $id');
+
+		if (id == -1) return;
+		
+		strumlineNotes.members[id].animation.play('arrow${noteDirections[id]}');
     }
 
 	override public function update(elapsed:Float)
