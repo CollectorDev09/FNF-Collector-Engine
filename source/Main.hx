@@ -28,7 +28,7 @@ class Main extends Sprite
 			dirs: modIDS
 		});
 
-		addChild(new FlxGame(0, 0, PlayState, 120, 120, true));
+		addChild(new FlxGame(0, 0, TitleState, 120, 120, true));
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));

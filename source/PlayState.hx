@@ -28,7 +28,7 @@ class PlayState extends MusicBeatState
 	var keys:Array<Int>;
 	var strumline:FlxSprite;
 
-	var currentSong:String;
+	public static var currentSong:String;
 
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
@@ -143,7 +143,7 @@ class PlayState extends MusicBeatState
 
 		currentSong = 'Gabz';
 
-		loadSongAudio();
+		// loadSongAudio();
 		loadChart(currentSong);
 
 		rating = new FlxSprite(100, 400);
@@ -195,9 +195,7 @@ class PlayState extends MusicBeatState
         keysPressed[id] = true;
 
         var k = e.keyCode;
-
-		trace(e);
-        
+		
         trace('just pressed: $id');
 
 		if (id == -1) return;
@@ -260,7 +258,7 @@ class PlayState extends MusicBeatState
         trace('released: $id');
 
 		if (id == -1) return;
-		
+
 		strumlineNotes.members[id].animation.play('arrow${noteDirections[id]}');
     }
 
