@@ -26,7 +26,7 @@ class Paths
 
     public static function json(key:String)
     {
-        return Json.parse(Assets.getText('assets/data/$key.json'));;
+        return Json.parse(Assets.getText('assets/data/$key.json'));
     }
 
     public static function txt(key:String)

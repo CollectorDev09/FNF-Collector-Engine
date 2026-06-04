@@ -8,10 +8,9 @@ import sys.io.File.*;
 
 using StringTools;
 
-typedef SwagSong =
+typedef SongMeta =
 {
-	var song:String;
-	var notes:Array<SwagSection>;
+	var songName:String;
 	var bpm:Int;
 	var sections:Int;
 	var sectionLengths:Array<Dynamic>;
@@ -22,10 +21,28 @@ typedef SwagSong =
 	var player2:String;
 }
 
+typedef SongChart = 
+{
+	var notes:Dynamic;
+}
+
+typedef SongNote = 
+{
+	var time:Float;
+	var length:Float;
+	var direction:Int;
+	var strumline:Int;
+}
+
+typedef SongEvent = 
+{
+	var time:Array<Float>;
+	var event:String;
+}
+
 class Song
 {
 	public var song:String;
-	public var notes:Array<SwagSection>;
 	public var bpm:Int;
 	public var sections:Int;
 	public var sectionLengths:Array<Dynamic> = [];
@@ -35,36 +52,15 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 
-	public function new(song, notes, bpm, sections)
+	public static function loadSongData(name:String)
 	{
-		this.song = song;
-		this.notes = notes;
-		this.bpm = bpm;
-		this.sections = sections;
+		var chart:SongChart = {};
 
-		for (i in 0...notes.length)
-		{
-			this.sectionLengths.push(notes[i]);
-		}
-	}
+		var chartData:Dynamic = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
+		var songData:Dynamic = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-metadata');
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
-	{
-		if (folder == null)
-		{
-			folder = jsonInput;
-		}
+		chart.notes = chartData.notes.hard;
 
-		var rawJson = Assets.getText('assets/data/songs/' + folder.toLowerCase() + '/' + jsonInput.toLowerCase() + '.json').trim();
-
-		while (!rawJson.endsWith("}"))
-		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-		}
-
-		var swagShit:SwagSong = cast Json.parse(rawJson).song;
-		trace(swagShit.notes[0]);
-
-		return swagShit;
+		return chart;
 	}
 }

@@ -87,8 +87,6 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		super.create();
-
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 
@@ -141,9 +139,8 @@ class PlayState extends MusicBeatState
 
 		add(strumlineNotes);
 
-		currentSong = 'Gabz';
-
 		// loadSongAudio();
+
 		loadChart(currentSong);
 
 		rating = new FlxSprite(100, 400);
@@ -152,14 +149,18 @@ class PlayState extends MusicBeatState
 		add(rating);
 
 		Conductor.songPosition = 0;
+
+		super.create();
 	}
 
 	public function loadChart(name:String) 
 	{
-		var chartData:Dynamic = Paths.json('songs/${name.toLowerCase()}/${name.toLowerCase()}-chart');
+		var chartData:Dynamic = Paths.json('songs/gabz/gabz-chart');
 
 		opponentNotes = new FlxTypedGroup();
 		playerNotes = new FlxTypedGroup();
+
+		trace('songs/${name}/${name}-chart');
 
 		for (n in 0...chartData.notes.hard.length)
 		{
