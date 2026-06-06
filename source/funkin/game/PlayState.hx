@@ -45,6 +45,8 @@ class PlayState extends MusicBeatState
 	private var inst:FlxSound;
 	private var vocals:FlxSound;
 
+	var chartData:Dynamic;
+
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
 	/**
@@ -149,7 +151,13 @@ class PlayState extends MusicBeatState
 		song = new FlxSoundGroup();
 		song.volume = 1;
 
+		opponentNotes = new FlxTypedGroup();
+		playerNotes = new FlxTypedGroup();
+
 		loadChart(currentSong);
+
+		add(playerNotes);
+		add(opponentNotes);
 
 		//loadSongAudio();
 
@@ -163,13 +171,10 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
-	public function loadChart(name:String) 
+	@:pure public function loadChart(name:String) 
 	{
 		currentSong = 'Gabz';
-		var chartData:Dynamic = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
-
-		opponentNotes = new FlxTypedGroup();
-		playerNotes = new FlxTypedGroup();
+		chartData = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
 
 		trace('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
 
@@ -185,9 +190,6 @@ class PlayState extends MusicBeatState
 				opponentNotes.add(note);
 			}
 		}
-
-		add(playerNotes);
-		add(opponentNotes);
 	}
 
 	public function loadSongAudio()
@@ -282,16 +284,22 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition += elapsed * 1000;
 		TextMS.text = Std.string(Conductor.songPosition);
 
-		if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
+		if (playerNotes != null)
 		{
-			playerNotes.remove(playerNotes.members[0], true);
-			trace('Note Removed');
+			if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
+			{
+				playerNotes.remove(playerNotes.members[0], true);
+				trace('Note Removed');
+			}
 		}
 
-		if (opponentNotes.members[0] != null && opponentNotes.members[0].strumTime <= Conductor.songPosition)
+		if (opponentNotes != null)
 		{
-			opponentNotes.remove(opponentNotes.members[0], true);
-			trace('Note Removed');
+			if (opponentNotes.members[0] != null && opponentNotes.members[0].strumTime <= Conductor.songPosition)
+			{
+				opponentNotes.remove(opponentNotes.members[0], true);
+				trace('Note Removed');
+			}
 		}
 	}
 }

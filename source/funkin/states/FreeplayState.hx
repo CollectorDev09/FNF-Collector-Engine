@@ -205,7 +205,7 @@ class FreeplayState extends MusicBeatState
 
 		// selector.y = (70 * curSelected) + 30;
 
-		intendedScore = Highscore.getScore(freeplaySongList[curSelected], curDifficulty);
+		// intendedScore = Highscore.getScore(freeplaySongList[curSelected], curDifficulty);
 		// lerpScore = 0;
 
 		FlxG.sound.playMusic(Paths.getInst(freeplaySongList[curSelected].toLowerCase()), 0);

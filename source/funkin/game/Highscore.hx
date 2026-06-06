@@ -39,7 +39,7 @@ class Highscore
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songScores.set(song, score);
-		FlxG.save.data.songScores = songScores;
+		// FlxG.save.data.songScores = songScores;
 		FlxG.save.flush();
 	}
 
@@ -73,9 +73,9 @@ class Highscore
 
 	public static function load():Void
 	{
-		if (FlxG.save.data.songScores != null)
-		{
-			songScores = FlxG.save.data.songScores;
-		}
+		// if (FlxG.save.data.songScores != null)
+		// {
+		// 	songScores = FlxG.save.data.songScores;
+		// }
 	}
 }
