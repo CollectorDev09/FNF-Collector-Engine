@@ -2,19 +2,14 @@ package funkin.states;
 
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.util.FlxColor;
 import funkin.game.Highscore;
+import funkin.game.PlayState;
 import funkin.music.MusicBeatState;
 import lime.utils.Assets;
 import sys.io.File.*;
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<String> = ["Tutorial", "Bopeebo", "Fresh", "Dadbattle"];
-
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
@@ -23,6 +18,8 @@ class FreeplayState extends MusicBeatState
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
+
+	var freeplaySongList:Array<String>;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -38,7 +35,7 @@ class FreeplayState extends MusicBeatState
 		 */
 
 		var songListFile:String = Paths.txt('songs/freeplaySongList');
-		var freeplaySongList = songListFile.split('\n');
+		freeplaySongList = songListFile.split('\n');
 
 		var isDebug:Bool = false;
 
@@ -58,7 +55,8 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songListFile.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i], true, false);
+			freeplaySongList[i] = StringTools.trim(freeplaySongList[i]).trim();
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, freeplaySongList[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
@@ -158,11 +156,11 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].toLowerCase(), curDifficulty);
+			var poop:String = Highscore.formatSong(freeplaySongList[curSelected].toLowerCase(), curDifficulty);
 
 			trace(poop);
 
-			PlayState.currentSong = songs[curSelected].toLowerCase();
+			PlayState.currentSong = freeplaySongList[curSelected].toLowerCase();
 
 			FlxG.switchState(()->new PlayState());
 
@@ -180,7 +178,7 @@ class FreeplayState extends MusicBeatState
 		if (curDifficulty > 2)
 			curDifficulty = 0;
 
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = Highscore.getScore(freeplaySongList[curSelected], curDifficulty);
 
 		switch (curDifficulty)
 		{
@@ -201,16 +199,16 @@ class FreeplayState extends MusicBeatState
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
+			curSelected = freeplaySongList.length - 1;
+		if (curSelected >= freeplaySongList.length)
 			curSelected = 0;
 
 		// selector.y = (70 * curSelected) + 30;
 
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = Highscore.getScore(freeplaySongList[curSelected], curDifficulty);
 		// lerpScore = 0;
 
-		FlxG.sound.playMusic(Paths.getInst(songs[curSelected].toLowerCase()), 0);
+		FlxG.sound.playMusic(Paths.getInst(freeplaySongList[curSelected].toLowerCase()), 0);
 
 		var bullShit:Int = 0;
 

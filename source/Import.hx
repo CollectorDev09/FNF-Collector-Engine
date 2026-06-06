@@ -21,6 +21,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.*;
+import flixel.util.FlxColor;
 import funkin.config.Controls;
 import funkin.ui.Alphabet;
 import funkin.utils.Paths;
