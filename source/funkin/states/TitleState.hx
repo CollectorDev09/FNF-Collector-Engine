@@ -25,8 +25,6 @@ import lime.utils.Assets;
 import sys.FileSystem;
 import sys.io.File.*;
 
-using StringTools;
-
 class TitleState extends MusicBeatState
 {
 	static var initialized:Bool = false;
