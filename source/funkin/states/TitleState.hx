@@ -1,12 +1,9 @@
-package;
+package funkin.states;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
+import flixel.FlxState;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
@@ -14,20 +11,19 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.sound.FlxSound;
-import flixel.system.ui.FlxSoundTray;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.config.PlayerSettings;
+import funkin.game.Highscore;
+import funkin.music.Conductor;
+import funkin.music.MusicBeatState;
+import funkin.substates.OutdatedSubState;
+import funkin.ui.Alphabet;
+import haxe.Http;
+import haxe.io.Path;
 import lime.utils.Assets;
 import sys.FileSystem;
-import haxe.io.Path;
 import sys.io.File.*;
-import haxe.Http;
-import lime.app.Application;
-import polymod.Polymod.Framework;
-import polymod.Polymod;
 
 using StringTools;
 
@@ -63,13 +59,13 @@ class TitleState extends MusicBeatState
 
 		Highscore.load();
 
-		if (FlxG.save.data.weekUnlocked != null)
-		{
-			StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
+		// if (FlxG.save.data.weekUnlocked != null)
+		// {
+		// 	StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
 
-			if (StoryMenuState.weekUnlocked.length < 3)
-				StoryMenuState.weekUnlocked.insert(0, true);
-		}
+		// 	if (StoryMenuState.weekUnlocked.length < 3)
+		// 		StoryMenuState.weekUnlocked.insert(0, true);
+		// }
 
 		#if SKIP_TO_PLAYSTATE
 		FlxG.switchState(new FreeplayState());
@@ -170,7 +166,7 @@ class TitleState extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = Assets.getText('assets/data/introText.txt');
+		var fullText:String = Paths.txt('introText');
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
 

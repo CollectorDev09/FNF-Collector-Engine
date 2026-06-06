@@ -1,13 +1,9 @@
-package;
+package funkin.game;
 
-import Controls.Control;
-import flixel.FlxG;
-import flixel.FlxSprite;
+import funkin.config.Controls;
 import flixel.FlxSubState;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
-import flixel.sound.FlxSound;
-import flixel.util.FlxColor;
+import funkin.music.MusicBeatState;
 
 class PauseSubState extends MusicBeatSubstate
 {

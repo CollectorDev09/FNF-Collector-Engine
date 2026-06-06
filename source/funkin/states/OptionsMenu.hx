@@ -1,8 +1,9 @@
-package;
+package funkin.states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import funkin.music.MusicBeatState;
 
 class OptionsMenu extends MusicBeatState
 {

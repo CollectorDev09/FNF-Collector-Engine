@@ -1,4 +1,4 @@
-package;
+package funkin.utils;
 
 import lime.utils.Assets;
 import haxe.Json;
@@ -36,12 +36,14 @@ class Paths
 
     public static function getInst(key:String)
     {
-        return song('$key/Inst');
+        trace('Inst: $key');
+        return song('${key}/Inst');
     }
     
     public static function getVoices(key:String)
     {
-        return song('$key/Voices');
+        trace('Voices: $key');
+        return song('${key}/Voices');
     }
 
     public static function img(key:String, ?type:String)

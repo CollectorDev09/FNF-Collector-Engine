@@ -1,14 +1,17 @@
-package;
+package funkin.states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import funkin.game.Highscore;
+import funkin.game.Highscore;
+import funkin.music.MusicBeatState;
 import lime.net.curl.CURLCode;
 import sys.io.File.*;
 

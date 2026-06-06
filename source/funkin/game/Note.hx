@@ -1,4 +1,6 @@
-package;
+package funkin.game;
+
+import funkin.music.Conductor;
 
 class Note extends FlxSprite
 {

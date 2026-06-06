@@ -1,13 +1,13 @@
-package;
+package funkin.states;
 
 import flash.text.TextField;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import funkin.game.Highscore;
+import funkin.music.MusicBeatState;
 import lime.utils.Assets;
 import sys.io.File.*;
 
@@ -37,17 +37,14 @@ class FreeplayState extends MusicBeatState
 			}
 		 */
 
+		var songListFile:String = Paths.txt('songs/freeplaySongList');
+		var freeplaySongList = songListFile.split('\n');
+
 		var isDebug:Bool = false;
 
 		#if debug
 		isDebug = true;
 		#end
-
-		if (StoryMenuState.weekUnlocked[1] || isDebug)
-		{
-			songs.push('Spookeez');
-			songs.push('South');
-		}
 
 		// LOAD MUSIC
 
@@ -59,7 +56,7 @@ class FreeplayState extends MusicBeatState
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
-		for (i in 0...songs.length)
+		for (i in 0...songListFile.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i], true, false);
 			songText.isMenuItem = true;

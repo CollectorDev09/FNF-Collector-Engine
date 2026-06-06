@@ -1,5 +1,6 @@
-package;
+package funkin.game;
 
+import flixel.sound.FlxSoundGroup;
 import haxe.Json;
 import flixel.FlxG.stage;
 import flixel.FlxObject;
@@ -13,8 +14,10 @@ import flixel.util.FlxSort;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 import openfl.events.EventType;
-import Std.*;
 import flixel.input.keyboard.FlxKey;
+import funkin.config.Controls;
+import funkin.music.MusicBeatState;
+import funkin.music.Conductor;
 // import lime.utils.Assets;
 // import funkin.ui.game.HealthIcon;
 // import funkin.game.Strumline;
@@ -27,6 +30,8 @@ class PlayState extends MusicBeatState
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
 	var keys:Array<Int>;
 	var strumline:FlxSprite;
+
+	var song:FlxSoundGroup;
 
 	public static var currentSong:String;
 
@@ -139,9 +144,14 @@ class PlayState extends MusicBeatState
 
 		add(strumlineNotes);
 
-		// loadSongAudio();
+		currentSong = 'Gabz';
+
+		song = new FlxSoundGroup();
+		song.volume = 1;
 
 		loadChart(currentSong);
+
+		//loadSongAudio();
 
 		rating = new FlxSprite(100, 400);
 		rating.setGraphicSize(Std.int(rating.width * 0.5));
@@ -155,7 +165,8 @@ class PlayState extends MusicBeatState
 
 	public function loadChart(name:String) 
 	{
-		var chartData:Dynamic = Paths.json('songs/gabz/gabz-chart');
+		currentSong = 'Gabz';
+		var chartData:Dynamic = Paths.json('songs/${currentSong}/${currentSong}-chart');
 
 		opponentNotes = new FlxTypedGroup();
 		playerNotes = new FlxTypedGroup();
@@ -181,12 +192,10 @@ class PlayState extends MusicBeatState
 
 	public function loadSongAudio()
 	{
-		inst = new FlxSound().loadEmbedded(Paths.getInst(currentSong.toLowerCase()));
-
 		vocals = new FlxSound().loadEmbedded(Paths.getVoices(currentSong.toLowerCase()));
 
-		// inst.play();
-		// vocals.play();
+		FlxG.sound.playMusic(Paths.getInst(currentSong.toLowerCase()), 1, false);
+		vocals.play();
 	}
 
     public function onKeyDown(e:KeyboardEvent):Void 
@@ -219,7 +228,6 @@ class PlayState extends MusicBeatState
 	public function onNoteHit(offset:Float, note:Int)
 	{
 		lastOffsetText.text = 'Last Offset: ${Conductor.songPosition - playerNotes.members[note].strumTime}';
-		playerNotes.remove(playerNotes.members[note], true);
 
 		if (offset >= -PBOT1_SICK_THRESHOLD && offset <= PBOT1_SICK_THRESHOLD)
 		{
@@ -232,12 +240,17 @@ class PlayState extends MusicBeatState
 		else if (offset >= -PBOT1_BAD_THRESHOLD && offset <= PBOT1_BAD_THRESHOLD)
 		{
 			rating.loadGraphic(Paths.img('game/ui/popup/bad'));
+			if (playerNotes.members[note].alpha > 0.3)
+				playerNotes.members[note].alpha = 0.3;
 		}
 		else if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD)
 		{
 			rating.loadGraphic(Paths.img('game/ui/popup/shit'));
+			if (playerNotes.members[note].alpha > 0.3)
+				playerNotes.members[note].alpha = 0.3;
 		}
 
+		playerNotes.remove(playerNotes.members[note], true);
 	}
 
     @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
@@ -267,7 +280,7 @@ class PlayState extends MusicBeatState
 	{
 		super.update(elapsed);
 		Conductor.songPosition += elapsed * 1000;
-		TextMS.text = string(Conductor.songPosition);
+		TextMS.text = Std.string(Conductor.songPosition);
 
 		if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
 		{

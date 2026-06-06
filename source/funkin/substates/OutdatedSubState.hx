@@ -1,10 +1,12 @@
-package;
+package funkin.substates;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import funkin.music.MusicBeatState;
+import funkin.states.MainMenuState;
 import lime.app.Application;
 
 class OutdatedSubState extends MusicBeatState
