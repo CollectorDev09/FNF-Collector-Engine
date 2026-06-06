@@ -1,6 +1,6 @@
 # Friday Night Funkin - Collector Engine
 
-Hey there! Thanks for checking out this FNF Engine! This is just a little project I'm working on to hopefully improve my programming skills. It's really early in development, so there's going to be MANY changes later on.
+Hey there! Thanks for checking out this FNF Engine! This is just a little project I'm working on to hopefully improve my programming skills. It's really early in development, so there's going to be MANY changes later on. Originally this branch was going to be made with OpenFL-Lime, but due to my lack of knowledge with that stuff I decided it's best to stick with HaxeFlixel for now.
 
 Support the base game on the itch.io page: https://ninja-muffin24.itch.io/funkin
 

@@ -42,7 +42,6 @@ class Note extends FlxSprite
 
 		x = 0;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
-		y -= 2000;
 		this.strumTime = strumTime;
 
 		this.noteData = noteData;
@@ -84,66 +83,12 @@ class Note extends FlxSprite
 		{
 			x += swagWidth * (noteData - 3) - 45;
 		}
-
-		// trace(prevNote);
-
-		if (isSustainNote && prevNote != null)
-		{
-			noteScore * 0.2;
-			alpha = 0.6;
-
-			x += width / 2;
-
-			updateHitbox();
-
-			x -= width / 2;
-
-			// if (PlayState.curStage.startsWith('school'))
-			// 	x += 30;
-
-			if (prevNote.isSustainNote)
-			{
-				prevNote.offset.y = -19;
-				prevNote.scale.y *= (2.25 * FlxMath.roundDecimal(2.5, 1));
-				// prevNote.setGraphicSize();
-			}
-		}
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		this.y = 50 - (speed * (Conductor.songPosition - strumTime)); 
-
-		if (mustPress)
-		{
-			// The * 0.5 us so that its easier to hit them too late, instead of too early
-			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
-			{
-				canBeHit = true;
-			}
-			else
-				canBeHit = false;
-
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset)
-				tooLate = true;
-		}
-		else
-		{
-			canBeHit = false;
-
-			if (strumTime <= Conductor.songPosition)
-			{
-				wasGoodHit = true;
-			}
-		}
-
-		if (tooLate)
-		{
-			if (alpha > 0.3)
-				alpha = 0.3;
-		}
+		this.y = 50 - (speed * (Conductor.songPosition - strumTime));
 	}
 }

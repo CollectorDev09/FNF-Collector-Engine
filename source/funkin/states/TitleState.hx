@@ -2,6 +2,7 @@ package funkin.states;
 
 import funkin.music.MusicBeatState;
 import funkin.music.Conductor;
+import funkin.game.PlayState;
 
 class TitleState extends MusicBeatState
 {
@@ -28,5 +29,18 @@ class TitleState extends MusicBeatState
         FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 
         FlxG.sound.music.fadeIn(4, 0, 0.7);
+
+		Conductor.changeBPM(102);
     }
+
+	override public function update(elapsed:Float) 
+	{
+		super.update(elapsed);
+
+		if (FlxG.keys.anyJustPressed([ENTER]))
+		{
+			FlxG.sound.music.stop();
+			FlxG.switchState(()->new PlayState());
+		}
+	}
 }

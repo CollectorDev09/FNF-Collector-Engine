@@ -171,7 +171,7 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
-	@:pure public function loadChart(name:String) 
+	public function loadChart(name:String) 
 	{
 		currentSong = 'Gabz';
 		chartData = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
