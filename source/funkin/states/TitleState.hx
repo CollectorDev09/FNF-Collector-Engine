@@ -3,6 +3,7 @@ package funkin.states;
 import funkin.music.MusicBeatState;
 import funkin.music.Conductor;
 import funkin.game.PlayState;
+import funkin.states.MainMenuState;
 
 class TitleState extends MusicBeatState
 {
@@ -10,6 +11,28 @@ class TitleState extends MusicBeatState
     {
         super.create();
 
+        FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+
+        FlxG.sound.music.fadeIn(4, 0, 0.7);
+
+		Conductor.changeBPM(102);
+		
+		setupTransition();
+    }
+
+	override public function update(elapsed:Float) 
+	{
+		super.update(elapsed);
+
+		if (FlxG.keys.anyJustPressed([ENTER]))
+		{
+			// FlxG.sound.music.stop();
+			FlxG.switchState(()->new MainMenuState());
+		}
+	}
+
+	public function setupTransition()
+	{
         var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
 
 		diamond.persist = true;
@@ -24,23 +47,6 @@ class TitleState extends MusicBeatState
 		FlxTransitionableState.defaultTransOut.tileData = {asset: diamond, width: 32, height: 32};
 
 		transIn = FlxTransitionableState.defaultTransIn;
-		transOut = FlxTransitionableState.defaultTransOut;
-
-        FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-
-        FlxG.sound.music.fadeIn(4, 0, 0.7);
-
-		Conductor.changeBPM(102);
-    }
-
-	override public function update(elapsed:Float) 
-	{
-		super.update(elapsed);
-
-		if (FlxG.keys.anyJustPressed([ENTER]))
-		{
-			FlxG.sound.music.stop();
-			FlxG.switchState(()->new PlayState());
-		}
+		transOut = FlxTransitionableState.defaultTransOut;    	
 	}
 }
