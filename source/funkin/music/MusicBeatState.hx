@@ -1,9 +1,6 @@
 package funkin.music;
 
-import flixel.FlxG;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
-import flixel.util.FlxTimer;
 // import funkin.config.PlayerSettings;
 
 class MusicBeatState extends FlxUIState

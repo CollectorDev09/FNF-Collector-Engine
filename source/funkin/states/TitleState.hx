@@ -8,7 +8,7 @@ import funkin.states.MainMenuState;
 class TitleState extends MusicBeatState
 {
 	var logo:FlxSprite = new FlxSprite(-150, -100);
-	var gfTitle:FlxSprite = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+	var gfTitle:FlxSprite;
 	var danceLeft:Bool = false;
 
     override public function create():Void
@@ -25,11 +25,13 @@ class TitleState extends MusicBeatState
 
 		logo.antialiasing = true;
 		logo.frames = Paths.sparrow('menus/titlescreen/logoBumpin');
-		logo.animation.addByPrefix('bump', 'logo bumpin', 24);
+		logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logo.animation.play('bump');
 		logo.updateHitbox();
 		add(logo);
 
+		gfTitle = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfTitle.antialiasing = true;
 		gfTitle.frames = Paths.sparrow('menus/titlescreen/gfDanceTitle');
 		gfTitle.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfTitle.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -37,31 +39,40 @@ class TitleState extends MusicBeatState
 		add(gfTitle);
     }
 
-	override public function beatHit() 
+	override function beatHit() 
 	{
-		trace('My Penis');
+		super.beatHit();
 
-		logo.animation.play('bump');
+		FlxG.log.add(curBeat);
 
 		danceLeft = !danceLeft;
+		logo.animation.play('bump');
 
-		if (danceLeft)
+		if (!danceLeft)
+		{
 			gfTitle.animation.play('danceRight');
+		}
 		else
+		{
 			gfTitle.animation.play('danceLeft');
-
-		super.beatHit();
+		}
 	}
 
 	override public function update(elapsed:Float) 
 	{
-		super.update(elapsed);
+		if (FlxG.keys.justPressed.F)
+		{
+			FlxG.fullscreen = !FlxG.fullscreen;
+		}
 
 		if (FlxG.keys.anyJustPressed([ENTER]))
 		{
 			// FlxG.sound.music.stop();
 			FlxG.switchState(()->new MainMenuState());
 		}
+
+		Conductor.songPosition = FlxG.sound.music.time;
+		super.update(elapsed);
 	}
 
 	public function setupTransition()
