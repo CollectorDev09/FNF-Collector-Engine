@@ -9,6 +9,7 @@ class TitleState extends MusicBeatState
 {
 	var logo:FlxSprite = new FlxSprite(-150, -100);
 	var gfTitle:FlxSprite;
+	var titleText:FlxSprite;
 	var danceLeft:Bool = false;
 
     override public function create():Void
@@ -37,6 +38,15 @@ class TitleState extends MusicBeatState
 		gfTitle.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfTitle.updateHitbox();
 		add(gfTitle);
+
+		titleText = new FlxSprite(100, FlxG.height * 0.8);
+		titleText.frames = Paths.sparrow('menus/titlescreen/titleEnter');
+		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
+		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+		titleText.antialiasing = true;
+		titleText.animation.play('idle');
+		titleText.updateHitbox();
+		add(titleText);
     }
 
 	override function beatHit() 
@@ -45,8 +55,9 @@ class TitleState extends MusicBeatState
 
 		FlxG.log.add(curBeat);
 
-		danceLeft = !danceLeft;
 		logo.animation.play('bump');
+
+		danceLeft = !danceLeft;
 
 		if (!danceLeft)
 		{
@@ -67,8 +78,12 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.keys.anyJustPressed([ENTER]))
 		{
-			// FlxG.sound.music.stop();
-			FlxG.switchState(()->new MainMenuState());
+			titleText.animation.play('press');
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				FlxG.switchState(()->new MainMenuState());
+			});
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;

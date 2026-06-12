@@ -159,7 +159,7 @@ class PlayState extends MusicBeatState
 		add(playerNotes);
 		add(opponentNotes);
 
-		//loadSongAudio();
+		loadSongAudio();
 
 		rating = new FlxSprite(100, 400);
 		rating.setGraphicSize(Std.int(rating.width * 0.5));
@@ -281,7 +281,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		Conductor.songPosition += elapsed * 1000;
+		Conductor.songPosition = FlxG.sound.music.time;
 		TextMS.text = Std.string(Conductor.songPosition);
 
 		if (playerNotes != null)
