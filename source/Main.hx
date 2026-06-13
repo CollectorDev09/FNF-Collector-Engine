@@ -1,10 +1,9 @@
 package;
 
 import flixel.FlxGame;
+import funkin.states.TitleState;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-import funkin.game.PlayState;
-import funkin.states.TitleState;
 
 class Main extends Sprite
 {

@@ -4,6 +4,7 @@ import funkin.music.MusicBeatState;
 import funkin.music.Conductor;
 import funkin.game.PlayState;
 import funkin.states.MainMenuState;
+import funkin.config.Controls;
 
 class TitleState extends MusicBeatState
 {
@@ -14,6 +15,8 @@ class TitleState extends MusicBeatState
 
     override public function create():Void
     {
+		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
         super.create();
 
         FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
@@ -47,6 +50,8 @@ class TitleState extends MusicBeatState
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		add(titleText);
+
+		trace(Controls.ACCEPT);
     }
 
 	override function beatHit() 
@@ -76,7 +81,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		if (FlxG.keys.anyJustPressed([ENTER]))
+		if (Controls.ACCEPT)
 		{
 			titleText.animation.play('press');
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
@@ -107,5 +112,15 @@ class TitleState extends MusicBeatState
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;    	
+	}
+
+	public function onKeyDown(e:KeyboardEvent):Void
+	{
+		keyPressed = e.keyCode;
+	}
+
+	public function onKeyUp(e:KeyboardEvent):Void
+	{
+		keyPressed = 0;
 	}
 }

@@ -43,8 +43,8 @@ class MusicBeatState extends FlxUIState
 	 */
 	private function everyStep():Void
 	{
-		if (Conductor.songPosition > lastStep + Conductor.stepCrochet - Conductor.safeZoneOffset
-			|| Conductor.songPosition < lastStep + Conductor.safeZoneOffset)
+		if (Conductor.songPosition > lastStep + Conductor.stepCrochet
+			|| Conductor.songPosition < lastStep)
 		{
 			if (Conductor.songPosition > lastStep + Conductor.stepCrochet)
 			{

@@ -70,7 +70,7 @@ class MainMenuState extends MusicBeatState
 
         FlxG.camera.follow(camFollow, null, 0.06);
 
-        changeItem(currentSelection);
+        changeItem(0);
 
         leftWatermark = new FlxText(5, FlxG.height - 18, 0, "Collector Engine - v" + Application.current.meta.get('version'));
 		leftWatermark.scrollFactor.set();
@@ -92,7 +92,7 @@ class MainMenuState extends MusicBeatState
         {
             sprite.animation.play('idle');
 
-            if (sprite.ID == id)
+            if (sprite.ID == currentSelection)
             {
                 sprite.animation.play('selected');
                 camFollow.setPosition(sprite.getGraphicMidpoint().x, sprite.getGraphicMidpoint().y);

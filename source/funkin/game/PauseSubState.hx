@@ -4,6 +4,7 @@ import funkin.config.Controls;
 import flixel.FlxSubState;
 import flixel.input.keyboard.FlxKey;
 import funkin.music.MusicBeatState;
+import funkin.music.MusicBeatSubstate;
 
 class PauseSubState extends MusicBeatSubstate
 {
