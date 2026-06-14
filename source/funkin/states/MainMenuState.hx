@@ -72,7 +72,7 @@ class MainMenuState extends MusicBeatState
 
         changeItem(0);
 
-        leftWatermark = new FlxText(5, FlxG.height - 18, 0, "Collector Engine - v" + Application.current.meta.get('version'));
+        leftWatermark = new FlxText(4, FlxG.height - 20, 0, "Collector Engine - v" + Application.current.meta.get('version'));
 		leftWatermark.scrollFactor.set();
 		leftWatermark.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		leftWatermark.antialiasing = true;

@@ -15,6 +15,8 @@ class TitleState extends MusicBeatState
 
     override public function create():Void
     {
+		persistentUpdate = persistentDraw = true;
+		
         super.create();
 
         FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
