@@ -83,6 +83,10 @@ class MainMenuState extends MusicBeatState
 
     public function changeItem(id:Int)
     {
+        currentSelection += id;
+
+        FlxG.sound.play(Paths.sound('scrollMenu'), 0.7);
+
         if (currentSelection >= menuItems.length)
 			currentSelection = 0;
 		if (currentSelection < 0)
@@ -109,5 +113,15 @@ class MainMenuState extends MusicBeatState
         {
             sprite.screenCenter(X);
         });
+
+        if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W)
+        {
+            changeItem(-1);
+        }
+
+        if (FlxG.keys.justPressed.DOWN || FlxG.keys.justPressed.S)
+        {
+            changeItem(1);
+        }
     }
 }
