@@ -146,7 +146,7 @@ class PlayState extends MusicBeatState
 
 		add(strumlineNotes);
 
-		currentSong = 'Gabz';
+		currentSong = 'Milf';
 
 		song = new FlxSoundGroup();
 		song.volume = 1;
@@ -173,7 +173,6 @@ class PlayState extends MusicBeatState
 
 	public function loadChart(name:String) 
 	{
-		currentSong = 'Gabz';
 		chartData = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
 
 		trace('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
