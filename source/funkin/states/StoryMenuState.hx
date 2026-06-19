@@ -7,12 +7,31 @@ class StoryMenuState extends MusicBeatState
 {
     var storyMenuBG:FlxSprite;
 
+    var weeks:String;
+
+    var weekList:Array<String>;
+
     override public function create()
     {
         super.create();
 
+        parseWeekData();
+
         storyMenuBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
         add(storyMenuBG);
+    }
+
+    private function parseWeekData() 
+    {
+        var weeks = Paths.txt('levels/weekList');
+
+        weekList = weeks.split('\n');
+
+        for (week in weekList)
+        {
+            week = StringTools.trim(week).trim();
+            trace(week);
+        }
     }
 
     override public function update(elapsed:Float)
