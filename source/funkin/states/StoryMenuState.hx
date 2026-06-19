@@ -2,6 +2,7 @@ package funkin.states;
 
 import funkin.music.MusicBeatState;
 import funkin.states.MainMenuState;
+import funkin.data.storymode.Level;
 
 class StoryMenuState extends MusicBeatState
 {
@@ -9,7 +10,9 @@ class StoryMenuState extends MusicBeatState
 
     var weeks:String;
 
-    var weekList:Array<String>;
+    var weekList:Array<String> = [];
+
+    var weekData:FlxTypedGroup<Level>;
 
     override public function create()
     {
@@ -31,6 +34,12 @@ class StoryMenuState extends MusicBeatState
         {
             week = StringTools.trim(week).trim();
             trace(week);
+            var parsedWeek = Paths.json('levels/$week');
+
+            if (parsedWeek != null)
+            {
+
+            }
         }
     }
 

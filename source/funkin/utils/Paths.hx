@@ -3,8 +3,9 @@ package funkin.utils;
 import lime.utils.Assets;
 import haxe.Json;
 
-using StringTools;
-
+/**
+ * Paths.hx is designed to make it easier and quicker to find assets
+ */
 class Paths
 {
     static public var soundExt:String = '.ogg';
@@ -36,13 +37,11 @@ class Paths
 
     public static function getInst(key:String)
     {
-        trace('Inst: $key');
         return song('${key}/Inst');
     }
     
     public static function getVoices(key:String)
     {
-        trace('Voices: $key');
         return song('${key}/Voices');
     }
 
