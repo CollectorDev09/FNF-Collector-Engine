@@ -47,6 +47,8 @@ class PlayState extends MusicBeatState
 
 	var chartData:Dynamic;
 
+	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
+
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
 	/**
@@ -257,9 +259,12 @@ class PlayState extends MusicBeatState
     @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
     {
         if (key == NONE) return -1;
+
+		trace(key);
+		
         for (i in 0...keyAmount) 
         {
-			var possibleKey = Controls.gameBinds[i];
+			var possibleKey = gameBinds[i];
 			if (key == possibleKey) return i;
         }
 
