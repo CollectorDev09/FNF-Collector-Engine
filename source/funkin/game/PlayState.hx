@@ -148,8 +148,6 @@ class PlayState extends MusicBeatState
 
 		add(strumlineNotes);
 
-		currentSong = 'Milf';
-
 		song = new FlxSoundGroup();
 		song.volume = 1;
 
