@@ -15,7 +15,7 @@ class StoryMenuState extends MusicBeatState
 
     var weekData:FlxTypedGroup<Level>;
 
-    var currentSelection:Int = 0;
+    var currentWeek:Int = 0;
 
     var weekSprite:FlxSprite;
 
@@ -87,16 +87,24 @@ class StoryMenuState extends MusicBeatState
 
     function changeItem(id:Int) 
     {
-        currentSelection += id;
+        currentWeek += id;
 
+        if (currentWeek >= weekData.members.length)
+			currentWeek = 0;
+        if (currentWeek < 0)
+            currentWeek = weekData.members.length - 1;
+
+        var number:Int = 0;
+
+        for (item in weekData.members)
+        {
+            item.targetY = number - currentWeek;
+
+			number++;
+        }
+
+        trace(weekData.members[0].y);
         FlxG.sound.play(Paths.sound('scrollMenu'), 0.7);
-
-        if (currentSelection >= weekData.members.length)
-			currentSelection = 0;
-        if (currentSelection < 0)
-            currentSelection = weekData.members.length - 1;
-
-        FlxG.log.add(Paths.img('menus/storymenu/titles/${weekList[currentSelection]}'));
     }
 
     override function beatHit() 

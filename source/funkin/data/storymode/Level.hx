@@ -23,5 +23,20 @@ class Level extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 		y = FlxMath.lerp(y, (targetY * 120) + 480, 0.17);
+        if (y <= 200)
+        {
+            alpha = 0;
+        }
+        else
+        {
+            if (targetY == Std.int(0))
+            {
+                alpha = 1;
+            }
+            else
+            {
+                alpha = 0.6;
+            }
+        }
 	}
 }
