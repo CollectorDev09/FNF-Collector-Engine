@@ -12,25 +12,28 @@ class TitleState extends MusicBeatState
 	var titleText:FlxSprite;
 	var danceLeft:Bool = false;
 	var transitioning:Bool = false;
+	public static var initialized:Bool = false;
 
     override public function create():Void
     {
 		persistentUpdate = persistentDraw = true;
-		
-        super.create();
 
-        FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+		if (!initialized)
+		{
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			Conductor.changeBPM(102);
+        	FlxG.sound.music.fadeIn(4, 0, 0.7);
 
-        FlxG.sound.music.fadeIn(4, 0, 0.7);
+			initialized = true;
+		}
 
-		Conductor.changeBPM(102);
+		super.create();
 		
 		setupTransition();
 
 		logo.antialiasing = true;
 		logo.frames = Paths.sparrow('menus/titlescreen/logoBumpin');
 		logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
-		logo.animation.play('bump');
 		logo.updateHitbox();
 		add(logo);
 

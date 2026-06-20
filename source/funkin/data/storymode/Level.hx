@@ -4,5 +4,6 @@ import flixel.FlxBasic;
 
 class Level extends FlxBasic
 {
-    var songs:Array<String>;
+    public var name:String;
+    public var songs:Array<String>;
 }

@@ -14,9 +14,14 @@ class StoryMenuState extends MusicBeatState
 
     var weekData:FlxTypedGroup<Level>;
 
+    var currentSelection:Int = 0;
+
     override public function create()
     {
         super.create();
+
+        weekData = new FlxTypedGroup<Level>();
+        add(weekData);
 
         parseWeekData();
 
@@ -33,12 +38,17 @@ class StoryMenuState extends MusicBeatState
         for (week in weekList)
         {
             week = StringTools.trim(week).trim();
-            trace(week);
             var parsedWeek = Paths.json('levels/$week');
 
             if (parsedWeek != null)
             {
+                var level:Level = new Level();
+                level.name = parsedWeek.name;
+                level.songs = parsedWeek.songs;
 
+                trace('${week}:\nname: ${level.name}\nsongs: ${level.songs}');
+
+                weekData.add(level);
             }
         }
     }
