@@ -260,8 +260,8 @@ class PlayState extends MusicBeatState
     {
         if (key == NONE) return -1;
 
-		trace(key);
-		
+		// trace(key);
+
         for (i in 0...keyAmount) 
         {
 			var possibleKey = gameBinds[i];

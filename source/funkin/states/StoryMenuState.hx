@@ -3,6 +3,7 @@ package funkin.states;
 import funkin.music.MusicBeatState;
 import funkin.states.MainMenuState;
 import funkin.data.storymode.Level;
+import funkin.game.PlayState;
 
 class StoryMenuState extends MusicBeatState
 {
@@ -60,6 +61,11 @@ class StoryMenuState extends MusicBeatState
         if (FlxG.keys.justPressed.ESCAPE)
         {
             FlxG.switchState(()->new MainMenuState());
+        }
+
+        if (FlxG.keys.justPressed.ENTER)
+        {
+            FlxG.switchState(()->new PlayState());
         }
     }
 
