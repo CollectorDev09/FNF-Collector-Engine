@@ -19,6 +19,8 @@ class StoryMenuState extends MusicBeatState
 
     var weekSprite:FlxSprite;
 
+    var selectedWeek:Bool = false;
+
     override public function create()
     {
         super.create();
@@ -69,9 +71,10 @@ class StoryMenuState extends MusicBeatState
             FlxG.switchState(()->new MainMenuState());
         }
 
-        if (FlxG.keys.justPressed.ENTER)
+        if (FlxG.keys.justPressed.ENTER && !selectedWeek)
         {
-            // FlxG.switchState(()->new PlayState());
+            selectedWeek = true;
+            selectItem();
         }
 
         if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W)
@@ -83,6 +86,17 @@ class StoryMenuState extends MusicBeatState
         {
             changeItem(1);
         }
+    }
+
+    function selectItem()
+    {
+        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		new FlxTimer().start(1, function(tmr:FlxTimer)
+		{
+            PlayState.currentSong = weekData.members[currentWeek].songs[0];
+            FlxG.sound.music.stop();
+			FlxG.switchState(()->new PlayState());
+		});
     }
 
     function changeItem(id:Int) 
