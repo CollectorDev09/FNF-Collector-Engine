@@ -51,7 +51,6 @@ class StoryMenuState extends MusicBeatState
         for (i in 0...weekList.length)
         {
             weekList[i] = StringTools.trim(weekList[i]).trim();
-            trace(weekList[i]);
             var parsedWeek = Paths.json('levels/${weekList[i]}');
 
             if (parsedWeek != null)
@@ -61,8 +60,6 @@ class StoryMenuState extends MusicBeatState
                 level.y += ((level.height + 20) * i);
                 level.name = parsedWeek.name;
                 level.songs = parsedWeek.songs;
-
-                trace('${weekList[i]}:\nname: ${level.name}\nsongs: ${level.songs}');
 
                 weekData.add(level);
             }
