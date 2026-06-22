@@ -16,7 +16,7 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
-	var scrollSpeed = 2.5;
+	var scrollSpeed = PlayState.scrollSpeed;
 
 	var speed:Float;
 

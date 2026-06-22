@@ -4,6 +4,7 @@ import funkin.music.MusicBeatState;
 import funkin.states.MainMenuState;
 import funkin.data.storymode.Level;
 import funkin.game.PlayState;
+import funkin.music.Conductor;
 
 class StoryMenuState extends MusicBeatState
 {
@@ -24,6 +25,12 @@ class StoryMenuState extends MusicBeatState
     override public function create()
     {
         super.create();
+
+        if (FlxG.sound.music == null)
+        {
+            FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+		    Conductor.changeBPM(102);
+        }
 
         weekData = new FlxTypedGroup<Level>();
         add(weekData);

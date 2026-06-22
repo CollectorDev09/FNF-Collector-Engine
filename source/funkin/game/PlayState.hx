@@ -8,7 +8,6 @@ import flixel.FlxSubState;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
 import openfl.events.KeyboardEvent;
@@ -18,6 +17,7 @@ import flixel.input.keyboard.FlxKey;
 import funkin.config.Controls;
 import funkin.music.MusicBeatState;
 import funkin.music.Conductor;
+import funkin.states.StoryMenuState;
 // import lime.utils.Assets;
 // import funkin.ui.game.HealthIcon;
 // import funkin.game.Strumline;
@@ -30,6 +30,8 @@ class PlayState extends MusicBeatState
 	var keysPressed:Array<Bool> = [for (i in 0...4) false];
 	var keys:Array<Int>;
 	var strumline:FlxSprite;
+
+	public static var scrollSpeed:Float = 1;
 
 	var song:FlxSoundGroup;
 
@@ -46,6 +48,7 @@ class PlayState extends MusicBeatState
 	private var vocals:FlxSound;
 
 	var chartData:Dynamic;
+	var metadata:Dynamic;
 
 	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
 
@@ -175,7 +178,13 @@ class PlayState extends MusicBeatState
 	{
 		chartData = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
 
+		metadata = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-metadata');
+
 		trace('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
+
+		scrollSpeed = chartData.scrollSpeed.hard;
+
+		Conductor.changeBPM(metadata.timeChanges[0].bpm);
 
 		for (n in 0...chartData.notes.hard.length)
 		{
@@ -193,14 +202,18 @@ class PlayState extends MusicBeatState
 
 	public function loadSongAudio()
 	{
-		vocals = new FlxSound().loadEmbedded(Paths.getVoices(currentSong.toLowerCase()));
+		vocals = new FlxSound().loadEmbedded(Paths.getVoices(currentSong.toLowerCase()), false, true);
 
 		FlxG.sound.playMusic(Paths.getInst(currentSong.toLowerCase()), 1, false);
 		vocals.play();
+
+		FlxG.sound.music.onComplete = songEnd;
 	}
 
     public function onKeyDown(e:KeyboardEvent):Void 
     {
+		if (!Std.isOfType(FlxG.state, PlayState)) return;
+
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         if (keysPressed[id]) return;
         keysPressed[id] = true;
@@ -225,6 +238,19 @@ class PlayState extends MusicBeatState
 			}
 		}
     }
+
+	public function songEnd()
+	{
+		trace('Song Ended');
+		FlxG.sound.music.stop();
+		FlxG.switchState(()->new StoryMenuState());
+	}
+
+	override function beatHit()
+	{
+		trace('Beat: ${totalBeats}');
+		super.beatHit();
+	}
 
 	public function onNoteHit(offset:Float, note:Int)
 	{
@@ -271,6 +297,8 @@ class PlayState extends MusicBeatState
 
     public function onKeyUp(e:KeyboardEvent):Void 
     {
+		if (!Std.isOfType(FlxG.state, PlayState)) return;
+
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         keysPressed[id] = false;
         trace('released: $id');
