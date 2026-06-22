@@ -55,6 +55,8 @@ class PlayState extends MusicBeatState
 
 	var score:Float = 0;
 
+	var time:Float;
+
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
 	/**
@@ -182,6 +184,34 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
+	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		time = elapsed;
+		Conductor.songPosition = FlxG.sound.music.time;
+		TextMS.text = Std.string(Conductor.songPosition);
+
+		if (playerNotes != null)
+		{
+			if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
+			{
+				playerNotes.remove(playerNotes.members[0], true);
+				trace('Note Removed');
+			}
+		}
+
+		if (opponentNotes != null)
+		{
+			if (opponentNotes.members[0] != null && opponentNotes.members[0].strumTime <= Conductor.songPosition)
+			{
+				opponentNotes.remove(opponentNotes.members[0], true);
+				trace('Note Removed');
+			}
+		}
+	}
+
+	// Song & Chart Functions
+
 	public function loadChart(name:String) 
 	{
 		chartData = Paths.json('songs/${currentSong.toLowerCase()}/${currentSong.toLowerCase()}-chart');
@@ -218,6 +248,15 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.onComplete = songEnd;
 	}
 
+	public function songEnd()
+	{
+		trace('Song Ended');
+		FlxG.sound.music.stop();
+		FlxG.switchState(()->new StoryMenuState());
+	}
+
+	// Input System Stuff
+
     public function onKeyDown(e:KeyboardEvent):Void 
     {
 		if (!Std.isOfType(FlxG.state, PlayState)) return;
@@ -247,18 +286,18 @@ class PlayState extends MusicBeatState
 		}
     }
 
-	public function songEnd()
-	{
-		trace('Song Ended');
-		FlxG.sound.music.stop();
-		FlxG.switchState(()->new StoryMenuState());
-	}
+    public function onKeyUp(e:KeyboardEvent):Void 
+    {
+		if (!Std.isOfType(FlxG.state, PlayState)) return;
 
-	override function beatHit()
-	{
-		trace('Beat: ${totalBeats}');
-		super.beatHit();
-	}
+        final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
+        keysPressed[id] = false;
+        trace('released: $id');
+
+		if (id == -1) return;
+
+		strumlineNotes.members[id].animation.play('arrow${noteDirections[id]}');
+    }
 
 	public function onNoteHit(offset:Float, note:Int)
 	{
@@ -305,41 +344,11 @@ class PlayState extends MusicBeatState
         return -1;
     }
 
-    public function onKeyUp(e:KeyboardEvent):Void 
-    {
-		if (!Std.isOfType(FlxG.state, PlayState)) return;
+	// Debug Stuff
 
-        final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
-        keysPressed[id] = false;
-        trace('released: $id');
-
-		if (id == -1) return;
-
-		strumlineNotes.members[id].animation.play('arrow${noteDirections[id]}');
-    }
-
-	override public function update(elapsed:Float)
+	override function beatHit()
 	{
-		super.update(elapsed);
-		Conductor.songPosition = FlxG.sound.music.time;
-		TextMS.text = Std.string(Conductor.songPosition);
-
-		if (playerNotes != null)
-		{
-			if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
-			{
-				playerNotes.remove(playerNotes.members[0], true);
-				trace('Note Removed');
-			}
-		}
-
-		if (opponentNotes != null)
-		{
-			if (opponentNotes.members[0] != null && opponentNotes.members[0].strumTime <= Conductor.songPosition)
-			{
-				opponentNotes.remove(opponentNotes.members[0], true);
-				trace('Note Removed');
-			}
-		}
+		trace('Beat: ${totalBeats}');
+		super.beatHit();
 	}
 }
