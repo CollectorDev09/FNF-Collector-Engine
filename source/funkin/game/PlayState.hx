@@ -301,34 +301,13 @@ class PlayState extends MusicBeatState
 
 	public function onNoteHit(offset:Float, note:Int)
 	{
-		lastOffsetText.text = 'Score: ${score}';
-
 		var noteScore:Float = Scoring.scoreNote(offset);
-
 		score += noteScore;
 
-		if (offset >= -PBOT1_SICK_THRESHOLD && offset <= PBOT1_SICK_THRESHOLD)
-		{
-			rating.loadGraphic(Paths.img('game/ui/popup/sick'));
-		}
-		else if (offset >= -PBOT1_GOOD_THRESHOLD && offset <= PBOT1_GOOD_THRESHOLD)
-		{
-			rating.loadGraphic(Paths.img('game/ui/popup/good'));
-		}
-		else if (offset >= -PBOT1_BAD_THRESHOLD && offset <= PBOT1_BAD_THRESHOLD)
-		{
-			rating.loadGraphic(Paths.img('game/ui/popup/bad'));
-			if (playerNotes.members[note].alpha > 0.3)
-				playerNotes.members[note].alpha = 0.3;
-		}
-		else if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD)
-		{
-			rating.loadGraphic(Paths.img('game/ui/popup/shit'));
-			if (playerNotes.members[note].alpha > 0.3)
-				playerNotes.members[note].alpha = 0.3;
-		}
-
+		rating.loadGraphic(Paths.img('game/ui/popup/${Scoring.judgeNote(offset)}'));
 		playerNotes.remove(playerNotes.members[note], true);
+
+		lastOffsetText.text = 'Score: ${score}';
 	}
 
     @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
