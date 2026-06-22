@@ -1,23 +1,24 @@
 package funkin.game;
 
-import flixel.sound.FlxSoundGroup;
-import haxe.Json;
+import flixel.addons.effects.chainable.FlxWaveEffect;
+import flixel.addons.effects.FlxTrail;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG.stage;
 import flixel.FlxObject;
 import flixel.FlxSubState;
-import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.addons.transition.FlxTransitionableState;
+import flixel.input.keyboard.FlxKey;
+import flixel.sound.FlxSoundGroup;
 import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
+import funkin.config.Controls;
+import funkin.game.Scoring;
+import funkin.music.Conductor;
+import funkin.music.MusicBeatState;
+import funkin.states.StoryMenuState;
+import haxe.Json;
+import openfl.events.EventType;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
-import openfl.events.EventType;
-import flixel.input.keyboard.FlxKey;
-import funkin.config.Controls;
-import funkin.music.MusicBeatState;
-import funkin.music.Conductor;
-import funkin.states.StoryMenuState;
 // import lime.utils.Assets;
 // import funkin.ui.game.HealthIcon;
 // import funkin.game.Strumline;
@@ -52,7 +53,14 @@ class PlayState extends MusicBeatState
 
 	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
 
+	var score:Float = 0;
+
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
+
+	/**
+	 * The maximum score a note can receive.
+	 */
+	public static final PBOT1_MAX_SCORE:Int = 500;
 
 	/**
 	 * The threshold at which a note hit is considered perfect and always given the max score.
@@ -110,7 +118,7 @@ class PlayState extends MusicBeatState
 		lastOffsetText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		lastOffsetText.antialiasing = true;
 		lastOffsetText.y = FlxG.height - 38;
-		lastOffsetText.text = 'Last Offset: ';
+		lastOffsetText.text = 'Score: ';
 		add(lastOffsetText);
 
 		strumline = new FlxSprite();
@@ -254,7 +262,11 @@ class PlayState extends MusicBeatState
 
 	public function onNoteHit(offset:Float, note:Int)
 	{
-		lastOffsetText.text = 'Last Offset: ${Conductor.songPosition - playerNotes.members[note].strumTime}';
+		lastOffsetText.text = 'Score: ${score}';
+
+		var noteScore:Float = Scoring.scoreNote(offset);
+
+		score += noteScore;
 
 		if (offset >= -PBOT1_SICK_THRESHOLD && offset <= PBOT1_SICK_THRESHOLD)
 		{
