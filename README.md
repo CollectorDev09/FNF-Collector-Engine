@@ -1,10 +1,14 @@
 # Friday Night Funkin - Collector Engine
 
-Hey there! Thanks for checking out this FNF Engine! This is just a little project I'm working on to hopefully improve my programming skills. It's really early in development, so there's going to be MANY changes later on. Originally this branch was going to be made with OpenFL-Lime, but due to my lack of knowledge with that stuff I decided it's best to stick with HaxeFlixel for now.
+Friday Night Funkin - Collector Engine is a custom FNF Engine being built from the ground up in HaxeFlixel just like the base game (With a few exceptions but credits are given where they are due). The main purpose is to just make something for fun with the end goal being a viable option for FNF Modding being as beginner friendly as possible!
 
 Support the base game on the itch.io page: https://ninja-muffin24.itch.io/funkin
 
-Check out the Modding Documentation [here](docs/Modding.md) if you wanna start making your own mod with the Collector Engine! There's also a [discord server](https://discord.gg/kv9vJpnGj2) if you wanna check it out!
-### Additional guides
+## CollectorDev Productions
+- CollectorDev
+- Literally just CollectorDev
 
-- [Command line basics](https://ninjamuffin99.newgrounds.com/news/post/1090480)
+## Other Credits
+- Ninjamuffin99 - Aplhabet.hx, MusicBeatState.hx, Conductor.hx, and Note.hx
+- FNF V-Slice - Scoring.hx
+
