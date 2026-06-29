@@ -73,4 +73,9 @@ class Paths
     {
         return FlxAtlasFrames.fromSparrow(Paths.img(key), Paths.img(key, 'xml'));
     }
+
+    public static function animate(key:String)
+    {
+        return FlxAnimateFrames.fromAnimate('assets/images/$key');
+    }
 }

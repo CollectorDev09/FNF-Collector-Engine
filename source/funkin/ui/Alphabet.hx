@@ -35,6 +35,8 @@ class Alphabet extends FlxSpriteGroup
 
 	var isBold:Bool = false;
 
+	// @:deprecated("Alphabet is deprecated, use TextSprite instead")
+
 	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false)
 	{
 		super(x, y);

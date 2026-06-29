@@ -1,3 +1,5 @@
+import animate.FlxAnimate;
+import animate.FlxAnimateFrames;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.transition.*;
@@ -22,7 +24,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.*;
 import flixel.util.FlxColor;
-import funkin.config.Controls;
 import funkin.ui.Alphabet;
 import funkin.utils.Paths;
 import lime.app.Application;

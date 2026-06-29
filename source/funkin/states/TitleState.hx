@@ -13,10 +13,13 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var transitioning:Bool = false;
 	public static var initialized:Bool = false;
+	var text:Alphabet;
 
     override public function create():Void
     {
 		persistentUpdate = persistentDraw = true;
+
+		text = new Alphabet(0, 120, "Text", true);
 
 		if (!initialized)
 		{
@@ -82,7 +85,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		if (FlxG.keys.anyJustPressed([ENTER]) && !transitioning)
+		if (FlxG.keys.justPressed.ENTER && !transitioning)
 		{
 			transitioning = true;
 			titleText.animation.play('press');

@@ -1,7 +1,5 @@
 package funkin.game;
 
-import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.addons.effects.FlxTrail;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG.stage;
 import flixel.FlxObject;
@@ -10,7 +8,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSoundGroup;
 import flixel.ui.FlxBar;
 import flixel.util.FlxSort;
-import funkin.config.Controls;
+import funkin.game.objects.Character;
 import funkin.game.Scoring;
 import funkin.music.Conductor;
 import funkin.music.MusicBeatState;
@@ -19,9 +17,6 @@ import haxe.Json;
 import openfl.events.EventType;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
-// import lime.utils.Assets;
-// import funkin.ui.game.HealthIcon;
-// import funkin.game.Strumline;
 
 class PlayState extends MusicBeatState
 {
@@ -56,6 +51,8 @@ class PlayState extends MusicBeatState
 	var score:Float = 0;
 
 	var time:Float;
+
+	var bf:Character;
 
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
@@ -126,6 +123,9 @@ class PlayState extends MusicBeatState
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
+
+		// bf = new Character(400, 400, 'bf');
+		// add(bf);
 
 		noteDirections = ['Left', 'Down', 'Up', 'Right'];
 
@@ -250,8 +250,12 @@ class PlayState extends MusicBeatState
 
 	public function songEnd()
 	{
+		trace(persistentUpdate);
 		trace('Song Ended');
 		FlxG.sound.music.stop();
+		strumlineNotes.clear();
+		playerNotes.clear();
+		opponentNotes.clear();
 		FlxG.switchState(()->new StoryMenuState());
 	}
 
@@ -259,8 +263,6 @@ class PlayState extends MusicBeatState
 
     public function onKeyDown(e:KeyboardEvent):Void 
     {
-		if (!Std.isOfType(FlxG.state, PlayState)) return;
-
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         if (keysPressed[id]) return;
         keysPressed[id] = true;
@@ -288,8 +290,6 @@ class PlayState extends MusicBeatState
 
     public function onKeyUp(e:KeyboardEvent):Void 
     {
-		if (!Std.isOfType(FlxG.state, PlayState)) return;
-
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         keysPressed[id] = false;
         trace('released: $id');
