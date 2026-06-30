@@ -18,7 +18,7 @@ class StoryMenuState extends MusicBeatState
 
     var currentWeek:Int = 0;
 
-    var weekSprite:FlxSprite;
+    var weekSprite:FlxAnimate;
 
     var selectedWeek:Bool = false;
 
@@ -121,7 +121,6 @@ class StoryMenuState extends MusicBeatState
 			number++;
         }
 
-        trace(weekData.members[0].y);
         FlxG.sound.play(Paths.sound('scrollMenu'), 0.7);
     }
 

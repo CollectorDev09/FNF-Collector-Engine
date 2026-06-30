@@ -7,17 +7,17 @@ import funkin.states.MainMenuState;
 
 class TitleState extends MusicBeatState
 {
-	var logo:FlxSprite = new FlxSprite(-150, -100);
-	var gfTitle:FlxSprite;
-	var titleText:FlxSprite;
+	var logo:FlxAnimate = new FlxAnimate(-150, -100);
+	var gfTitle:FlxAnimate;
+	var titleText:FlxAnimate;
 	var danceLeft:Bool = false;
 	var transitioning:Bool = false;
 	public static var initialized:Bool = false;
 	var text:Alphabet;
 
 	var stupid:Float = 4;
-	var tail:FlxSprite;
-	var piece:FlxSprite;
+	var tail:FlxAnimate;
+	var piece:FlxAnimate;
 
     override public function create():Void
     {
@@ -44,7 +44,7 @@ class TitleState extends MusicBeatState
 		logo.updateHitbox();
 		add(logo);
 
-		gfTitle = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfTitle = new FlxAnimate(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfTitle.antialiasing = true;
 		gfTitle.frames = Paths.sparrow('menus/titlescreen/gfDanceTitle');
 		gfTitle.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
@@ -52,7 +52,7 @@ class TitleState extends MusicBeatState
 		gfTitle.updateHitbox();
 		add(gfTitle);
 
-		titleText = new FlxSprite(100, FlxG.height * 0.8);
+		titleText = new FlxAnimate(100, FlxG.height * 0.8);
 		titleText.frames = Paths.sparrow('menus/titlescreen/titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
@@ -61,7 +61,7 @@ class TitleState extends MusicBeatState
 		titleText.updateHitbox();
 		add(titleText);
 
-		tail = new FlxSprite(400, 400);
+		tail = new FlxAnimate(400, 400);
 		tail.frames = Paths.sparrow('game/notes/default');
 		tail.animation.addByPrefix('greenhold', 'green hold piece');
 		tail.animation.play('greenhold');
@@ -70,7 +70,7 @@ class TitleState extends MusicBeatState
 		tail.antialiasing = false;
 		add(tail);
 
-		piece = new FlxSprite(400, 400);
+		piece = new FlxAnimate(400, 400);
 		piece.frames = Paths.sparrow('game/notes/default');
 		piece.animation.addByPrefix('greenpiece', 'green hold end');
 		piece.animation.play('greenpiece');

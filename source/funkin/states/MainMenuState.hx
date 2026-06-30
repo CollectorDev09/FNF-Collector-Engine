@@ -8,13 +8,13 @@ import funkin.states.TitleState;
 class MainMenuState extends MusicBeatState
 {
     var currentSelection:Int = 0;
-    var menuItems:FlxTypedGroup<FlxSprite>;
+    var menuItems:FlxTypedGroup<FlxAnimate>;
     var menuOptions:Array<String> = [];
     var optionsData:String;
 
-    var bg:FlxSprite;
-    var magenta:FlxSprite;
-    var bgSprites:Array<FlxSprite>;
+    var bg:FlxAnimate;
+    var magenta:FlxAnimate;
+    var bgSprites:Array<FlxAnimate>;
     var bgAssets:Array<String>;
 
     var camFollow:FlxObject;
@@ -33,7 +33,7 @@ class MainMenuState extends MusicBeatState
 
         for (i in 0...bgSprites.length)
         {
-            bgSprites[i] = new FlxSprite(-80).loadGraphic(Paths.img('menus/menuBG${bgAssets[i]}'));
+            bgSprites[i] = new FlxAnimate(-80, 0, Paths.img('menus/menuBG${bgAssets[i]}'));
             bgSprites[i].scrollFactor.set(0, 0.18);
             bgSprites[i].setGraphicSize(Std.int(bgSprites[i].width * 1.2));
             bgSprites[i].updateHitbox();
@@ -58,7 +58,7 @@ class MainMenuState extends MusicBeatState
         for (i in 0...menuOptions.length)
         {
             menuOptions[i] = StringTools.trim(menuOptions[i]).trim();
-            var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
+            var menuItem:FlxAnimate = new FlxAnimate(0, 60 + (i * 160));
 			menuItem.frames = Paths.sparrow('menus/mainmenu/${menuOptions[i]}');
 			menuItem.animation.addByPrefix('idle', '${menuOptions[i]} idle', 24);
 			menuItem.animation.addByPrefix('selected', '${menuOptions[i]} selected', 24);
@@ -95,7 +95,7 @@ class MainMenuState extends MusicBeatState
 		if (currentSelection < 0)
 			currentSelection = menuItems.length - 1;
 
-        menuItems.forEach(function(sprite:FlxSprite)
+        menuItems.forEach(function(sprite:FlxAnimate)
         {
             sprite.animation.play('idle');
 
@@ -112,7 +112,7 @@ class MainMenuState extends MusicBeatState
     {
         super.update(elapsed);
 
-        menuItems.forEach(function(sprite:FlxSprite)
+        menuItems.forEach(function(sprite:FlxAnimate)
         {
             sprite.screenCenter(X);
         });
