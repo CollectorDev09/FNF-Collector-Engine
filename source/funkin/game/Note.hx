@@ -46,7 +46,7 @@ class Note extends FlxSprite
 
 		this.noteData = noteData;
 
-		frames = FlxAtlasFrames.fromSparrow(Paths.images('game/notes/default'), Paths.images('game/notes/default', 'xml'));
+		frames = Paths.sparrow('game/notes/default');
 
 		var noteArray:Map<String, Int> = ["purple" => 0, "blue" => 1, "green" => 2, "red" => 3];
 

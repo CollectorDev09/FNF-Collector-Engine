@@ -7,6 +7,7 @@ import openfl.display.Sprite;
 
 class Main extends Sprite
 {
+	public static var FPS:Int = 120;
 	public function new()
 	{
 		super();
@@ -29,7 +30,7 @@ class Main extends Sprite
 			dirs: modIDS
 		});
 
-		addChild(new FlxGame(0, 0, TitleState, 120, 120, true));
+		addChild(new FlxGame(0, 0, TitleState, FPS, FPS, true));
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));

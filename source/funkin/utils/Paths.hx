@@ -20,6 +20,11 @@ class Paths
         return 'assets/sounds/$key$soundExt';
     }
 
+    public static function soundRandom(key:String, Min:Int = 0, Max:Int = FlxMath.MAX_VALUE_INT)
+    {
+        return 'assets/sounds/${key + FlxG.random.int(Min, Max)}$soundExt';
+    }
+
     public static function music(key:String)
     {
         return 'assets/music/$key$soundExt';

@@ -15,6 +15,10 @@ class TitleState extends MusicBeatState
 	public static var initialized:Bool = false;
 	var text:Alphabet;
 
+	var stupid:Float = 4;
+	var tail:FlxSprite;
+	var piece:FlxSprite;
+
     override public function create():Void
     {
 		persistentUpdate = persistentDraw = true;
@@ -56,6 +60,24 @@ class TitleState extends MusicBeatState
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		add(titleText);
+
+		tail = new FlxSprite(400, 400);
+		tail.frames = Paths.sparrow('game/notes/default');
+		tail.animation.addByPrefix('greenhold', 'green hold piece');
+		tail.animation.play('greenhold');
+		tail.scale.set(0.7, stupid);
+		tail.updateHitbox();
+		tail.antialiasing = false;
+		add(tail);
+
+		piece = new FlxSprite(400, 400);
+		piece.frames = Paths.sparrow('game/notes/default');
+		piece.animation.addByPrefix('greenpiece', 'green hold end');
+		piece.animation.play('greenpiece');
+		piece.scale.set(0.7, 0.7);
+		piece.updateHitbox();
+		piece.antialiasing = false;
+		add(piece);
     }
 
 	override function beatHit() 
@@ -80,6 +102,19 @@ class TitleState extends MusicBeatState
 
 	override public function update(elapsed:Float) 
 	{
+		stupid -= 0.01;
+		if (stupid <= 0)
+		{
+			stupid = 0;
+			piece.destroy();
+		}
+		else
+		{
+			tail.scale.set(0.7, stupid);
+			tail.updateHitbox();
+			piece.y = (tail.y + tail.height) - tail.scale.y;
+		}
+		
 		if (FlxG.keys.justPressed.F)
 		{
 			FlxG.fullscreen = !FlxG.fullscreen;

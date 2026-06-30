@@ -27,6 +27,13 @@ class PlayState extends MusicBeatState
 	var keys:Array<Int>;
 	var strumline:FlxSprite;
 
+	var difficulty:String = 'Normal';
+
+	var openflArray:Int = 0;
+	var flixelArray:Int = 0;
+
+	var end:Bool = false;
+
 	public static var scrollSpeed:Float = 1;
 
 	var song:FlxSoundGroup;
@@ -35,6 +42,7 @@ class PlayState extends MusicBeatState
 
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
+	var futureNotes:FlxTypedGroup<Note>;
 
 	public var strumlineNotes = new FlxTypedGroup<FlxSprite>(8);
 
@@ -49,6 +57,9 @@ class PlayState extends MusicBeatState
 	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
 
 	var score:Float = 0;
+
+	var misses:Int = 0;
+	var tapMisses:Int = 0;
 
 	var time:Float;
 
@@ -129,6 +140,8 @@ class PlayState extends MusicBeatState
 
 		noteDirections = ['Left', 'Down', 'Up', 'Right'];
 
+		Main.FPS = 120;
+
 		for (n in 0...8)
         {
             var strumNote = new FlxSprite();
@@ -166,6 +179,7 @@ class PlayState extends MusicBeatState
 
 		opponentNotes = new FlxTypedGroup();
 		playerNotes = new FlxTypedGroup();
+		futureNotes = new FlxTypedGroup();
 
 		loadChart(currentSong);
 
@@ -187,13 +201,27 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		time = elapsed;
+		time = elapsed; 
 		Conductor.songPosition = FlxG.sound.music.time;
 		TextMS.text = Std.string(Conductor.songPosition);
 
+		// if (futureNotes.length != 0)
+		// {
+		// 	var timeWindow:Float = 2000;
+		// 	if (scrollSpeed < 1)
+		// 		timeWindow /= scrollSpeed;
+		// 	while(futureNotes[0].strumTime - Conductor.songPosition < timeWindow)
+		// 	{
+		// 		notes.insert(0, futureNotes[0]);
+		// 		noteIndex += 1;
+		// 		trace("added note: " + notes.members[0]);
+		// 		futureNotes.shift();
+		// 	}
+		// }
+
 		if (playerNotes != null)
 		{
-			if (playerNotes.members[0] != null && playerNotes.members[0].strumTime - Conductor.songPosition <= -2000)
+			if (playerNotes.members[0] != null && playerNotes.members[0].y <= -2000)
 			{
 				playerNotes.remove(playerNotes.members[0], true);
 				trace('Note Removed');
@@ -253,10 +281,16 @@ class PlayState extends MusicBeatState
 		trace(persistentUpdate);
 		trace('Song Ended');
 		FlxG.sound.music.stop();
-		strumlineNotes.clear();
-		playerNotes.clear();
-		opponentNotes.clear();
 		FlxG.switchState(()->new StoryMenuState());
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+
+		stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 	}
 
 	// Input System Stuff
@@ -268,10 +302,13 @@ class PlayState extends MusicBeatState
         keysPressed[id] = true;
 
         var k = e.keyCode;
-		
+
         trace('just pressed: $id');
 
 		if (id == -1) return;
+
+		openflArray++;
+		trace(openflArray);
 
 		strumlineNotes.members[id].animation.play('${noteDirections[id]}Press');
 
@@ -284,8 +321,13 @@ class PlayState extends MusicBeatState
 			if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD && id == noteDirection)
 			{
 				onNoteHit(offset, i);
+				return;
 			}
 		}
+		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+
+		tapMisses++;
+		trace('Dumbass: $tapMisses');
     }
 
     public function onKeyUp(e:KeyboardEvent):Void 
