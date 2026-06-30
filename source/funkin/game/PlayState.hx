@@ -55,6 +55,7 @@ class PlayState extends MusicBeatState
 	var metadata:Dynamic;
 
 	public static var gameBinds:Array<Int> = [87, 69, 73, 79];
+	public static var charAnims:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
 
 	var score:Float = 0;
 
@@ -63,7 +64,7 @@ class PlayState extends MusicBeatState
 
 	var time:Float;
 
-	var bf:Character;
+	var bf:FlxAnimate;
 
 	// THE FOLLOWING VARIABLES THAT START WITH PBOT1 ARE FROM V-SLICE!!!
 
@@ -135,8 +136,18 @@ class PlayState extends MusicBeatState
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
 
-		// bf = new Character(400, 400, 'bf');
-		// add(bf);
+		bf = new FlxAnimate(400, 400);
+		bf.frames = FlxAnimateFrames.fromAnimate('assets/images/characters/bf');
+		bf.anim.addBySymbol("idle", 'BF idle dance', 24, false);
+		bf.anim.addBySymbol("singLEFT", 'BF NOTE LEFT', 24, false);
+		bf.anim.addBySymbol("singDOWN", 'BF NOTE DOWN', 24, false);
+		bf.anim.addBySymbol("singUP", 'BF NOTE UP', 24, false);
+		bf.anim.addBySymbol("singRIGHT", 'BF NOTE RIGHT', 24, false);
+		bf.anim.addBySymbol("singLEFTmiss", 'BF NOTE LEFT MISS', 24, false);
+		bf.anim.addBySymbol("singDOWNmiss", 'BF NOTE DOWN MISS', 24, false);
+		bf.anim.addBySymbol("singUPmiss", 'BF NOTE UP MISS', 24, false);
+		bf.anim.addBySymbol("singRIGHTmiss", 'BF NOTE RIGHT MISS', 24, false);
+		add(bf);
 
 		noteDirections = ['Left', 'Down', 'Up', 'Right'];
 
@@ -307,9 +318,6 @@ class PlayState extends MusicBeatState
 
 		if (id == -1) return;
 
-		openflArray++;
-		trace(openflArray);
-
 		strumlineNotes.members[id].animation.play('${noteDirections[id]}Press');
 
 		for (i in 0...playerNotes.members.length)
@@ -321,13 +329,18 @@ class PlayState extends MusicBeatState
 			if (offset >= -PBOT1_SHIT_THRESHOLD && offset <= PBOT1_SHIT_THRESHOLD && id == noteDirection)
 			{
 				onNoteHit(offset, i);
+				bf.anim.play(charAnims[id], true, false);
 				return;
 			}
 		}
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 
-		tapMisses++;
-		trace('Dumbass: $tapMisses');
+		if (!Settings.ghostTapping)
+		{
+			tapMisses++;
+			trace('Dumbass: $tapMisses');
+			bf.anim.play('${charAnims[id]}miss', true, false);
+		}
     }
 
     public function onKeyUp(e:KeyboardEvent):Void 
@@ -370,6 +383,7 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		trace('Beat: ${totalBeats}');
+		bf.anim.play('idle', false, false);
 		super.beatHit();
 	}
 }

@@ -6,8 +6,9 @@ class Character extends FlxAnimate
     {
         this.x = x;
         this.y = y;
+        trace('assets/images/characters/$name');
         this.frames = FlxAnimateFrames.fromAnimate('assets/images/characters/$name');
-        this.anim.addBySymbol("idle", 'idle', 24);
+        this.anim.addBySymbol("idle", 'Idle', 24);
         this.anim.play('idle', true, false);
         super(x, y);
     }

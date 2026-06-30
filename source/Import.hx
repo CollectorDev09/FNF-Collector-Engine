@@ -1,3 +1,4 @@
+// Flixel
 import animate.FlxAnimate;
 import animate.FlxAnimateFrames;
 import flixel.addons.display.FlxGridOverlay;
@@ -24,11 +25,18 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.*;
 import flixel.util.FlxColor;
-import funkin.ui.Alphabet;
-import funkin.utils.Paths;
+
+// OpenFL-Lime
 import lime.app.Application;
 import openfl.Assets;
+
+// Polymod
 import polymod.Polymod;
 import polymod.Polymod.Framework;
+
+// Funkin
+import funkin.config.Settings;
+import funkin.ui.Alphabet;
+import funkin.utils.Paths;
 
 using StringTools;
