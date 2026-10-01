@@ -1,7 +1,5 @@
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.text.FlxTypeText;
-import flixel.addons.transition.*;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -22,12 +20,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.*;
 import flixel.util.FlxColor;
-import funkin.config.Controls;
-import funkin.ui.Alphabet;
 import funkin.utils.Paths;
 import lime.app.Application;
 import openfl.Assets;
-import polymod.Polymod;
-import polymod.Polymod.Framework;
 
 using StringTools;
