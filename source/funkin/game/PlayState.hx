@@ -1,6 +1,7 @@
 package funkin.game;
 
 import funkin.music.ConductorState;
+import funkin.backend.FunkinMath;
 
 class PlayState extends ConductorState
 {
@@ -18,6 +19,11 @@ class PlayState extends ConductorState
 
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
 		text.size = 24;
+
+		var testArray:Array<Float> = [12.6, 3.4, 14.2, 20.5, 2.0, 2.2, 20.8, 40.01];
+		var testAverage = FunkinMath.getAverage(testArray);
+
+		trace(testAverage);
 
 		super.create();
 	}
