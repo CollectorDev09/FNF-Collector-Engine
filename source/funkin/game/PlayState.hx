@@ -1,7 +1,10 @@
 package funkin.game;
 
+import funkin.music.Song;
 import funkin.music.ConductorState;
 import funkin.backend.FunkinMath;
+import haxe.Json;
+import haxe.DynamicAccess;
 
 class PlayState extends ConductorState
 {
@@ -9,13 +12,14 @@ class PlayState extends ConductorState
 
 	var number:Int;
 
+	var songData:Song;
+
 	override public function create() 
 	{
 		text = new FlxText(200, 200);
 		add(text);
 
-		setBPM(154);
-		FlxG.sound.playMusic(Paths.getInst('frontline'), 1, false);
+		loadSong('bopeebo');
 
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
 		text.size = 24;
@@ -25,7 +29,17 @@ class PlayState extends ConductorState
 
 		trace(testAverage);
 
+		songData = new Song('bopeebo');
+
 		super.create();
+	}
+
+	public function loadSong(name:String)
+	{
+		songData = new Song(name);
+
+		setBPM(songData.bpm);
+		FlxG.sound.playMusic(Paths.getInst(name), 1, false);
 	}
 
 	override public function update(elapsed:Float)

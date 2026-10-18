@@ -20,7 +20,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.*;
 import flixel.util.FlxColor;
-import funkin.utils.Paths;
+import funkin.backend.utils.Paths;
 import lime.app.Application;
 import openfl.Assets;
 

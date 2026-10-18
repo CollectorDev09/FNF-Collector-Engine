@@ -1,4 +1,4 @@
-package funkin.utils;
+package funkin.backend.utils;
 
 import lime.utils.Assets;
 import haxe.Json;
@@ -24,9 +24,9 @@ class Paths
         return 'assets/music/$key$soundExt';
     }
 
-    public static function json(key:String)
+    public static function json(key:String, path:String = 'data')
     {
-        return Json.parse(Assets.getText('assets/data/$key.json'));
+        return Json.parse(Assets.getText('assets/$path/$key.json'));
     }
 
     public static function txt(key:String)
