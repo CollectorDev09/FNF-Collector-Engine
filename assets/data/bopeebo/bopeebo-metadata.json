@@ -4,10 +4,11 @@
   "artist": "Kawai Sprite",
   "charter": "ninjamuffin99 + MtH",
   "offsets": {},
-  "bpm": 100.0,
   "playData": {
     "songVariations": ["erect", "pico"],
     "difficulties": ["easy", "normal", "hard"],
+    "bpm": 100.0,
+    "strumlines": 2,
     "characters": {
       "player": "bf",
       "girlfriend": "gf",

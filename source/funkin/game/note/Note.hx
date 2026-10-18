@@ -1,4 +1,4 @@
-package funkin.game;
+package funkin.game.note;
 
 class Note extends FlxSprite
 {
@@ -6,6 +6,7 @@ class Note extends FlxSprite
     var length:Float;
     var direction:Int;
     var strumline:Int;
+    public static var noteWidth:Float = 160 * 0.7;
 
     public function new(time:Float, length:Float, direction:Int, strumline:Int) 
     {

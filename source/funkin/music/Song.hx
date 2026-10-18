@@ -1,6 +1,6 @@
 package funkin.music;
 
-import funkin.game.Note;
+import funkin.game.note.Note;
 import haxe.DynamicAccess;
 import lime.utils.Assets;
 
@@ -9,6 +9,7 @@ class Song
     public var name:String;
     public var bpm:Float;
     public var notes:FlxTypedGroup<Note>;
+    public var strumlines:Int;
 
     public function new(name:String) 
     {
@@ -37,6 +38,7 @@ class Song
 
         trace('Loaded ${notes.members.length} notes');
 
-        this.bpm = metaFile.bpm;
+        this.bpm = metaFile.playData.bpm;
+        this.strumlines = metaFile.playData.strumlines;
     }
 }
