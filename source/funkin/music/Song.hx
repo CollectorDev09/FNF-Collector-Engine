@@ -2,7 +2,6 @@ package funkin.music;
 
 import funkin.game.Note;
 import haxe.DynamicAccess;
-import haxe.Json;
 import lime.utils.Assets;
 
 class Song
