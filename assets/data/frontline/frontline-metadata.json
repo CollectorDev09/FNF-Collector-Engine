@@ -1,0 +1,43 @@
+{
+    "version": "2.2.4",
+    "songName": "Frontline",
+    "artist": "CollectorDev",
+    "charter": "CollectorDev",
+    "offsets": { },
+    "playData": {
+        "bpm": 154.0,
+        "difficulties": [
+            "easy",
+            "normal",
+            "hard"
+        ],
+        "strumlines": 2,
+        "characters": {
+            "player": "bf",
+            "girlfriend": "gf",
+            "opponent": "collector",
+            "opponentVocals": "collector",
+            "playerVocals": "bf"
+        },
+        "stage": "mainStage",
+        "noteStyle": "funkin",
+        "ratings": {
+        "easy": 0,
+        "normal": 5,
+        "hard": 6
+        },
+        "album": "collectorvol1",
+        "stickerPack": "default",
+        "previewStart": 0.170656618404975,
+        "previewEnd": 0.436198316643116
+    },
+    "generatedBy": "Friday Night Funkin' - v0.8.6",
+    "timeChanges": [
+    {
+    "t": 0,
+    "b": 0,
+    "bpm": 154,
+    "bt": [4, 4, 4, 4]
+    }
+    ]
+}

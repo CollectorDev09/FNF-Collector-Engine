@@ -20,7 +20,8 @@ class PlayState extends ConductorState
 
 	var songData:Song;
 	var song:FlxSoundGroup;
-	var inst:FlxSound;
+	var voicesPlayer:FlxSound;
+	var voicesOpp:FlxSound;
 
 	// Input System stuff
 	var justPressed:Bool;
@@ -43,8 +44,6 @@ class PlayState extends ConductorState
 
 		text = new FlxText(200, 200);
 		add(text);
-
-		song = new FlxSoundGroup(1.0);
 
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
 		text.size = 24;
@@ -145,23 +144,17 @@ class PlayState extends ConductorState
 	public function loadSong(name:String)
 	{
 		songData = new Song(name);
+		
+		voicesPlayer = new FlxSound().load(Paths.getVoiceTrack(name, songData.playerVocals));
+		voicesOpp = new FlxSound().load(Paths.getVoiceTrack(name, songData.opponentVocals));
 
 		FlxG.sound.playMusic(Paths.getInst(name), 1, false);
+		voicesPlayer.play();
+		voicesOpp.play();
 
-		var playerVocals:FlxSound = new FlxSound();
-		var oppVocals:FlxSound = new FlxSound();
-
-		playerVocals.load(Paths.getVoiceTrack(name, "bf"));
-		oppVocals.load(Paths.getVoiceTrack(name, "dad"));
-		
-		song.add(playerVocals);
-		song.add(oppVocals);
-
-		for (i=>track in song.sounds)
-		{
-			track.time = FlxG.sound.music.time;
-			track.play();
-		}
+		FlxG.sound.music.time = 0;
+		voicesPlayer.time = FlxG.sound.music.time;
+		voicesOpp.time = FlxG.sound.music.time;
 
 		setBPM(songData.bpm);
 	}
@@ -178,18 +171,10 @@ class PlayState extends ConductorState
 		ConductorState.songTime = FlxG.sound.music.time;
 	}
 
+	var d:Int = 0;
+
 	override public function beatHit() 
 	{
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
-
-		for (track in song.sounds)
-		{
-			var offset = track.time - FlxG.sound.music.time;
-
-			if (offset <= -200)
-			{
-				track.time = FlxG.sound.music.time;
-			}
-		}
 	}
 }

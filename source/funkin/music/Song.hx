@@ -11,6 +11,9 @@ class Song
     public var notes:FlxTypedGroup<Note>;
     public var strumlines:Int;
 
+    public var playerVocals:String;
+    public var opponentVocals:String;
+
     public function new(name:String) 
     {
         var chartFile:DynamicAccess<Dynamic> = Paths.json('$name/$name-chart');
@@ -40,5 +43,7 @@ class Song
 
         this.bpm = metaFile.playData.bpm;
         this.strumlines = metaFile.playData.strumlines;
+        this.playerVocals = metaFile.playData.characters.playerVocals;
+        this.opponentVocals = metaFile.playData.characters.opponentVocals;
     }
 }

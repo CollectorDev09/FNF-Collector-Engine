@@ -14,8 +14,8 @@
       "girlfriend": "gf",
       "opponent": "dad",
       "altInstrumentals": ["pico"],
-      "opponentVocals": ["dad"],
-      "playerVocals": ["bf"]
+      "opponentVocals": "dad",
+      "playerVocals": "bf"
     },
     "stage": "mainStage",
     "noteStyle": "funkin",
