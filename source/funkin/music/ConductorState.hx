@@ -2,7 +2,7 @@ package funkin.music;
 
 class ConductorState extends FlxState
 {
-    public static var songTime = 0;
+    public static var songTime:Float = 0;
     public static var bpm:Float = 100;
     public static var beat:Int = 0;
     public static var step:Int = 0;

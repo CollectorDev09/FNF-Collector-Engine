@@ -2,6 +2,7 @@ package funkin.game;
 
 import flixel.FlxG.stage;
 import flixel.input.keyboard.FlxKey;
+import flixel.sound.FlxSoundGroup;
 import funkin.backend.FunkinMath;
 import funkin.music.ConductorState;
 import funkin.music.Song;
@@ -18,6 +19,8 @@ class PlayState extends ConductorState
 	var number:Int;
 
 	var songData:Song;
+	var song:FlxSoundGroup;
+	var inst:FlxSound;
 
 	// Input System stuff
 	var justPressed:Bool;
@@ -28,6 +31,8 @@ class PlayState extends ConductorState
 	var strumline:FlxSprite;
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
+	var opponentSustains:FlxTypedGroup<Sustain>;
+	var playerSustains:FlxTypedGroup<Sustain>;
 	public var strumlineNotes = new FlxTypedGroup<FlxSprite>(8);
 	static var noteDirections:Array<String>;
 
@@ -39,7 +44,7 @@ class PlayState extends ConductorState
 		text = new FlxText(200, 200);
 		add(text);
 
-		loadSong('bopeebo');
+		song = new FlxSoundGroup(1.0);
 
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
 		text.size = 24;
@@ -94,6 +99,8 @@ class PlayState extends ConductorState
 
 		add(strumlineNotes);
 
+		loadSong('bopeebo');
+
 		super.create();
 	}
 
@@ -105,7 +112,7 @@ class PlayState extends ConductorState
 
         var k = e.keyCode;
 		
-        trace('just pressed: $id');
+        // trace('just pressed: $id');
 
 		if (id == -1) return;
 
@@ -128,7 +135,7 @@ class PlayState extends ConductorState
     {
         final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
         keysPressed[id] = false;
-        trace('released: $id');
+        // trace('released: $id');
 
 		if (id == -1) return;
 
@@ -139,19 +146,50 @@ class PlayState extends ConductorState
 	{
 		songData = new Song(name);
 
-		setBPM(songData.bpm);
 		FlxG.sound.playMusic(Paths.getInst(name), 1, false);
+
+		var playerVocals:FlxSound = new FlxSound();
+		var oppVocals:FlxSound = new FlxSound();
+
+		playerVocals.load(Paths.getVoiceTrack(name, "bf"));
+		oppVocals.load(Paths.getVoiceTrack(name, "dad"));
+		
+		song.add(playerVocals);
+		song.add(oppVocals);
+
+		for (i=>track in song.sounds)
+		{
+			track.time = FlxG.sound.music.time;
+			track.play();
+		}
+
+		setBPM(songData.bpm);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		ConductorState.songTime = Std.int(FlxG.sound.music.time);
+		if (Controls.keybindJustPressed("ACCEPT"))
+		{
+			trace("Ur Gay");
+		}
+
+		ConductorState.songTime = FlxG.sound.music.time;
 	}
 
 	override public function beatHit() 
 	{
 		text.text = 'BPM: ${ConductorState.bpm}\nBeats: ${ConductorState.beat}';
+
+		for (track in song.sounds)
+		{
+			var offset = track.time - FlxG.sound.music.time;
+
+			if (offset <= -200)
+			{
+				track.time = FlxG.sound.music.time;
+			}
+		}
 	}
 }

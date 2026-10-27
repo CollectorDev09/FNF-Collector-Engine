@@ -40,10 +40,9 @@ class Paths
         return song('${key}/Inst');
     }
     
-    public static function getVoices(key:String)
+    public static function getVoiceTrack(songName:String, trackName:String)
     {
-        trace('Voices: $key');
-        return song('${key}/Voices');
+        return song('${songName}/Voices-${trackName}');
     }
 
     public static function img(key:String, ?type:String)
