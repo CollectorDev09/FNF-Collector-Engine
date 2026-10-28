@@ -1,7 +1,9 @@
 package funkin.backend.utils;
 
-import lime.utils.Assets;
+import funkin.backend.modding.Mods;
 import haxe.Json;
+import lime.utils.Assets;
+import sys.FileSystem;
 
 using StringTools;
 
@@ -9,35 +11,48 @@ class Paths
 {
     static public var soundExt:String = '.ogg';
 
+    public static function getPath(key:String)
+    {
+        var path:String = null;
+
+        if (Assets.exists('assets/$key'))
+        {
+            path = 'assets/$key';
+        }
+
+        path = Mods.getModPath('assets/$key');
+
+        return path;
+    }
+
     public static function song(key:String)
     {
-        return 'assets/songs/$key$soundExt';
+        return getPath('songs/$key$soundExt');
     }
 
     public static function sound(key:String)
     {
-        return 'assets/sounds/$key$soundExt';
+        return getPath('sounds/$key$soundExt');
     }
 
     public static function music(key:String)
     {
-        return 'assets/music/$key$soundExt';
+        return getPath('music/$key$soundExt');
     }
 
     public static function json(key:String)
     {
-        return 'assets/data/$key.json';
+        return getPath('data/$key.json');
     }
 
     public static function txt(key:String)
     {
-        return 'assets/data/$key.txt';
+        return getPath('data/$key.txt');
     }
 
-    public static function getInst(key:String)
+    public static function getInst(songName:String)
     {
-        trace('Inst: $key');
-        return song('${key}/Inst');
+        return song('${songName}/Inst');
     }
     
     public static function getVoiceTrack(songName:String, trackName:String)
@@ -49,11 +64,11 @@ class Paths
     {
         if (type == null)
         {
-            return 'assets/images/$key.png';
+            return getPath('images/$key.png');
         }
         else
         {
-            return 'assets/images/$key.$type';
+            return getPath('images/$key.$type');
         }
     }
 

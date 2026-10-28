@@ -17,8 +17,8 @@ class Song
 
     public function new(name:String) 
     {
-        var chartFile:DynamicAccess<Dynamic> = FunkinUtils.parseJSON(Paths.json('$name/$name-chart'));
-        var metaFile:Dynamic = FunkinUtils.parseJSON(Paths.json('$name/$name-metadata'));
+        var chartFile:DynamicAccess<Dynamic> = FunkinUtils.parseJSON(Paths.json('songs/$name/$name-chart'));
+        var metaFile:Dynamic = FunkinUtils.parseJSON(Paths.json('songs/$name/$name-metadata'));
 
         var difficulty:String = "hard";
         var charts:DynamicAccess<Dynamic> = chartFile['notes'];

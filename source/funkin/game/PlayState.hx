@@ -92,7 +92,9 @@ class PlayState extends ConductorState
 
 		add(strumlineNotes);
 
-		loadSong('bopeebo');
+		var text = FunkinUtils.parseText(Paths.txt('stuff'));
+
+		loadSong('frontline');
 
 		super.create();
 	}
@@ -123,6 +125,8 @@ class PlayState extends ConductorState
 		
 		voicesPlayer = new FlxSound().load(Paths.getVoiceTrack(name, songData.playerVocals));
 		voicesOpp = new FlxSound().load(Paths.getVoiceTrack(name, songData.opponentVocals));
+		FlxG.sound.list.add(voicesPlayer);
+		FlxG.sound.list.add(voicesOpp);
 
 		FlxG.sound.playMusic(Paths.getInst(name), 1, false);
 		voicesPlayer.play();

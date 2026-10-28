@@ -42,7 +42,7 @@
 
 	<assets path="assets/images" />
 	<assets path="assets/data" />
-	<!-- <template path='mods' /> -->
+	<assets path='mods' rename="mods"/>
 	
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->

@@ -3,6 +3,7 @@ package funkin.backend.utils;
 import lime.utils.Assets;
 import haxe.DynamicAccess;
 import haxe.Json;
+import funkin.backend.modding.Mods;
 
 class FunkinUtils
 {
@@ -15,6 +16,7 @@ class FunkinUtils
     public static function parseText(path:String)
     {
         var text = Assets.getText('$path');
+        text = Mods.appendText(text, path);
         return text;
     }
 
