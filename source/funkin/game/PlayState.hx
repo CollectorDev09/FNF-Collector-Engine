@@ -3,7 +3,6 @@ package funkin.game;
 import flixel.FlxG.stage;
 import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSoundGroup;
-import funkin.backend.FunkinMath;
 import funkin.music.ConductorState;
 import funkin.music.Song;
 import haxe.DynamicAccess;
@@ -23,11 +22,6 @@ class PlayState extends ConductorState
 	var voicesPlayer:FlxSound;
 	var voicesOpp:FlxSound;
 
-	// Input System stuff
-	var justPressed:Bool;
-	var keysPressed:Array<Bool> = [for (i in 0...4) false];
-	var keys:Array<Int>;
-
 	// Strumline stuff
 	var strumline:FlxSprite;
 	var opponentNotes:FlxTypedGroup<Note>;
@@ -39,7 +33,7 @@ class PlayState extends ConductorState
 
 	override public function create() 
 	{
-		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 
 		text = new FlxText(200, 200);
@@ -49,14 +43,14 @@ class PlayState extends ConductorState
 		text.size = 24;
 
 		var noteOffsets:Array<Float> = [120.6, 33.4, 114.2, 50.5, 2.0, 2.2, 20.8, 40.01];
-		var averageOffsets = FunkinMath.getAverage(noteOffsets);
+		var averageOffsets = FunkinUtils.getAverage(noteOffsets);
 
 		var notesMissed = 8;
 		var notesTotal = noteOffsets.length + notesMissed;
 
 		var missRatio = notesMissed/notesTotal;
 
-		var accuracy = FunkinMath.getAverage([100 - (averageOffsets/160), (100 - missRatio)]);
+		var accuracy = FunkinUtils.getAverage([100 - (averageOffsets/160), (100 - missRatio)]);
 
 		trace('Accuracy: $accuracy');
 
@@ -103,43 +97,25 @@ class PlayState extends ConductorState
 		super.create();
 	}
 
-    public function onKeyDown(e:KeyboardEvent):Void 
-    {
-        final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
-        if (keysPressed[id]) return;
-        keysPressed[id] = true;
+	public function onKeyDown(e:KeyboardEvent):Void
+	{
+		InputSystem.checkInputPress(e);
 
-        var k = e.keyCode;
-		
-        // trace('just pressed: $id');
+		var id = InputSystem.keyID;
+		var strumNote = strumlineNotes.members[id];
 
-		if (id == -1) return;
+		if (id != -1 && @:privateAccess strumNote.animation.get_name() != '${noteDirections[id]}Press') strumNote.animation.play('${noteDirections[id]}Press');
+	}
 
-		strumlineNotes.members[id].animation.play('${noteDirections[id]}Press');
-    }
+	public function onKeyUp(e:KeyboardEvent):Void
+	{
+		InputSystem.checkInputRelease(e);
 
-    @:noDebug @:pure public static function convertStrumKey(keyAmount:Int, key:FlxKey):Int 
-    {
-        if (key == NONE) return -1;
-        for (i in 0...keyAmount) 
-        {
-			var possibleKey = Controls.gameBinds[i];
-			if (key == possibleKey) return i;
-        }
+		var id = InputSystem.keyID;
+		var strumNote = strumlineNotes.members[id];
 
-        return -1;
-    }
-
-    public function onKeyUp(e:KeyboardEvent):Void 
-    {
-        final id:Int = convertStrumKey(keysPressed.length, e.keyCode);
-        keysPressed[id] = false;
-        // trace('released: $id');
-
-		if (id == -1) return;
-
-		strumlineNotes.members[id].animation.play('arrow${noteDirections[id]}');
-    }
+		if (id != -1) strumNote.animation.play('arrow${noteDirections[id]}');
+	}
 
 	public function loadSong(name:String)
 	{
@@ -170,8 +146,6 @@ class PlayState extends ConductorState
 
 		ConductorState.songTime = FlxG.sound.music.time;
 	}
-
-	var d:Int = 0;
 
 	override public function beatHit() 
 	{

@@ -2,6 +2,7 @@ package funkin.music;
 
 import funkin.game.note.Note;
 import haxe.DynamicAccess;
+import haxe.Json;
 import lime.utils.Assets;
 
 class Song
@@ -16,8 +17,8 @@ class Song
 
     public function new(name:String) 
     {
-        var chartFile:DynamicAccess<Dynamic> = Paths.json('$name/$name-chart');
-        var metaFile:Dynamic = Paths.json('$name/$name-metadata');
+        var chartFile:DynamicAccess<Dynamic> = FunkinUtils.parseJSON(Paths.json('$name/$name-chart'));
+        var metaFile:Dynamic = FunkinUtils.parseJSON(Paths.json('$name/$name-metadata'));
 
         var difficulty:String = "hard";
         var charts:DynamicAccess<Dynamic> = chartFile['notes'];

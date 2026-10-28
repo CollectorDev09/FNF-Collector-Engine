@@ -24,14 +24,14 @@ class Paths
         return 'assets/music/$key$soundExt';
     }
 
-    public static function json(key:String, path:String = 'data')
+    public static function json(key:String)
     {
-        return Json.parse(Assets.getText('assets/$path/$key.json'));
+        return 'assets/data/$key.json';
     }
 
     public static function txt(key:String)
     {
-        return Assets.getText('assets/data/$key.txt');
+        return 'assets/data/$key.txt';
     }
 
     public static function getInst(key:String)
@@ -57,7 +57,7 @@ class Paths
         }
     }
 
-    public static function images(key:String, ?type:String)
+    public static function image(key:String, ?type:String)
     {
         if (type == null)
         {
