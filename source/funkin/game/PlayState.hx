@@ -155,6 +155,7 @@ class PlayState extends ConductorState
 			// 	timeWindow /= scrollSpeed;
 			if (songData.notes[0].time - ConductorState.songTime < timeWindow)
 			{
+				songData.notes[0].y = 2000;
 				playerNotes.insert(0, songData.notes[0]);
 				trace("added note: " + playerNotes.members[0]);
 				songData.notes.shift();
