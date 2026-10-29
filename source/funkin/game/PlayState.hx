@@ -94,7 +94,7 @@ class PlayState extends ConductorState
 
 		var text = FunkinUtils.parseText(Paths.txt('stuff'));
 
-		loadSong('frontline');
+		loadSong('bopeebo');
 
 		super.create();
 	}
