@@ -55,12 +55,15 @@ class Mods
 
         for (mod in modFolders)
         {
-            path = StringTools.replace(path, 'assets/', 'mods/$mod/_append/');
-            var append = Assets.getText('$path');
-            trace(path);
-            if (append != null)
+            var modPath:String = StringTools.replace(path, 'assets/', 'mods/$mod/_append/');
+            if (FileSystem.exists(modPath))
             {
-                text += '\n${append}';
+                var append = Assets.getText('$modPath');
+                trace(modPath);
+                if (append != null)
+                {
+                    text += '\n${append}';
+                }
             }
         }
 

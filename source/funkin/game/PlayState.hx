@@ -57,7 +57,6 @@ class PlayState extends ConductorState
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
-		add(strumline);
 
 		noteDirections = ['Left', 'Down', 'Up', 'Right'];
 
@@ -94,6 +93,10 @@ class PlayState extends ConductorState
 		add(strumlineNotes);
 
 		var text = FunkinUtils.parseText(Paths.txt('stuff'));
+
+		var currentSong = FunkinUtils.parseText(Paths.txt('currentSong'));
+
+		StringTools.trim(currentSong);
 		
 		loadSong('frontline');
 
