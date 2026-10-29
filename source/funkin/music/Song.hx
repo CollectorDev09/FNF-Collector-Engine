@@ -9,7 +9,7 @@ class Song
 {
     public var name:String;
     public var bpm:Float;
-    public var notes:FlxTypedGroup<Note>;
+    public var notes:Array<Note>;
     public var strumlines:Int;
 
     public var playerVocals:String;
@@ -24,7 +24,7 @@ class Song
         var charts:DynamicAccess<Dynamic> = chartFile['notes'];
         var currentChart:Array<Dynamic> = charts[difficulty];
 
-        notes = new FlxTypedGroup();
+        notes = [];
 
         for (note in currentChart)
         {
@@ -37,10 +37,10 @@ class Song
                 strumline = 1;
             }
             var daNote = new Note(note.t, note.l, direction, strumline);
-            notes.add(daNote);
+            notes.push(daNote);
         }
 
-        trace('Loaded ${notes.members.length} notes');
+        trace('Loaded ${notes.length} notes');
 
         this.bpm = metaFile.playData.bpm;
         this.strumlines = metaFile.playData.strumlines;

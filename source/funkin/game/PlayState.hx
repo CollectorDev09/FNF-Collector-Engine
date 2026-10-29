@@ -93,7 +93,7 @@ class PlayState extends ConductorState
 		add(strumlineNotes);
 
 		var text = FunkinUtils.parseText(Paths.txt('stuff'));
-
+		
 		loadSong('bopeebo');
 
 		super.create();
@@ -122,6 +122,11 @@ class PlayState extends ConductorState
 	public function loadSong(name:String)
 	{
 		songData = new Song(name);
+
+		playerNotes = new FlxTypedGroup();
+		opponentNotes = new FlxTypedGroup();
+
+		add(playerNotes);
 		
 		voicesPlayer = new FlxSound().load(Paths.getVoiceTrack(name, songData.playerVocals));
 		voicesOpp = new FlxSound().load(Paths.getVoiceTrack(name, songData.opponentVocals));
@@ -142,6 +147,19 @@ class PlayState extends ConductorState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (songData.notes.length != 0)
+		{
+			var timeWindow:Float = 2000;
+			// if (scrollSpeed < 1)
+			// 	timeWindow /= scrollSpeed;
+			if (songData.notes[0].time - ConductorState.songTime < timeWindow)
+			{
+				playerNotes.insert(0, songData.notes[0]);
+				trace("added note: " + playerNotes.members[0]);
+				songData.notes.shift();
+			}
+		}
 
 		if (Controls.keybindJustPressed("ACCEPT"))
 		{
