@@ -12,7 +12,9 @@ class Note extends FlxSprite
 
     public function new(time:Float, length:Float, direction:Int, strumline:Int) 
     {
-        super(x, y);
+        super();
+
+        y = 2000;
 
         this.time = time;
         this.length = length;
@@ -38,7 +40,14 @@ class Note extends FlxSprite
 		updateHitbox();
 		antialiasing = true;
 
-        x += noteWidth * direction;
+        if (strumline == 1)
+        {
+            x += noteWidth * direction + 50;
+        }
+        else
+        {
+            x += noteWidth * direction + 700;
+        }
     }
 
     override function update(elapsed:Float)
@@ -46,5 +55,21 @@ class Note extends FlxSprite
 		super.update(elapsed);
 
 		this.y = 50 - (1.2 * (ConductorState.songTime - time));
+
+        if (strumline == 1)
+        {
+            if (time <= ConductorState.songTime)
+            {
+                alpha = 0;
+            }
+        }
+
+        if (strumline == 0)
+        {
+            if (time - ConductorState.songTime <= -160)
+            {
+                alpha = 0.45;
+            }
+        }
     }
 }

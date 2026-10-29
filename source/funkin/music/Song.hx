@@ -33,7 +33,7 @@ class Song
 
             if (direction > 3)
             {
-                direction -= 3;
+                direction -= 4;
                 strumline = 1;
             }
             var daNote = new Note(note.t, note.l, direction, strumline);

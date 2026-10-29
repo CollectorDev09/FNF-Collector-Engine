@@ -57,6 +57,7 @@ class PlayState extends ConductorState
 		strumline = new FlxSprite();
 		strumline.makeGraphic(FlxG.width, 20);
 		strumline.y = 50;
+		add(strumline);
 
 		noteDirections = ['Left', 'Down', 'Up', 'Right'];
 
@@ -64,9 +65,9 @@ class PlayState extends ConductorState
         {
             var strumNote = new FlxSprite();
 			strumNote.y = strumline.y;
-			strumNote.x -= 25;
 			strumNote.frames = Paths.sparrow('game/notestyles/default');
 			strumNote.setGraphicSize(Std.int(strumNote.width * 0.7));
+			strumNote.updateHitbox();
 			strumNote.antialiasing = true;
 
 			for (i in noteDirections)
@@ -83,7 +84,7 @@ class PlayState extends ConductorState
 			}
 			else
 			{
-				strumNote.x += Note.noteWidth * (n - 3) - 45;
+				strumNote.x += Note.noteWidth * (n - 4) + 50;
 				strumNote.animation.play('arrow${noteDirections[n - 4]}');
 			}
 
@@ -94,7 +95,7 @@ class PlayState extends ConductorState
 
 		var text = FunkinUtils.parseText(Paths.txt('stuff'));
 		
-		loadSong('bopeebo');
+		loadSong('frontline');
 
 		super.create();
 	}
@@ -107,6 +108,28 @@ class PlayState extends ConductorState
 		var strumNote = strumlineNotes.members[id];
 
 		if (id != -1 && @:privateAccess strumNote.animation.get_name() != '${noteDirections[id]}Press') strumNote.animation.play('${noteDirections[id]}Press');
+
+        var chartNote = playerNotes.members[0];
+        if (chartNote == null)
+        {
+            trace("chart note is null");
+            return;
+        }
+
+		var canBeHit:Bool = Math.abs(chartNote.time - ConductorState.songTime) <= 160;
+		var targetPlayerNote:Note = playerNotes.getFirst((note) -> Math.abs(note.time - ConductorState.songTime) <= 160 && note.direction == id && note.alive);
+
+		if (targetPlayerNote == null)
+	    {
+            trace("no note is reachable at this point");
+            return;
+        }
+
+		trace(targetPlayerNote.time - ConductorState.songTime);
+
+		targetPlayerNote.kill();
+		playerNotes.remove(targetPlayerNote);
+		// playerNotes.members.sort((a,b) -> Std.int(a.time - b.time));
 	}
 
 	public function onKeyUp(e:KeyboardEvent):Void
@@ -127,6 +150,7 @@ class PlayState extends ConductorState
 		opponentNotes = new FlxTypedGroup();
 
 		add(playerNotes);
+		add(opponentNotes);
 		
 		voicesPlayer = new FlxSound().load(Paths.getVoiceTrack(name, songData.playerVocals));
 		voicesOpp = new FlxSound().load(Paths.getVoiceTrack(name, songData.opponentVocals));
@@ -146,28 +170,55 @@ class PlayState extends ConductorState
 
 	override public function update(elapsed:Float)
 	{
-		super.update(elapsed);
+		poolNotes();
 
+		super.update(elapsed);
+		ConductorState.songTime = FlxG.sound.music.time;
+
+		if (opponentNotes != null)
+		{
+			var targetNote:Note = opponentNotes.getFirst((note) -> true);
+			if (targetNote != null && targetNote.time - ConductorState.songTime <= -2000)
+			{
+				targetNote.kill();
+				opponentNotes.remove(targetNote);
+				trace('Note Removed');
+			}
+		}
+
+		if (playerNotes != null)
+		{
+			var targetNote:Note = opponentNotes.getFirst((note) -> true);
+			if (targetNote != null && targetNote.time - ConductorState.songTime <= -2000)
+			{
+				playerNotes.remove(targetNote);
+				trace('Note Removed');
+			}
+		}
+	}
+
+	public function poolNotes()
+	{
 		if (songData.notes.length != 0)
 		{
 			var timeWindow:Float = 2000;
 			// if (scrollSpeed < 1)
 			// 	timeWindow /= scrollSpeed;
+			
 			if (songData.notes[0].time - ConductorState.songTime < timeWindow)
 			{
-				songData.notes[0].y = 2000;
-				playerNotes.insert(0, songData.notes[0]);
-				trace("added note: " + playerNotes.members[0]);
+				if (songData.notes[0].strumline == 0)
+				{
+					playerNotes.insert(0, songData.notes[0]);
+				}
+				else
+				{
+					opponentNotes.insert(0, songData.notes[0]);
+				}
+
 				songData.notes.shift();
 			}
 		}
-
-		if (Controls.keybindJustPressed("ACCEPT"))
-		{
-			trace("Ur Gay");
-		}
-
-		ConductorState.songTime = FlxG.sound.music.time;
 	}
 
 	override public function beatHit() 
