@@ -9,11 +9,8 @@ haxelib install openfl
 haxelib install flixel
 haxelib install flixel-addons
 haxelib install flixel-tools
-haxelib install hscript-iris
-haxelib install tjson
-haxelib install hxdiscord_rpc
-haxelib install hxvlc --skip-dependencies
-haxelib set lime
-haxelib set openfl
+haxelib install hscript
+haxelib set lime 8.3.2
+haxelib set openfl 9.5.2
 echo Finished!
 pause
