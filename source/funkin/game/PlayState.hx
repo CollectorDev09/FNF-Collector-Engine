@@ -98,7 +98,7 @@ class PlayState extends ConductorState
 
 		StringTools.trim(currentSong);
 		
-		loadSong('frontline');
+		loadSong(currentSong);
 
 		super.create();
 	}
