@@ -70,7 +70,6 @@
 	<haxelib name="hscript" />
 
 	<!--In case you want to use the ui package-->
-	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
 
 	<!-- <haxelib name="markdown" /> -->
