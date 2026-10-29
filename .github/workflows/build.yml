@@ -1,12 +1,14 @@
 name: collector-engine-build
 on: [push]
 jobs:
-  collector-engine-windows:
+  buildWindows:
     runs-on: windows-latest
+
     steps:
-      - uses: krdlab/setup-haxe@v1
+      - uses: krdlab/setup-haxe@master
         with:
           haxe-version: '4.3.7'
+
       - run: haxe -version
       - run: haxelib install hxcpp
       - run: haxelib install hscript
@@ -18,4 +20,4 @@ jobs:
       - run: haxelib set lime 8.3.2
       - run: haxelib run lime setup flixel
       - run: haxelib run lime setup
-      - run: lime test windows
+      - run: haxelib run lime test windows
