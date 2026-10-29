@@ -4,6 +4,7 @@ cd ..
 @echo on
 echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
+haxelib install hxcpp
 haxelib install lime
 haxelib install openfl
 haxelib install flixel
