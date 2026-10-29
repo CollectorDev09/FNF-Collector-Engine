@@ -9,7 +9,7 @@ jobs:
         with:
           haxe-version: '4.3.7'
 
-      - run: haxe -version
+      - run: haxelib setup C:/haxelib
       - run: haxelib install hxcpp
       - run: haxelib install hscript
       - run: haxelib install lime
