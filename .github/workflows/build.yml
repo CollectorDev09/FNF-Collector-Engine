@@ -1,22 +1,21 @@
 name: collector-engine-build
 on: [push]
 jobs:
-  check-bats-version:
+  collector-engine-windows:
     runs-on: windows-latest
     steps:
       - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: '4.3.7'
-      - run: |
-          haxe -version
-          haxelib install hxcpp
-          haxelib install hscript
-          haxelib install lime
-          haxelib install openfl
-          haxelib install flixel
-          haxelib set flixel 6.2.0
-          haxelib set openfl 9.5.2
-          haxelib set lime 8.3.2
-          haxelib run lime setup flixel
-          haxelib run lime setup
-          lime test windows
+      - run: haxe -version
+      - run: haxelib install hxcpp
+      - run: haxelib install hscript
+      - run: haxelib install lime
+      - run: haxelib install openfl
+      - run: haxelib install flixel
+      - run: haxelib set flixel 6.2.0
+      - run: haxelib set openfl 9.5.2
+      - run: haxelib set lime 8.3.2
+      - run: haxelib run lime setup flixel
+      - run: haxelib run lime setup
+      - run: lime test windows
