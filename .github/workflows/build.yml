@@ -5,19 +5,28 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4.1.7
+
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: '4.3.7'
-
-      - run: haxelib setup C:/haxelib
-      - run: haxelib install hxcpp
-      - run: haxelib install hscript
-      - run: haxelib install lime
-      - run: haxelib install openfl
-      - run: haxelib install flixel
-      - run: haxelib set flixel 6.2.0
-      - run: haxelib set openfl 9.5.2
-      - run: haxelib set lime 8.3.2
-      - run: haxelib run lime setup flixel
-      - run: haxelib run lime setup
-      - run: haxelib run lime test windows
+          haxe-version: 4.3.7
+      # Runs a set of commands using the runners shell
+      - name: Install Haxelib
+        run: |
+          haxelib setup C:/haxelib
+          haxelib install hxcpp > /dev/null --quiet
+          .\"setup/windows.bat"
+        shell: cmd
+      - name: Skip SScript setup mode
+        run: echo 'oy9:showMacroty8:loopCosti25y10:includeAllfg' >> %USERPROFILE%/settings.cocoa
+        shell: cmd
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+      - name: Compile
+        run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"  -D officialBuild
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: windowsBuild
+          path: export/release/windows/bin
