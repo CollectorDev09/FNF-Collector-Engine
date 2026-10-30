@@ -132,7 +132,8 @@ class PlayState extends ConductorState
 
 		targetPlayerNote.kill();
 		playerNotes.remove(targetPlayerNote);
-		// playerNotes.members.sort((a,b) -> Std.int(a.time - b.time));
+
+		// playerNotes.sort((Order,a,b) -> { return FlxSort.byValues(Order, a.time, b.time); });
 	}
 
 	public function onKeyUp(e:KeyboardEvent):Void
