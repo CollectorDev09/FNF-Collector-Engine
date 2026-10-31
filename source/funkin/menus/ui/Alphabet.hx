@@ -2,10 +2,11 @@ package funkin.menus.ui;
 
 import funkin.menus.title.TitleState;
 
+// When the TextSprite class is done, add this: @:deprecated('Alphabet is deprecated. Use TextSprite instead.')
+
 /**
  * Loosley based on FlxTypeText lolol
  */
-@:deprecated('Alphabet is deprecated. Use TextSprite instead.')
 class Alphabet extends FlxSpriteGroup
 {
 	public var delay:Float = 0.05;
