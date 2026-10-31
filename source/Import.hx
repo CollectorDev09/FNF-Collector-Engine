@@ -26,5 +26,7 @@ import openfl.Assets;
 import funkin.backend.Controls;
 import funkin.backend.utils.FunkinUtils;
 import funkin.backend.utils.Paths;
+import funkin.menus.ui.Alphabet;
+import funkin.music.ConductorState;
 
 using StringTools;

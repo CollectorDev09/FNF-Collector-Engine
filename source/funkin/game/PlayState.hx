@@ -3,7 +3,6 @@ package funkin.game;
 import flixel.FlxG.stage;
 import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSoundGroup;
-import funkin.music.ConductorState;
 import funkin.music.Song;
 import haxe.DynamicAccess;
 import haxe.Json;

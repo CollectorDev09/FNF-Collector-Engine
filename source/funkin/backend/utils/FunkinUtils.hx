@@ -33,4 +33,9 @@ class FunkinUtils
         average = sum/array.length;
         return average;
     }
+
+    public static function playMenuSound(sound:String)
+    {
+        FlxG.sound.play(Paths.sound('${sound}Menu'));
+    }
 }
