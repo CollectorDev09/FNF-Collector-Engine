@@ -6,4 +6,4 @@ Support the base game on the itch.io page: https://ninja-muffin24.itch.io/funkin
 
 # Credits
 
-Psych Engine - Setup.bat and build.yml
+Psych Engine - build.yml (I made a few changes to work for this engine)
