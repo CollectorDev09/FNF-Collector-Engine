@@ -8,6 +8,7 @@ class Note extends FlxSprite
     public var length:Float;
     public var direction:Int;
     public var strumline:Int;
+    public var canBeHit:Bool;
     public static var noteWidth:Float = 160 * 0.7;
 
     public function new(time:Float, length:Float, direction:Int, strumline:Int) 
@@ -53,6 +54,7 @@ class Note extends FlxSprite
     override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+        canBeHit = Math.abs(this.time - ConductorState.songTime) <= 160;
 
 		this.y = 50 - (1.2 * (ConductorState.songTime - time));
 

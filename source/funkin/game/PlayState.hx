@@ -18,12 +18,13 @@ class PlayState extends ConductorState
 
 	var songData:Song;
 	var song:FlxSoundGroup;
-	var instrumental = Paths.getInst(name);
+	var instrumental:String;
 	var voicesPlayer:FlxSound;
 	var voicesOpp:FlxSound;
 
 	// Strumline stuff
 	var strumline:FlxSprite;
+	var visibleNotes:Array<Note>;
 	var opponentNotes:FlxTypedGroup<Note>;
 	var playerNotes:FlxTypedGroup<Note>;
 	var opponentSustains:FlxTypedGroup<Sustain>;
@@ -105,9 +106,9 @@ class PlayState extends ConductorState
 
 	public function onKeyDown(e:KeyboardEvent):Void
 	{
-		InputSystem.checkInputPress(e);
+		InputHandler.checkInputPress(e);
 
-		var id = InputSystem.keyID;
+		var id = InputHandler.keyID;
 		var strumNote = strumlineNotes.members[id];
 
 		if (id != -1 && @:privateAccess strumNote.animation.get_name() != '${noteDirections[id]}Press') strumNote.animation.play('${noteDirections[id]}Press');
@@ -119,8 +120,7 @@ class PlayState extends ConductorState
             return;
         }
 
-		var canBeHit:Bool = Math.abs(chartNote.time - ConductorState.songTime) <= 160;
-		var targetPlayerNote:Note = playerNotes.getFirst((note) -> Math.abs(note.time - ConductorState.songTime) <= 160 && note.direction == id && note.alive);
+		var targetPlayerNote:Note = playerNotes.getFirst((note) -> note.canBeHit && note.direction == id && note.alive);
 
 		if (targetPlayerNote == null)
 	    {
@@ -133,14 +133,19 @@ class PlayState extends ConductorState
 		targetPlayerNote.kill();
 		playerNotes.remove(targetPlayerNote);
 
-		// playerNotes.sort((Order,a,b) -> { return FlxSort.byValues(Order, a.time, b.time); });
+		songData.notes.sort(sortByValues);
+	}
+
+	public function tap(id:Int, direction:Int)
+	{
+		
 	}
 
 	public function onKeyUp(e:KeyboardEvent):Void
 	{
-		InputSystem.checkInputRelease(e);
+		InputHandler.checkInputRelease(e);
 
-		var id = InputSystem.keyID;
+		var id = InputHandler.keyID;
 		var strumNote = strumlineNotes.members[id];
 
 		if (id != -1) strumNote.animation.play('arrow${noteDirections[id]}');
@@ -149,6 +154,10 @@ class PlayState extends ConductorState
 	public function loadSong(name:String)
 	{
 		songData = new Song(name);
+
+		instrumental = Paths.getInst(name);
+
+		songData.notes.sort(sortByValues);
 
 		playerNotes = new FlxTypedGroup();
 		opponentNotes = new FlxTypedGroup();
@@ -170,6 +179,11 @@ class PlayState extends ConductorState
 		voicesOpp.time = FlxG.sound.music.time;
 
 		setBPM(songData.bpm);
+	}
+
+	function sortByValues(a:Note, b:Note):Int
+	{
+		return FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time);
 	}
 
 	override public function update(elapsed:Float)
@@ -214,6 +228,7 @@ class PlayState extends ConductorState
 				if (songData.notes[0].strumline == 0)
 				{
 					playerNotes.insert(0, songData.notes[0]);
+					trace(playerNotes.members[0].time);
 				}
 				else
 				{
@@ -221,6 +236,7 @@ class PlayState extends ConductorState
 				}
 
 				songData.notes.shift();
+				songData.notes.sort(sortByValues);
 			}
 		}
 	}

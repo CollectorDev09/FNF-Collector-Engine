@@ -1,0 +1,38 @@
+[
+	{
+		"profile": "default",
+		"pkgs": [
+			{
+				"name": "hxcpp"
+			},
+			{
+				"name": "lime",
+				"version": "8.3.2"
+			},
+			{
+				"name": "openfl",
+				"version": "9.5.2"
+			},
+			{
+				"name": "flixel",
+				"version": "6.2.0"
+			},
+			{
+				"name": "flixel-addons",
+				"version": "3.3.2"
+			},
+			{
+				"name": "flixel-tools",
+				"version": "1.5.1"
+			},
+			{
+				"name": "hscript",
+				"link": "https://github.com/FunkinCrew/hscript.git"
+			},
+			{
+				"name": "hscript-iris",
+				"link": "https://github.com/crowplexus/hscript-iris/"
+			}
+		]
+	}
+]

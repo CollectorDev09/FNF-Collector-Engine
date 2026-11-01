@@ -12,6 +12,7 @@ class TitleState extends ConductorState
     var myScript:Iris;
 
     var intro:Array<String> = [];
+    var finalBeat = 16;
 
     override public function create()
     {
@@ -30,6 +31,14 @@ class TitleState extends ConductorState
         myScript.set("clearText", clearText);
         myScript.set("intro", intro);
         myScript.set("parseRandomIntro", parseRandomIntro);
+        myScript.set("finalBeat", finalBeat);
+        myScript.set("Paths", funkin.backend.utils.Paths);
+        myScript.set("FunkinUtils", funkin.backend.utils.FunkinUtils);
+        myScript.set("FlxSprite", flixel.FlxSprite);
+        myScript.set("FlxG", flixel.FlxG);
+        myScript.set("StringTools", StringTools);
+
+        myScript.set("instance", this);
 
         myScript.call("onCreate");
 
@@ -63,7 +72,18 @@ class TitleState extends ConductorState
     {
         thisBeat = ConductorState.beat;
 
+        if (thisBeat == finalBeat)
+        {
+            skipIntro();
+        }
+
         myScript.call("onBeatHit", [thisBeat]);
+    }
+
+    function skipIntro()
+    {
+        textGroup.destroy();
+        myScript.call("onSkipIntro");
     }
 
     function createText(textArray:Array<String>):Void

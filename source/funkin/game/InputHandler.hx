@@ -6,7 +6,7 @@ import openfl.events.EventType;
 import openfl.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 
-class InputSystem
+class InputHandler
 {
 	// Input System stuff
 	var justPressed:Bool;
