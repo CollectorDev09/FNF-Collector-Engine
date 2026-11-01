@@ -67,7 +67,7 @@ class Mods
             }
         }
 
-        trace(text);
+        // trace(text);
 
         return text;
     }

@@ -18,6 +18,7 @@ class PlayState extends ConductorState
 
 	var songData:Song;
 	var song:FlxSoundGroup;
+	var instrumental = Paths.getInst(name);
 	var voicesPlayer:FlxSound;
 	var voicesOpp:FlxSound;
 
@@ -160,7 +161,7 @@ class PlayState extends ConductorState
 		FlxG.sound.list.add(voicesPlayer);
 		FlxG.sound.list.add(voicesOpp);
 
-		FlxG.sound.playMusic(Paths.getInst(name), 1, false);
+		FlxG.sound.playMusic(instrumental, 1, false);
 		voicesPlayer.play();
 		voicesOpp.play();
 

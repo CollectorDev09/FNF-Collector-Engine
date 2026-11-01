@@ -45,6 +45,11 @@ class ConductorState extends FlxState
         // Don't do anything lmaoo
     }
 
+    public function onBeatHit(curBeat:Int)
+    {
+        // Don't do anything lmaoo
+    }
+
     function setBPM(targetBpm:Float) 
     {
         bpm = targetBpm;

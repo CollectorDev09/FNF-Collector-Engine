@@ -25,6 +25,11 @@ class Paths
         return path;
     }
 
+    public static function script(key:String)
+    {
+        return getPath('scripts/$key.hx');
+    }
+
     public static function song(key:String)
     {
         return getPath('songs/$key$soundExt');
@@ -43,6 +48,11 @@ class Paths
     public static function json(key:String)
     {
         return getPath('data/$key.json');
+    }
+
+    public static function data(key:String)
+    {
+        return getPath('data/$key');
     }
 
     public static function txt(key:String)
