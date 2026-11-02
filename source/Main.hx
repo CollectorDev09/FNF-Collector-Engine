@@ -1,11 +1,8 @@
 package;
 
 import flixel.FlxGame;
-import openfl.display.FPS;
+import funkin.backend.FPS_Mem;
 import openfl.display.Sprite;
-import funkin.game.PlayState;
-import funkin.menus.title.TitleState;
-import funkin.backend.modding.Mods;
 
 class Main extends Sprite
 {
@@ -13,12 +10,10 @@ class Main extends Sprite
 	{
 		super();
 
-		Mods.init();
-
-		addChild(new FlxGame(0, 0, TitleState, 120, 120, true));
+		addChild(new FlxGame(0, 0, InitState, 200, 200, true));
 
 		#if !mobile
-		addChild(new FPS(10, 3, 0xFFFFFF));
+		addChild(new FPS_Mem(10, 3, 0xFFFFFF));
 		#end
 	}
 }

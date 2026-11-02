@@ -3,6 +3,11 @@ package funkin.menus.title;
 import crowplexus.iris.Iris;
 import crowplexus.iris.IrisConfig;
 import funkin.game.PlayState;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.TransitionData;
+import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.transition.*;
 
 class TitleState extends ConductorState
 {
@@ -14,16 +19,18 @@ class TitleState extends ConductorState
     var intro:Array<String> = [];
     var finalBeat = 16;
 
+    var skippedIntro:Bool = false;
+
     override public function create()
     {
         setBPM(102);
-        FlxG.sound.playMusic(Paths.music('freaky-menu'), 0, false);
+        FlxG.sound.playMusic(Paths.music('freaky-menu'), 0, true);
         FlxG.sound.music.fadeIn(4, 0, 0.7);
 
         textGroup = new FlxGroup();
         add(textGroup);
 
-		final rules:RawIrisConfig = {name: "TitleState Script", autoRun: true, autoPreset: true};
+		final rules:RawIrisConfig = {name: "Intro Script", autoRun: true, autoPreset: true};
 		myScript = new Iris(FunkinUtils.parseText(Paths.data("menus/title/Intro.hx")), rules);
 
         myScript.set("createText", createText);
@@ -37,24 +44,41 @@ class TitleState extends ConductorState
         myScript.set("FlxSprite", flixel.FlxSprite);
         myScript.set("FlxG", flixel.FlxG);
         myScript.set("StringTools", StringTools);
+        myScript.set("skippedIntro", skippedIntro);
 
-        myScript.set("instance", this);
+        myScript.set("add", add);
 
         myScript.call("onCreate");
+
+        persistentUpdate = persistentDraw = true;
 
         super.create();
     }
 
     override public function update(elapsed:Float)
     {
-        if (Controls.keybindJustPressed("ACCEPT") && !pressedEnter)
+        if (Controls.keybindJustPressed("ACCEPT"))
         {
-            FunkinUtils.playMenuSound("confirm");
-            pressedEnter = true;
+            if (!skippedIntro)
+            {
+                skipIntro();
+            }
+            else if (!pressedEnter && skippedIntro)
+            {
+                FunkinUtils.playMenuSound("confirm");
+                pressedEnter = true;
+                setupTransition();
 
-            new FlxTimer().start(3.0, function(tmr:FlxTimer){
-                FlxG.switchState(new PlayState());
-            });
+                myScript.call("onPressedEnter");
+
+                new FlxTimer().start(2.0, function(tmr:FlxTimer){
+                    FlxG.switchState(new PlayState());
+                });
+            }
+            else
+            {
+
+            }
         }
 
         ConductorState.songTime = FlxG.sound.music.time;
@@ -72,7 +96,7 @@ class TitleState extends ConductorState
     {
         thisBeat = ConductorState.beat;
 
-        if (thisBeat == finalBeat)
+        if (thisBeat == finalBeat && !skippedIntro)
         {
             skipIntro();
         }
@@ -82,7 +106,10 @@ class TitleState extends ConductorState
 
     function skipIntro()
     {
+        skippedIntro = true;
+        myScript.set("skippedIntro", skippedIntro);
         textGroup.destroy();
+        FlxG.camera.flash(FlxColor.WHITE, 4);
         myScript.call("onSkipIntro");
     }
 
@@ -143,4 +170,23 @@ class TitleState extends ConductorState
     {
         addText(intro[i]);
     }
+
+	public function setupTransition()
+	{
+        var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
+
+		diamond.persist = true;
+		diamond.destroyOnNoUse = false;
+
+		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
+			new FlxRect(0, 0, FlxG.width, FlxG.height));
+		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+			{asset: diamond, width: 32, height: 32}, new FlxRect(0, 0, FlxG.width, FlxG.height));
+
+		FlxTransitionableState.defaultTransIn.tileData = {asset: diamond, width: 32, height: 32};
+		FlxTransitionableState.defaultTransOut.tileData = {asset: diamond, width: 32, height: 32};
+
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;    	
+	}
 }

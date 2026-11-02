@@ -27,6 +27,11 @@ class Mods
             if (FileSystem.isDirectory('mods/${modsDirectory[i]}'))
             {
                 modFolders.push(item);
+
+                if (!FileSystem.exists('mods/${modsDirectory[i]}/meta.json'))
+                {
+                    trace("WARNING: Mod has no metadata");
+                }
             }
         }
 

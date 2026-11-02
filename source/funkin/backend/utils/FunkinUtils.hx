@@ -20,6 +20,13 @@ class FunkinUtils
         return text;
     }
 
+    public static function parseScript(path:String)
+    {
+        var text = Assets.getText('$path');
+        text = Mods.appendText(text, path);
+        return text;
+    }
+
     public static function getAverage(array:Array<Float>) 
     {
         var sum:Float = 0;

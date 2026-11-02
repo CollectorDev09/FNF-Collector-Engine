@@ -1,6 +1,8 @@
 package funkin.music;
 
-class ConductorState extends FlxState
+import flixel.addons.ui.FlxUIState;
+
+class ConductorState extends FlxUIState
 {
     public static var songTime:Float = 0;
     public static var bpm:Float = 100;

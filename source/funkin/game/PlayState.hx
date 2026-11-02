@@ -12,6 +12,7 @@ import openfl.ui.Keyboard;
 
 class PlayState extends ConductorState
 {
+	var songLoaded:Bool = false;
 	var text:FlxText;
 
 	var number:Int;
@@ -36,6 +37,8 @@ class PlayState extends ConductorState
 	{
         stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+
+		// FlxG.sound.stopMusic = null;
 
 		text = new FlxText(200, 200);
 		add(text);
@@ -99,7 +102,9 @@ class PlayState extends ConductorState
 
 		StringTools.trim(currentSong);
 		
-		loadSong(currentSong);
+		new FlxTimer().start(1.0, function(tmr:FlxTimer){
+			loadSong(currentSong);
+		});
 
 		super.create();
 	}
@@ -179,6 +184,8 @@ class PlayState extends ConductorState
 		voicesOpp.time = FlxG.sound.music.time;
 
 		setBPM(songData.bpm);
+
+		songLoaded = true;
 	}
 
 	function sortByValues(a:Note, b:Note):Int
@@ -188,9 +195,15 @@ class PlayState extends ConductorState
 
 	override public function update(elapsed:Float)
 	{
-		poolNotes();
-
 		super.update(elapsed);
+
+		if (!songLoaded) 
+		{
+			ConductorState.songTime = elapsed - 2000;
+			return;
+		};
+
+		poolNotes();
 		ConductorState.songTime = FlxG.sound.music.time;
 
 		if (opponentNotes != null)
